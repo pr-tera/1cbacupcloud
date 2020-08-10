@@ -71,9 +71,11 @@
     <Compile Include="CloudAgent\Agent.cs" />
     <Compile Include="CloudAgent\GetParametrs.cs" />
     <Compile Include="CloudAgent\Json.cs" />
-    <Compile Include="CloudAgent\Ticketcs.cs" />
     <Compile Include="Crypto\Crypto.cs" />
     <Compile Include="Data.cs" />
+    <Compile Include="Local\IO.cs" />
+    <Compile Include="Local\Reqistry.cs" />
+    <Compile Include="Log.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\Firstsetting.cs" />

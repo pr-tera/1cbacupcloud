@@ -1,5 +1,4 @@
-﻿using _1cbacupcloud3._5.Settings;
-using System;
+﻿using System;
 using System.IO;
 using System.Xml;
 
