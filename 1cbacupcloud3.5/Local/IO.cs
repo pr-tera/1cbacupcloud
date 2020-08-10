@@ -67,7 +67,44 @@ namespace _1cbacupcloud3._5.Local
                 {
                     CleanOldBackup(df.FullName, Type);
                 }
-
+                if (Directory.Exists(Data.ImagePathAgent + Data.AgentTempDB))
+                {
+                    try
+                    {
+                        Directory.Delete(Data.ImagePathAgent + Data.AgentTempDB, true);
+                    }
+                    catch (ArgumentException)
+                    {
+                        Data.Log += $"{DateTime.Now} DI1001\n";
+                    }
+                    catch (PathTooLongException)
+                    {
+                        Data.Log += $"{DateTime.Now} DI1002\n";
+                    }
+                    catch (DirectoryNotFoundException)
+                    {
+                        Data.Log += $"{DateTime.Now} DI1003\n";
+                    }
+                }
+                if (Directory.Exists(Data.ImagePathAgent + Data.AgentTempIN))
+                {
+                    try
+                    {
+                        Directory.Delete(Data.ImagePathAgent + Data.AgentTempIN, true);
+                    }
+                    catch (ArgumentException)
+                    {
+                        Data.Log += $"{DateTime.Now} DI1001\n";
+                    }
+                    catch (PathTooLongException)
+                    {
+                        Data.Log += $"{DateTime.Now} DI1002\n";
+                    }
+                    catch (DirectoryNotFoundException)
+                    {
+                        Data.Log += $"{DateTime.Now} DI1003\n";
+                    }
+                }
             }
             catch (Exception ex)
             {
