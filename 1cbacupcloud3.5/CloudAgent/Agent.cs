@@ -151,10 +151,13 @@ namespace _1cbacupcloud3._5.CloudAgent
                     request.Headers.Add($"X-Token: {result.ticket}");
                     request.ContentType = Type.ContenCa;
                     request.Method = Type.RequestType[2]; // PUT
-                    string json = $"{{\"ibPath\": \"{IBpath.Replace("\\", "\\\\")}\",\"lastItems\": {Data.StrageDay},\"status\": \"inactive\",\"timeConfigDATA\": [{{\"beginDate\": \"2020-07-24\",\"repeatPeriodWeeks\": 1,\"dayConfigDetailDATA\": [{{\"beginTime\": \"21:00\"}}]}}]}}";
+                    dayConfigDetailDATA dayConfigDetailDATA = new dayConfigDetailDATA { beginTime = DateTime.Now.ToString("HH:mm") };
+                    timeConfigDATA timeConfigDATA = new timeConfigDATA { beginDate = DateTime.Now.ToString("yyyy'-'MM'-'dd"), repeatPeriodWeeks = "1", dayConfigDetailDATA = dayConfigDetailDATA };
+                    SetTimetableJ setTimetableJ = new SetTimetableJ { ibPath = IBpath, lastItems = Data.StrageDay, status = "inactive", timeConfigDATA = timeConfigDATA };
+                    //string json = $"{{\"ibPath\": \"{IBpath.Replace("\\", "\\\\")}\",\"lastItems\": {Data.StrageDay},\"status\": \"inactive\",\"timeConfigDATA\": [{{\"beginDate\": \"2020-07-24\",\"repeatPeriodWeeks\": 1,\"dayConfigDetailDATA\": [{{\"beginTime\": \"21:00\"}}]}}]}}";
                     using (var streamWriter = new StreamWriter(request.GetRequestStream()))
                     {
-                        streamWriter.Write(json);
+                        streamWriter.Write(JsonConvert.SerializeObject(setTimetableJ, Formatting.Indented));
                     }
                     HttpWebResponse response = request.GetResponse() as HttpWebResponse;
                     using (Stream responseStream = response.GetResponseStream())

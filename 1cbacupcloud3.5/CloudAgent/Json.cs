@@ -12,18 +12,18 @@
         public string ibPath { get; set; }
         public string backupType { get; set; }
     }
-    class SetTimetable : Agent
+    class SetTimetableJ : Agent
     {
         public string ibPath { get; set; }
         public string lastItems { get; set; }
         public string status { get; set; }
-        public string timeConfigDATA { get; set; }
+        public timeConfigDATA timeConfigDATA { get; set; }
     }
     class timeConfigDATA : Agent
     { 
         public string beginDate { get; set; }
         public string repeatPeriodWeeks { get; set; }
-        public string dayConfigDetailDATA { get; set; }
+        public dayConfigDetailDATA dayConfigDetailDATA { get; set; }
     }
     class dayConfigDetailDATA : Agent
     { 

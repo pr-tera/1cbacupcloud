@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using _1cbacupcloud3._5.CloudAgent;
 using _1cbacupcloud3._5.Local;
 
@@ -8,6 +9,7 @@ namespace _1cbacupcloud3._5
     {
         static void Main(string[] args)
         {
+            //Console.OutputEncoding = Encoding.UTF8;
             if (args[0] == "Upload")
             {
                 try

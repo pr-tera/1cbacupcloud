@@ -17,9 +17,9 @@ namespace _1cbacupcloud3._5
         internal static string ReqistryKey { get; } = @"SYSTEM\CurrentControlSet\Services\1CBackupAgent";
         internal static string AgentTempDB { get; } = @"\temp\DB";
         internal static string AgentTempIN { get; } = @"\temp\input";
-        internal const double LogSize = 2e+6;
         internal static string ParametrsName { get; } = @"\Parametrs.xml";
         internal static  List<string> BackupNameList = new List<string>();
+        internal const double LogSize = 2e+6;
     }
     struct URI
     {
