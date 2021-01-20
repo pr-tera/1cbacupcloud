@@ -1,4 +1,7 @@
-﻿namespace _1cbacupcloud3._5.CloudAgent
+﻿using System;
+using Newtonsoft.Json;
+
+namespace _1cbacupcloud3._5.CloudAgent
 {
     class Json : Agent
     {
@@ -32,5 +35,39 @@
     class Ticketcs : Agent
     {
         public string ticket { get; set; }
+    }
+    //
+    class To1C
+    { 
+        public string ibid { get; set; }
+        public string itslogin { get; set; }
+        public string message { get; set; }
+        public DateTime timestamp { get; set; }
+        public double ibsize { get; set; }
+        public bool status { get; set; }
+    }
+    class LogAgent
+    {
+        public class Root
+        {
+            [JsonProperty("@timestamp")]
+            public DateTime Timestamp { get; set; }
+            [JsonProperty("@version")]
+            public string Version { get; set; }
+            public string message { get; set; }
+            public string logger_name { get; set; }
+            public string thread_name { get; set; }
+            public string level { get; set; }
+            public int level_value { get; set; }
+            public string BackupID { get; set; }
+            public string BackupRemoteID { get; set; }
+            public string Comments { get; set; }
+            public string PID { get; set; }
+            public string log_owner { get; set; }
+            public string agentId { get; set; }
+            public string SecurityPCHash { get; set; }
+            public string version { get; set; }
+            public string localTimestamp { get; set; }
+        }
     }
 }

@@ -63,6 +63,7 @@ namespace _1cbacupcloud3._5.Settings
             {
                 Console.WriteLine($"При загрузке произошла ошибка:\n{e}");
                 Data.Log += $"{DateTime.Now} {e} \n";
+
                 return false;
             }
         }
