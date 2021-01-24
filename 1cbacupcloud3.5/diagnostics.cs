@@ -109,7 +109,7 @@ namespace _1cbacupcloud3._5
                 foreach (var str in m_logFile)
                 {
                     LogAgent.Root root = JsonConvert.DeserializeObject<LogAgent.Root>(str);
-                    if (root.Timestamp.Day == dateTime.Day && root.Timestamp.Month == dateTime.Month && !string.IsNullOrEmpty(root.BackupID) && root.message.Contains("RETRY COUNT operation") && root.message.Contains(db_id))
+                    if (root.Timestamp.Day == dateTime.Day - 1 && root.Timestamp.Month == dateTime.Month && !string.IsNullOrEmpty(root.BackupID) && root.message.Contains("RETRY COUNT operation") && root.message.Contains(db_id))
                     {
                         GetLog(root.BackupID, logFile, db_id, null, false, ibsize, itslogin, timestamp);
                         break;
@@ -125,7 +125,7 @@ namespace _1cbacupcloud3._5
                 foreach (var str in m_logFile)
                 {
                     LogAgent.Root root = JsonConvert.DeserializeObject<LogAgent.Root>(str);
-                    if (root.Timestamp.Day == dateTime.Day && root.Timestamp.Month == dateTime.Month && root.BackupID == id && root.message.Contains("OK"))
+                    if (root.Timestamp.Day == dateTime.Day - 1 && root.Timestamp.Month == dateTime.Month && root.BackupID == id && root.message.Contains("OK"))
                     {
                         GetLog(id, logFile, db_id, root.message, true, ibsize, itslogin, root.Timestamp);
                     }

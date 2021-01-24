@@ -1,24 +1,56 @@
 ﻿using System;
 using System.IO;
+using System.IO.Compression;
 
 namespace _1cbacupcloud3._5.Local
 {
     class IO
     {
-        internal static void GetPath(string Folder, string Type)
+        internal static void UnGzip(string Folber, string outFolber)
+        {
+            using (var inputFileStream = new FileStream(Folber, FileMode.Open))
+            using (var gzipStream = new GZipStream(inputFileStream, CompressionMode.Decompress))
+            using (var outputFileStream = new FileStream(outFolber, FileMode.Create))
+            {
+                gzipStream.CopyTo(outputFileStream);
+            }
+        }
+        internal static void GetPath(string Folder, string Type, bool back = true, bool loggz = false, bool dipath = false, DateTime? dt = null)
         {
             try
             {
                 DirectoryInfo di = new DirectoryInfo(Folder);
                 DirectoryInfo[] diA = di.GetDirectories();
                 FileInfo[] fi = di.GetFiles(Type);
-                foreach (FileInfo f in fi)
+                if (dipath == true)
                 {
-                    Data.BackupNameList.Add(f.FullName);
+                    DirectoryInfo[] d = di.GetDirectories("*-*-*-*-*");
+                    foreach (var dtemp in d)
+                    {
+                        Data.IbDUID.Add(dtemp.Name);
+                    }
                 }
-                foreach (DirectoryInfo df in diA)
+                else
                 {
-                    GetPath(df.FullName, Type);
+                    foreach (FileInfo f in fi)
+                    {
+                        if (back == true)
+                        {
+                            Data.BackupNameList.Add(f.FullName);
+                        }
+                        if (back == false && f.CreationTime.Date == dt)
+                        {
+                            Data.LogGzPath = f.FullName;
+                        }
+                        if (loggz == true && f.CreationTime.Date == dt)
+                        {
+                            Data.LogAgent = f.FullName;
+                        }
+                    }
+                    foreach (DirectoryInfo df in diA)
+                    {
+                        GetPath(df.FullName, Type, back, loggz, dipath, dt);
+                    }
                 }
             }
             catch (Exception ex)

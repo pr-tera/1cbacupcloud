@@ -14,11 +14,15 @@ namespace _1cbacupcloud3._5
         internal static string ImagePathAgent { get; set; }
         internal static string StrageDay { get; set; }
         internal static string Log { get; set; }
+        internal static string LogGzPath { get; set; }
+        internal static string LogAgent { get; set; }
+        internal static string LogAgentOld { get; } = @"\LogFileOld.log";
         internal static string ReqistryKey { get; } = @"SYSTEM\CurrentControlSet\Services\1CBackupAgent";
         internal static string AgentTempDB { get; } = @"\temp\DB";
         internal static string AgentTempIN { get; } = @"\temp\input";
         internal static string ParametrsName { get; } = @"\Parametrs.xml";
-        internal static  List<string> BackupNameList = new List<string>();
+        internal static List<string> BackupNameList = new List<string>();
+        internal static List<string> IbDUID = new List<string>();
         internal const double LogSize = 2e+6;
     }
     struct URI
@@ -31,7 +35,7 @@ namespace _1cbacupcloud3._5
     }
     class Type
     {
-        internal static string[] type = { "*.zip", "*.backup", "*.xml" };
+        internal static string[] type = { "*.zip", "*.backup", "*.xml", "*.gz" };
         internal static string[] RequestType = { "GET", "POST", "PUT" }; // 0.1.2
         internal static string ContenCa { get; } = "application/json;charset=utf-8";
         internal static string ContenAp { get; } = "application/json";
