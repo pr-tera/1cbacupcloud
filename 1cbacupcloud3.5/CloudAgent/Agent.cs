@@ -74,7 +74,7 @@ namespace _1cbacupcloud3._5.CloudAgent
             {
                 try
                 {
-                    string url = URI.Protocol + URI.LocalServer + Port + URI.APIbackup; //$"http://localhost:{Port}/api/v1/backups";
+                    string url = URI.Protocol[0] + URI.LocalServer + Port + URI.APIbackup; //$"http://localhost:{Port}/api/v1/backups";
                     using (var webClient = new WebClient())
                     {
                         var result = JsonConvert.DeserializeObject<Ticketcs>(GetTicket());
@@ -108,7 +108,7 @@ namespace _1cbacupcloud3._5.CloudAgent
         {
             string responseString;
             string Port = GetParametrs.Port();
-            string url = URI.Protocol + URI.LocalServer + Port + URI.APIagent; //$"http://localhost:{Port}/api/v1/agent"
+            string url = URI.Protocol[0] + URI.LocalServer + Port + URI.APIagent; //$"http://localhost:{Port}/api/v1/agent"
             try
             {
                 using (var webClient = new WebClient())
@@ -141,7 +141,7 @@ namespace _1cbacupcloud3._5.CloudAgent
             string responseString;
             string Port = GetParametrs.Port();
             //string url = $"http://localhost:{Port}/api/v1/infobases?URI=F%3A%5Ctera%5C%D0%91%D0%B0%D1%80%D0%B6%D0%B5%D0%B5%D0%B2";
-            string url = URI.Protocol + URI.LocalServer + Port + URI.APIib + IBpath; //$"http://localhost:{Port}/api/v1/infobases?URI={IBpath}";
+            string url = URI.Protocol[0] + URI.LocalServer + Port + URI.APIib + IBpath; //$"http://localhost:{Port}/api/v1/infobases?URI={IBpath}";
             try
             {
                 using (var webClient = new WebClient())
@@ -171,6 +171,39 @@ namespace _1cbacupcloud3._5.CloudAgent
             {
                 Data.Log += $"{DateTime.Now} Не заругистрированная ошибка(WB0001):\n{ex}\n";
             }
+        }
+        internal static void Send1C()
+        {
+            string responseString = string.Empty;
+            try
+            {
+                string url = URI.Protocol[1] + URI.PRserver + URI.API1C;
+                using (var webClient = new WebClient())
+                {
+                    var request = WebRequest.Create(url);
+                    //request.Headers.Add($"Login: ServiceAPI");
+                    //request.Headers.Add($"Password: ServiceAPI_777");
+                    request.ContentType = Type.ContenCa;
+                    request.Method = Type.RequestType[1]; //POST 
+                    var byteArray = Encoding.ASCII.GetBytes("ServiceAPI:ServiceAPI_777");
+                    request.Headers.Add("Basic", Convert.ToBase64String(byteArray));
+                    using (var streamWriter = new StreamWriter(request.GetRequestStream()))
+                    {
+                        streamWriter.Write(Data.JsonTo1C);
+                    }
+                    HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+                    using (Stream responseStream = response.GetResponseStream())
+                    {
+                        StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
+                        responseString = reader.ReadToEnd();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Data.Log += $"{DateTime.Now} Не заругистрированная ошибка(WB0001):\n{ex}\n";
+            }
+            //return responseString;
         }
     }
 }

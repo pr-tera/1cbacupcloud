@@ -2,10 +2,8 @@
 using System.IO;
 using System.ServiceProcess;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System.Collections.Generic;
-using System.Globalization;
 using _1cbacupcloud3._5.CloudAgent;
+using System.Collections.Generic;
 
 namespace _1cbacupcloud3._5
 {
@@ -13,40 +11,34 @@ namespace _1cbacupcloud3._5
     {
         internal static string DigLog { get; set; }
         internal static bool Dig;
-        internal static void Start()
-        {
-            if (CheckService() == true)
-            {
-                if (CheckParam() == true)
-                {
-                    Dig = true;
-                }
-            }
-            else
-            {
-                Dig = false;
-                DigLog += "SR1001";
-            }
-        }
+        internal static int DateCon { get; set; } = 1;
         private static bool CheckParam()
         {
             bool _check = false;
-            if (File.Exists(Data.Path + @"\Parametrs.xml"))
+            try
             {
-                if (GetParametrs.Get() == true)
+                if (File.Exists(Data.Path + @"\Parametrs.xml"))
                 {
-                    _check = true;
+                    if (GetParametrs.Get() == true)
+                    {
+                        _check = true;
+                    }
+                    else
+                    {
+                        _check = false;
+                        DigLog += "XM0001";
+                    }
                 }
                 else
                 {
                     _check = false;
-                    DigLog += "XM0001";
+                    DigLog += "XM0003";
                 }
             }
-            else
+            catch (Exception ex)
             {
+                Data.Log += $"{DateTime.Now} Не заругистрированная ошибка:\n{ex}\n";
                 _check = false;
-                DigLog += "XM0003";
             }
             return _check;
         }
@@ -96,52 +88,94 @@ namespace _1cbacupcloud3._5
             }
             return _check;
         }
-        internal static void GetLog(string id, string logFile, string db_id, string messageto1c, bool status, double ibsize, string itslogin, DateTime timestamp)
+        internal static void GetLog(string id, string logFile, string db_id, string messageto1c, bool status, double ibsize, string itslogin, DateTime timestamp, bool oldlog = false)
         {
-            string[] m_logFile = File.ReadAllLines(logFile);
-            DateTime dateTime = DateTime.Now;
-            if (string.IsNullOrEmpty(id) && 
-                !string.IsNullOrEmpty(logFile) && 
-                !string.IsNullOrEmpty(db_id) && 
-                string.IsNullOrEmpty(messageto1c) && 
-                !string.IsNullOrEmpty(itslogin))
+            List<string> m_logFile = new List<string>();
+            To1C to1C;
+            var settings = new JsonSerializerSettings
             {
-                foreach (var str in m_logFile)
+                DateFormatString = "yyyy-MM-ddTH:mm:ss.fffK",
+                DateTimeZoneHandling = DateTimeZoneHandling.Utc
+            };
+            try
+            {
+                using (var logFileStream = new FileStream(logFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                using (var logFileSr = new StreamReader(logFileStream))
                 {
-                    LogAgent.Root root = JsonConvert.DeserializeObject<LogAgent.Root>(str);
-                    if (root.Timestamp.Day == dateTime.Day - 1 && root.Timestamp.Month == dateTime.Month && !string.IsNullOrEmpty(root.BackupID) && root.message.Contains("RETRY COUNT operation") && root.message.Contains(db_id))
+                    while (!logFileSr.EndOfStream)
                     {
-                        GetLog(root.BackupID, logFile, db_id, null, false, ibsize, itslogin, timestamp);
-                        break;
+                        m_logFile.Add(logFileSr.ReadLine());
                     }
                 }
-            }
-            else if (!string.IsNullOrEmpty(id) &&
-                !string.IsNullOrEmpty(logFile) &&
-                !string.IsNullOrEmpty(db_id) &&
-                string.IsNullOrEmpty(messageto1c) &&
-                !string.IsNullOrEmpty(itslogin))
-            {
-                foreach (var str in m_logFile)
+                DateTime dateTime = DateTime.Now;
+                if (string.IsNullOrEmpty(id) &&
+                    !string.IsNullOrEmpty(logFile) &&
+                    !string.IsNullOrEmpty(db_id) &&
+                    string.IsNullOrEmpty(messageto1c) &&
+                    !string.IsNullOrEmpty(itslogin))
                 {
-                    LogAgent.Root root = JsonConvert.DeserializeObject<LogAgent.Root>(str);
-                    if (root.Timestamp.Day == dateTime.Day - 1 && root.Timestamp.Month == dateTime.Month && root.BackupID == id && root.message.Contains("OK"))
+                    bool tmp = false;
+                    foreach (var str in m_logFile)
                     {
-                        GetLog(id, logFile, db_id, root.message, true, ibsize, itslogin, root.Timestamp);
+                        LogAgent.Root root = JsonConvert.DeserializeObject<LogAgent.Root>(str);
+                        if (root.Timestamp.Day == dateTime.Day - DateCon && root.Timestamp.Month == dateTime.Month && !string.IsNullOrEmpty(root.BackupID) && root.message.Contains("RETRY COUNT operation") && root.message.Contains(db_id))
+                        {
+                            tmp = true;
+                            GetLog(root.BackupID, logFile, db_id, null, false, ibsize, itslogin, timestamp);
+                            break;
+                        }
                     }
-                    //else error
+                    if (tmp == false && DateCon != 0)
+                    {
+                        tmp = true;
+                        DateCon = 0;
+                        GetLog(null, Data.LogAgent, db_id, null, false, ibsize, itslogin, timestamp);
+                    }
+                    else
+                    {
+                        CheckParam();
+                        CheckService();
+                        to1C = new To1C { ibid = db_id.Substring(db_id.IndexOf('_') + 1), ibsize = ibsize, itslogin = itslogin, message = DigLog, status = status, timestamp = timestamp };
+                    }
+                }
+                else if (!string.IsNullOrEmpty(id) &&
+                    !string.IsNullOrEmpty(logFile) &&
+                    !string.IsNullOrEmpty(db_id) &&
+                    string.IsNullOrEmpty(messageto1c) &&
+                    !string.IsNullOrEmpty(itslogin))
+                {
+                    foreach (var str in m_logFile)
+                    {
+                        LogAgent.Root root = JsonConvert.DeserializeObject<LogAgent.Root>(str);
+                        if (root.Timestamp.Day == dateTime.Day - DateCon && root.Timestamp.Month == dateTime.Month && root.BackupID == id && root.message.Contains("OK"))
+                        {
+                            GetLog(id, logFile, db_id, root.message, true, ibsize, itslogin, root.Timestamp);
+                        }
+                        //else error
+                    }
+                }
+                else if (!string.IsNullOrEmpty(id) &&
+                    !string.IsNullOrEmpty(logFile) &&
+                    !string.IsNullOrEmpty(db_id) &&
+                    !string.IsNullOrEmpty(messageto1c) &&
+                    !string.IsNullOrEmpty(itslogin))
+                {
+                    if (CheckParam() == true &&
+                        CheckService() == true &&
+                        ibsize > Data.MinSizeBackup)
+                    {
+                        to1C = new To1C { ibid = db_id.Substring(db_id.IndexOf('_') + 1), ibsize = ibsize, itslogin = itslogin, message = messageto1c, status = status, timestamp = timestamp };
+                    }
+                    else
+                    {
+                        to1C = new To1C { ibid = db_id.Substring(db_id.IndexOf('_') + 1), ibsize = ibsize, itslogin = itslogin, message = DigLog, status = status, timestamp = timestamp };
+                    }
+                    Data.JsonTo1C = JsonConvert.SerializeObject(to1C, settings);
                 }
             }
-            else if (!string.IsNullOrEmpty(id) &&
-                !string.IsNullOrEmpty(logFile) &&
-                !string.IsNullOrEmpty(db_id) &&
-                !string.IsNullOrEmpty(messageto1c) &&
-                !string.IsNullOrEmpty(itslogin))
+            catch (Exception ex)
             {
-                To1C to1C = new To1C { ibid = db_id, ibsize = ibsize, itslogin = itslogin, message = messageto1c, status = status, timestamp = timestamp };
-                //
-                string temp = JsonConvert.SerializeObject(to1C);
-                int i = 4 + 9;
+                Data.Log += $"{DateTime.Now} Не заругистрированная ошибка:\n{ex}\n";
             }
         }
     }

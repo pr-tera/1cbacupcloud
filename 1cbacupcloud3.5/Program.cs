@@ -15,6 +15,7 @@ namespace _1cbacupcloud3._5
                 try
                 {
                     Reqistry.GetKey();
+                    SendLogTo1C();
                     Agent.Start();
                     Log.Write();
                 }
@@ -40,13 +41,15 @@ namespace _1cbacupcloud3._5
                     Log.Write();
                 }
             }
-            else if (args[0] == "test")
+        }
+        private static void SendLogTo1C()
+        {
+            try
             {
-                //diagnostics.GetLog(null, @"C:\Users\tera\source\repos\1cbacupcloud\1cbacupcloud3.5\bin\Debug\logFile.log", "bp_dda639f4-764f-46c2-a570-2fb172a519a2", null, false, 32.0, "efia", dateTime);
                 DateTime dateTime = DateTime.Now.Date;
-                Reqistry.GetKey();
+                GetParametrs.Get();
                 IO.GetPath(Data.Path, Type.type[1], true, false, true);
-                IO.GetPath($@"{Data.ImagePathAgent}\logs", Type.type[3], false, true, false, dateTime);
+                IO.GetPath($@"{Data.ImagePathAgent}\logs", Type.type[4], false, true, false, dateTime);
                 IO.GetPath($@"{Data.ImagePathAgent}\logs", Type.type[3], false, false, false, dateTime);
                 for (int i = 0; i != 2; i++)
                 {
@@ -58,17 +61,14 @@ namespace _1cbacupcloud3._5
                     if (File.Exists(Data.BackupNameList[i]))
                     {
                         FileInfo fileInfo = new FileInfo(Data.BackupNameList[i]);
-                        diagnostics.GetLog(null, Data.LogAgent, Data.IbDUID[i], null, false, fileInfo.Length, Data.Login, dateTime);
+                        diagnostics.GetLog(null, $@"{Data.ImagePathAgent}\logs{Data.LogAgentOld}", Data.IbDUID[i], null, false, Math.Round((double)fileInfo.Length / 1024 / 1024 / 1024, 3), Data.Login, dateTime);
+                        Agent.Send1C();
                     }
                 }
-                //foreach (var i in Data.BackupNameList)
-                //{
-                //    if (File.Exists(i))
-                //    {
-                //        FileInfo fileInfo = new FileInfo(i);
-                //        diagnostics.GetLog(null, Data.LogAgent, , null, false, 32.0, "efia", dateTime);
-                //    }
-                //}
+            }
+            catch (Exception ex)
+            {
+                Data.Log += $"{DateTime.Now} Не заругистрированная ошибка:\n{ex}\n";
             }
         }
     }

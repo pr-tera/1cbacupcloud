@@ -8,11 +8,18 @@ namespace _1cbacupcloud3._5.Local
     {
         internal static void UnGzip(string Folber, string outFolber)
         {
-            using (var inputFileStream = new FileStream(Folber, FileMode.Open))
-            using (var gzipStream = new GZipStream(inputFileStream, CompressionMode.Decompress))
-            using (var outputFileStream = new FileStream(outFolber, FileMode.Create))
+            try
             {
-                gzipStream.CopyTo(outputFileStream);
+                using (var inputFileStream = new FileStream(Folber, FileMode.Open))
+                using (var gzipStream = new GZipStream(inputFileStream, CompressionMode.Decompress))
+                using (var outputFileStream = new FileStream(outFolber, FileMode.Create))
+                {
+                    gzipStream.CopyTo(outputFileStream);
+                }
+            }
+            catch (Exception ex)
+            {
+                Data.Log += $"{DateTime.Now} Не заругистрированная ошибка:\n{ex}\n";
             }
         }
         internal static void GetPath(string Folder, string Type, bool back = true, bool loggz = false, bool dipath = false, DateTime? dt = null)
@@ -42,7 +49,7 @@ namespace _1cbacupcloud3._5.Local
                         {
                             Data.LogGzPath = f.FullName;
                         }
-                        if (loggz == true && f.CreationTime.Date == dt)
+                        if (loggz == true && f.LastWriteTime.Date == dt)
                         {
                             Data.LogAgent = f.FullName;
                         }
