@@ -21,6 +21,8 @@ namespace _1cbacupcloud3._5
         internal static string AgentTempDB { get; } = @"\temp\DB";
         internal static string AgentTempIN { get; } = @"\temp\input";
         internal static string ParametrsName { get; } = @"\Parametrs.xml";
+        internal static string Login1C { get; } = "ServiceAPI";
+        internal static string Pwd1C { get; } = "ServiceAPI_777";
         internal static List<string> BackupNameList = new List<string>();
         internal static List<string> IbDUID = new List<string>();
         internal const double LogSize = 2e+6;
@@ -34,7 +36,7 @@ namespace _1cbacupcloud3._5
         internal static string APIib { get; } = "/api/v1/infobases?URI=";
         internal static string APIbackup { get; } = "/api/v1/backups";
         internal static string PRserver { get; } = "mb.1eska.ru";
-        internal static string API1C { get; } = "/service-api/hs/service-api";
+        internal static string API1C { get; } = "/service-api/hs/service-api/check-backup";
     }
     class Type
     {

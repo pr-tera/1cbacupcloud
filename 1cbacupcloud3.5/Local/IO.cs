@@ -19,7 +19,7 @@ namespace _1cbacupcloud3._5.Local
             }
             catch (Exception ex)
             {
-                Data.Log += $"{DateTime.Now} Не заругистрированная ошибка:\n{ex}\n";
+                Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка:\n{ex}\n";
             }
         }
         internal static void GetPath(string Folder, string Type, bool back = true, bool loggz = false, bool dipath = false, DateTime? dt = null)
@@ -62,7 +62,7 @@ namespace _1cbacupcloud3._5.Local
             }
             catch (Exception ex)
             {
-                Data.Log += $"{DateTime.Now} Не заругистрированная ошибка(IO0001):\n{ex}\n";
+                Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка(IO0001):\n{ex}\n";
             }
         }
         internal static void CleanOldBackup(string Folder, string Type)
@@ -147,7 +147,7 @@ namespace _1cbacupcloud3._5.Local
             }
             catch (Exception ex)
             {
-                Data.Log += $"{DateTime.Now} Не заругистрированная ошибка(IO0001):\n{ex}\n";
+                Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка(IO0001):\n{ex}\n";
             }
         }
         internal static void Rename(string Folder, string Type)
@@ -256,7 +256,7 @@ namespace _1cbacupcloud3._5.Local
             }
             catch (Exception ex)
             {
-                Data.Log += $"{DateTime.Now} Не заругистрированная ошибка(IO0001):\n{ex}\n";
+                Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка(IO0001):\n{ex}\n";
             }
         }
     }

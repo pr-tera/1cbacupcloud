@@ -60,7 +60,7 @@ namespace _1cbacupcloud3._5.CloudAgent
             }
             catch (Exception ex)
             {
-                Data.Log += $"{DateTime.Now} Не заругистрированная ошибка(WB0001):\n{ex}\n";
+                Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка(WB0001):\n{ex}\n";
                 return null;
             }
         }
@@ -99,7 +99,7 @@ namespace _1cbacupcloud3._5.CloudAgent
                 }
                 catch (Exception ex)
                 {
-                    Data.Log += $"{DateTime.Now} Не заругистрированная ошибка(WB0001):\n{ex}\n";
+                    Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка(WB0001):\n{ex}\n";
                 }
             }
             return responseString;
@@ -133,7 +133,7 @@ namespace _1cbacupcloud3._5.CloudAgent
             }
             catch (Exception ex)
             {
-                Data.Log += $"{DateTime.Now} Не заругистрированная ошибка(WB0001):\n{ex}\n";
+                Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка(WB0001):\n{ex}\n";
             }
         }
         private static void SetTimetable(string IBpath)
@@ -169,7 +169,7 @@ namespace _1cbacupcloud3._5.CloudAgent
             }
             catch (Exception ex)
             {
-                Data.Log += $"{DateTime.Now} Не заругистрированная ошибка(WB0001):\n{ex}\n";
+                Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка(WB0001):\n{ex}\n";
             }
         }
         internal static void Send1C()
@@ -181,12 +181,10 @@ namespace _1cbacupcloud3._5.CloudAgent
                 using (var webClient = new WebClient())
                 {
                     var request = WebRequest.Create(url);
-                    //request.Headers.Add($"Login: ServiceAPI");
-                    //request.Headers.Add($"Password: ServiceAPI_777");
-                    request.ContentType = Type.ContenCa;
-                    request.Method = Type.RequestType[1]; //POST 
-                    var byteArray = Encoding.ASCII.GetBytes("ServiceAPI:ServiceAPI_777");
-                    request.Headers.Add("Basic", Convert.ToBase64String(byteArray));
+                    //request.ContentType = Type.ContenCa;
+                    request.Method = Type.RequestType[1]; //POST
+                    var byteArray = Encoding.ASCII.GetBytes($"{Data.Login1C}:{Data.Pwd1C}");
+                    request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(byteArray));
                     using (var streamWriter = new StreamWriter(request.GetRequestStream()))
                     {
                         streamWriter.Write(Data.JsonTo1C);
@@ -201,9 +199,22 @@ namespace _1cbacupcloud3._5.CloudAgent
             }
             catch (Exception ex)
             {
-                Data.Log += $"{DateTime.Now} Не заругистрированная ошибка(WB0001):\n{ex}\n";
+                Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка(WB0001):\n{ex}\n";
             }
-            //return responseString;
+            switch (responseString)
+            {
+                case "200":
+                    break;
+                case "500":
+                    Data.Log += $"{DateTime.Now} Ошибка обмена с 1с 500";
+                    break;
+                case "403":
+                    Data.Log += $"{DateTime.Now} Ошибка обмена с 1с 403";
+                    break;
+                case "401":
+                    Data.Log += $"{DateTime.Now} ОШибка обмена с 1с 401";
+                    break;
+            }
         }
     }
 }

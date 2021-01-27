@@ -37,7 +37,7 @@ namespace _1cbacupcloud3._5
             }
             catch (Exception ex)
             {
-                Data.Log += $"{DateTime.Now} Не заругистрированная ошибка:\n{ex}\n";
+                Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка:\n{ex}\n";
                 _check = false;
             }
             return _check;
@@ -94,7 +94,7 @@ namespace _1cbacupcloud3._5
             To1C to1C;
             var settings = new JsonSerializerSettings
             {
-                DateFormatString = "yyyy-MM-ddTH:mm:ss.fffK",
+                DateFormatString = "yyyy-MM-ddTHH:mm:ss.fffK",
                 DateTimeZoneHandling = DateTimeZoneHandling.Utc
             };
             try
@@ -168,14 +168,14 @@ namespace _1cbacupcloud3._5
                     }
                     else
                     {
-                        to1C = new To1C { ibid = db_id.Substring(db_id.IndexOf('_') + 1), ibsize = ibsize, itslogin = itslogin, message = DigLog, status = status, timestamp = timestamp };
+                        to1C = new To1C { ibid = db_id.Substring(db_id.IndexOf('_') + 1), ibsize = ibsize, itslogin = itslogin, message = "IO0002", status = false, timestamp = timestamp };
                     }
                     Data.JsonTo1C = JsonConvert.SerializeObject(to1C, settings);
                 }
             }
             catch (Exception ex)
             {
-                Data.Log += $"{DateTime.Now} Не заругистрированная ошибка:\n{ex}\n";
+                Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка:\n{ex}\n";
             }
         }
     }

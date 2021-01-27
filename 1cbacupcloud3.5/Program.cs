@@ -68,7 +68,7 @@ namespace _1cbacupcloud3._5
             }
             catch (Exception ex)
             {
-                Data.Log += $"{DateTime.Now} Не заругистрированная ошибка:\n{ex}\n";
+                Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка:\n{ex}\n";
             }
         }
     }
