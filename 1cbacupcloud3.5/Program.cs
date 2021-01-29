@@ -113,8 +113,8 @@ namespace _1cbacupcloud3._5
                         }
                         FileInfo fileInfo = new FileInfo(Data.BackupNameList[i]);
                         diagnostics.GetLog(null, log, Data.IbDUID[i], null, false, Math.Round((double)fileInfo.Length / 1024 / 1024 / 1024, 3), Data.Login, dateTime);
-                        //Agent.Send1C();
-                        Data.Log += $"\n{Data.JsonTo1C}\n";
+                        Agent.Send1C();
+                        //Data.Log += $"\n{Data.JsonTo1C}\n";
                     }
                 }
             }
