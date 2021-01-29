@@ -10,7 +10,6 @@ namespace _1cbacupcloud3._5
     class diagnostics
     {
         internal static string DigLog { get; set; }
-        internal static bool Dig;
         internal static int DateCon { get; set; } = 1;
         private static bool CheckParam()
         {
@@ -118,7 +117,7 @@ namespace _1cbacupcloud3._5
                     foreach (var str in m_logFile)
                     {
                         LogAgent.Root root = JsonConvert.DeserializeObject<LogAgent.Root>(str);
-                        if (root.Timestamp.Day == dateTime.Day - DateCon && root.Timestamp.Month == dateTime.Month && !string.IsNullOrEmpty(root.BackupID) && root.message.Contains("RETRY COUNT operation") && root.message.Contains(db_id))
+                        if (root.Timestamp.Day == dateTime.Day - DateCon && root.Timestamp.Month == dateTime.Month && !string.IsNullOrEmpty(root.BackupID) && root.message.Contains("START create archive by backup row with") && root.message.Contains(db_id))
                         {
                             tmp = true;
                             GetLog(root.BackupID, logFile, db_id, null, false, ibsize, itslogin, timestamp);
@@ -138,7 +137,7 @@ namespace _1cbacupcloud3._5
                         to1C = new To1C { ibid = db_id.Substring(db_id.IndexOf('_') + 1), ibsize = ibsize, itslogin = itslogin, message = DigLog, status = status, timestamp = timestamp };
                     }
                 }
-                else if (!string.IsNullOrEmpty(id) &&
+                else if(!string.IsNullOrEmpty(id) &&
                     !string.IsNullOrEmpty(logFile) &&
                     !string.IsNullOrEmpty(db_id) &&
                     string.IsNullOrEmpty(messageto1c) &&
@@ -172,10 +171,24 @@ namespace _1cbacupcloud3._5
                     }
                     Data.JsonTo1C = JsonConvert.SerializeObject(to1C, settings);
                 }
+                if (string.IsNullOrEmpty(Data.JsonTo1C))
+                {
+                    if (string.IsNullOrEmpty(db_id))
+                    {
+                        db_id = "null_error";
+                    }
+                    to1C = new To1C { ibid = db_id.Substring(db_id.IndexOf('_') + 1), ibsize = ibsize, itslogin = itslogin, message = null, status = false, timestamp = timestamp };
+                    Data.JsonTo1C = JsonConvert.SerializeObject(to1C, settings);
+                }
             }
             catch (Exception ex)
             {
                 Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка:\n{ex}\n";
+                if (string.IsNullOrEmpty(Data.JsonTo1C))
+                {
+                    to1C = new To1C { ibid = db_id.Substring(db_id.IndexOf('_') + 1), ibsize = ibsize, itslogin = itslogin, message = ex.ToString(), status = false, timestamp = timestamp };
+                    Data.JsonTo1C = JsonConvert.SerializeObject(to1C, settings);
+                }
             }
         }
     }

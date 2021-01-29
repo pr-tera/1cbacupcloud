@@ -10,11 +10,21 @@ namespace _1cbacupcloud3._5.Local
         {
             try
             {
-                using (var inputFileStream = new FileStream(Folber, FileMode.Open))
+                FileInfo fileInfo = new FileInfo(Folber);
+                if (File.Exists($"{fileInfo.FullName}.new"))
+                {
+                    File.Delete($"{fileInfo.FullName}.new");
+                }
+                File.Copy(fileInfo.FullName, $"{fileInfo.FullName}.new");
+                using (var inputFileStream = new FileStream($"{Folber}.new", FileMode.Open))
                 using (var gzipStream = new GZipStream(inputFileStream, CompressionMode.Decompress))
                 using (var outputFileStream = new FileStream(outFolber, FileMode.Create))
                 {
                     gzipStream.CopyTo(outputFileStream);
+                }
+                if (File.Exists($"{fileInfo.FullName}.new"))
+                {
+                    File.Delete($"{fileInfo.FullName}.new");
                 }
             }
             catch (Exception ex)

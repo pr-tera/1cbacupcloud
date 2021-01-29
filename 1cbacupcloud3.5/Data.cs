@@ -26,7 +26,7 @@ namespace _1cbacupcloud3._5
         internal static List<string> BackupNameList = new List<string>();
         internal static List<string> IbDUID = new List<string>();
         internal const double LogSize = 2e+6;
-        internal const double MinSizeBackup = 1e+7;
+        internal const double MinSizeBackup = 0.01;
     }
     struct URI
     {
