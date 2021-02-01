@@ -15,6 +15,10 @@ namespace _1cbacupcloud3._5.Local
                 {
                     File.Delete($"{fileInfo.FullName}.new");
                 }
+                if (File.Exists(outFolber))
+                {
+                    File.Delete(outFolber);
+                }
                 File.Copy(fileInfo.FullName, $"{fileInfo.FullName}.new");
                 using (var inputFileStream = new FileStream($"{Folber}.new", FileMode.Open))
                 using (var gzipStream = new GZipStream(inputFileStream, CompressionMode.Decompress))

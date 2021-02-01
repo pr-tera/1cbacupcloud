@@ -16,7 +16,7 @@ namespace _1cbacupcloud3._5
                 {
                     Reqistry.GetKey();
                     SendLogTo1C();
-                    Agent.Start();
+                    //Agent.Start();
                     Log.Write();
                 }
                 catch (Exception ex)
@@ -112,9 +112,10 @@ namespace _1cbacupcloud3._5
                             break;
                         }
                         FileInfo fileInfo = new FileInfo(Data.BackupNameList[i]);
+                        Data.JsonTo1C = null;
                         diagnostics.GetLog(null, log, Data.IbDUID[i], null, false, Math.Round((double)fileInfo.Length / 1024 / 1024 / 1024, 3), Data.Login, dateTime);
                         Agent.Send1C();
-                        //Data.Log += $"\n{Data.JsonTo1C}\n";
+                        //Data.Log += $"\n{Data.JsonTo1C}\n ";
                     }
                 }
             }
