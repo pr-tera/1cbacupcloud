@@ -16,7 +16,7 @@ namespace _1cbacupcloud3._5
                 {
                     Reqistry.GetKey();
                     SendLogTo1C();
-                    //Agent.Start();
+                    Agent.Start();
                     Log.Write();
                 }
                 catch (Exception ex)

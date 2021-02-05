@@ -13,22 +13,57 @@ namespace _1cbacupcloud3._5.Local
                 FileInfo fileInfo = new FileInfo(Folber);
                 if (File.Exists($"{fileInfo.FullName}.new"))
                 {
-                    File.Delete($"{fileInfo.FullName}.new");
+                    try
+                    {
+                        File.Delete($"{fileInfo.FullName}.new");
+                    }
+                    catch (Exception ex)
+                    {
+                        Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка:\n{ex}\n";
+                    }
                 }
                 if (File.Exists(outFolber))
                 {
-                    File.Delete(outFolber);
+                    try
+                    {
+                        File.Delete(outFolber);
+                    }
+                    catch (Exception ex)
+                    {
+                        Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка:\n{ex}\n";
+                    }
                 }
-                File.Copy(fileInfo.FullName, $"{fileInfo.FullName}.new");
+                try
+                {
+                    File.Copy(fileInfo.FullName, $"{fileInfo.FullName}.new");
+                }
+                catch (Exception ex)
+                {
+                    Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка:\n{ex}\n";
+                }
                 using (var inputFileStream = new FileStream($"{Folber}.new", FileMode.Open))
                 using (var gzipStream = new GZipStream(inputFileStream, CompressionMode.Decompress))
                 using (var outputFileStream = new FileStream(outFolber, FileMode.Create))
                 {
-                    gzipStream.CopyTo(outputFileStream);
+                    try
+                    {
+                        gzipStream.CopyTo(outputFileStream);
+                    }
+                    catch (Exception ex)
+                    {
+                        Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка:\n{ex}\n";
+                    }
                 }
                 if (File.Exists($"{fileInfo.FullName}.new"))
                 {
-                    File.Delete($"{fileInfo.FullName}.new");
+                    try
+                    {
+                        File.Delete($"{fileInfo.FullName}.new");
+                    }
+                    catch (Exception ex)
+                    {
+                        Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка:\n{ex}\n";
+                    }
                 }
             }
             catch (Exception ex)
