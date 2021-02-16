@@ -12,18 +12,10 @@ namespace _1cbacupcloud3._5
             //Console.OutputEncoding = Encoding.UTF8;
             if (args[0] == "Upload")
             {
-                try
-                {
-                    Reqistry.GetKey();
-                    SendLogTo1C();
-                    Agent.Start();
-                    Log.Write();
-                }
-                catch (Exception ex)
-                {
-                    Data.Log += ex;
-                    Log.Write();
-                }
+                Reqistry.GetKey();
+                SendLogTo1C();
+                Agent.Start();
+                Log.Write();
             }
             else if (args[0] == "Clean")
             {
@@ -93,9 +85,9 @@ namespace _1cbacupcloud3._5
             {
                 Data.Log += $"\n{DateTime.Now} Ошибка при распаковке архива {ex}\n";
             }
-            try
+            for (int i = 0; i != Data.BackupNameList.Count; i++)
             {
-                for (int i = 0; i != Data.BackupNameList.Count; i++)
+                try
                 {
                     if (File.Exists(Data.BackupNameList[i]))
                     {
@@ -118,10 +110,10 @@ namespace _1cbacupcloud3._5
                         //Data.Log += $"\n{Data.JsonTo1C}\n ";
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Data.Log += $"\n{DateTime.Now} Ошибка при обработке логов {ex}\n";
+                catch (Exception ex)
+                {
+                    Data.Log += $"\n{DateTime.Now} Ошибка при обработке логов {ex}\n";
+                }
             }
         }
     }
