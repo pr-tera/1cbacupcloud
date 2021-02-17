@@ -36,7 +36,15 @@ namespace _1cbacupcloud3._5
             }
             catch (Exception ex)
             {
-                Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка:\n{ex}\n";
+                string tt = Convert.ToString(ex);
+                if (!string.IsNullOrEmpty(tt))
+                {
+                    Data.Log += $"\n{DateTime.Now} {tt}\n";
+                }
+                else
+                {
+                    Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка:\n";
+                }
                 _check = false;
             }
             return _check;

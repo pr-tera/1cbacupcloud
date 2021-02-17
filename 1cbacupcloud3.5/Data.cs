@@ -6,6 +6,7 @@ namespace _1cbacupcloud3._5
     struct Data
     {
         internal static string Path { get; set; } = Directory.GetCurrentDirectory();
+        internal static string PathSTemp { get; } = $@"{Path}\temp";
         internal static string PathPort { get; } = @"\metadata\port.properties";
         internal static string PublicKey { get; set; }
         internal static string Login { get; set; }
@@ -16,7 +17,7 @@ namespace _1cbacupcloud3._5
         internal static string Log { get; set; }
         internal static string LogGzPath { get; set; }
         internal static string LogAgent { get; set; }
-        internal static string LogAgentOld { get; } = @"\LogFileOld.log";
+        internal static string LogAgentOld { get; set; } = @"\LogFileOld.log";
         internal static string ReqistryKey { get; } = @"SYSTEM\CurrentControlSet\Services\1CBackupAgent";
         internal static string AgentTempDB { get; } = @"\temp\DB";
         internal static string AgentTempIN { get; } = @"\temp\input";

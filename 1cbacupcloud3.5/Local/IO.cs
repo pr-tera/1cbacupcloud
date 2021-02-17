@@ -8,6 +8,7 @@ namespace _1cbacupcloud3._5.Local
     {
         internal static void UnGzip(string Folber, string outFolber)
         {
+            string t = string.Empty;
             FileInfo fileInfo = new FileInfo(Folber);
             if (File.Exists($"{fileInfo.FullName}.new"))
             {
@@ -17,7 +18,15 @@ namespace _1cbacupcloud3._5.Local
                 }
                 catch (Exception ex)
                 {
-                    Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка:\n{ex}\n";
+                    string tt = Convert.ToString(ex);
+                    if (!string.IsNullOrEmpty(tt))
+                    {
+                        Data.Log += $"\n{DateTime.Now} {tt}\n";
+                    }
+                    else
+                    {
+                        Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка\n";
+                    }
                 }
             }
             if (File.Exists(outFolber))
@@ -28,39 +37,77 @@ namespace _1cbacupcloud3._5.Local
                 }
                 catch (Exception ex)
                 {
-                    Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка:\n{ex}\n";
+                    string tt = Convert.ToString(ex);
+                    if (!string.IsNullOrEmpty(tt))
+                    {
+                        Data.Log += $"\n{DateTime.Now} {tt}\n";
+                    }
+                    else
+                    {
+                        Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка:\n";
+                    }
                 }
             }
             try
             {
-                File.Copy(fileInfo.FullName, $"{fileInfo.FullName}.new");
+                File.Copy(fileInfo.FullName, $"{Data.PathSTemp}{fileInfo.Name}");
+                t = $"{Data.PathSTemp}{fileInfo.Name}";
             }
             catch (Exception ex)
             {
-                Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка:\n{ex}\n";
+                string tt = Convert.ToString(ex);
+                if (!string.IsNullOrEmpty(tt))
+                {
+                    Data.Log += $"\n{DateTime.Now} {tt}\n";
+                }
+                else
+                {
+                    Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка\n";
+                }
             }
-            using (var inputFileStream = new FileStream($"{Folber}.new", FileMode.Open))
-            using (var gzipStream = new GZipStream(inputFileStream, CompressionMode.Decompress))
-            using (var outputFileStream = new FileStream(outFolber, FileMode.Create))
+            if (!string.IsNullOrEmpty(t))
+            {
+                using (var inputFileStream = new FileStream(t, FileMode.Open))
+                using (var gzipStream = new GZipStream(inputFileStream, CompressionMode.Decompress))
+                using (var outputFileStream = new FileStream(outFolber, FileMode.Create))
+                {
+                    try
+                    {
+                        gzipStream.CopyTo(outputFileStream);
+                        Data.LogAgentOld = outFolber;
+                    }
+                    catch (Exception ex)
+                    {
+                        string tt = Convert.ToString(ex);
+                        if (!string.IsNullOrEmpty(tt))
+                        {
+                            Data.Log += $"\n{DateTime.Now} {tt}\n";
+                        }
+                        else
+                        {
+                            Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка\n";
+                        }
+                    }
+                }
+            }
+            FileInfo fileInfoNew = new FileInfo(t);
+            if (fileInfoNew.Exists)
             {
                 try
                 {
-                    gzipStream.CopyTo(outputFileStream);
+                    File.Delete(fileInfoNew.FullName);
                 }
                 catch (Exception ex)
                 {
-                    Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка:\n{ex}\n";
-                }
-            }
-            if (File.Exists($"{fileInfo.FullName}.new"))
-            {
-                try
-                {
-                    File.Delete($"{fileInfo.FullName}.new");
-                }
-                catch (Exception ex)
-                {
-                    Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка:\n{ex}\n";
+                    string tt = Convert.ToString(ex);
+                    if (!string.IsNullOrEmpty(tt))
+                    {
+                        Data.Log += $"\n{DateTime.Now} {tt}\n";
+                    }
+                    else
+                    {
+                        Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка:\n";
+                    }
                 }
             }
         }
@@ -278,6 +325,36 @@ namespace _1cbacupcloud3._5.Local
             foreach (DirectoryInfo df in diA)
             {
                 Rename(df.FullName, Type);
+            }
+        }
+        internal static bool CreateDir(string path)
+        {
+            DirectoryInfo directoryInfo = new DirectoryInfo(path);
+            if (!directoryInfo.Exists)
+            {
+                try
+                {
+                    Directory.CreateDirectory(directoryInfo.FullName);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    string t = Convert.ToString(ex);
+                    if (!string.IsNullOrEmpty(t))
+                    {
+                        Data.Log += $"\n{DateTime.Now} {t}\n";
+                        return false;
+                    }
+                    else
+                    {
+                        Data.Log += $"\n{DateTime.Now} Ошибка при создании директории temp\n";
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                return true;
             }
         }
     }
