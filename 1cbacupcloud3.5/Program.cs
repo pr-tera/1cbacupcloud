@@ -16,7 +16,7 @@ namespace _1cbacupcloud3._5
                 {
                     Reqistry.GetKey();
                     SendLogTo1C();
-                    //Agent.Start();
+                    Agent.Start();
                     Log.Write();
                 }
                 catch (Exception ex)
@@ -56,7 +56,7 @@ namespace _1cbacupcloud3._5
             }
             try
             {
-                IO.GetPath(Data.Path, Type.type[1], true, false, true);
+                IO.GetPath(Data.Path, Type.type[1], true, false, true); 
             }
             catch (Exception ex)
             {
