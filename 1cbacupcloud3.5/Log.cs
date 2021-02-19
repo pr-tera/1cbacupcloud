@@ -1,9 +1,8 @@
-﻿using MimeKit;
-using System;
-using System.Threading.Tasks;
-using MailKit.Net.Smtp;
+﻿using MailKit.Net.Smtp;
+using MimeKit;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace _1cbacupcloud3._5
 {
@@ -45,7 +44,7 @@ namespace _1cbacupcloud3._5
                 }
             }
         }
-        internal async Task SendEmailAsync()
+        internal async Task SendEmailAsync(string message)
         {
             Message();
             var emailMessage = new MimeMessage();
@@ -56,7 +55,7 @@ namespace _1cbacupcloud3._5
             {
                 emailMessage.Body = new TextPart("Plain")
                 {
-                    Text = Data.Log
+                    Text = message
                 };
             }
             catch

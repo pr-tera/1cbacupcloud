@@ -1,5 +1,5 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace _1cbacupcloud3._5.CloudAgent
 {
@@ -23,13 +23,13 @@ namespace _1cbacupcloud3._5.CloudAgent
         public timeConfigDATA timeConfigDATA { get; set; }
     }
     class timeConfigDATA : Agent
-    { 
+    {
         public string beginDate { get; set; }
         public string repeatPeriodWeeks { get; set; }
         public dayConfigDetailDATA dayConfigDetailDATA { get; set; }
     }
     class dayConfigDetailDATA : Agent
-    { 
+    {
         public string beginTime { get; set; }
     }
     class Ticketcs : Agent
@@ -37,8 +37,8 @@ namespace _1cbacupcloud3._5.CloudAgent
         public string ticket { get; set; }
     }
     //
-    class To1C
-    { 
+    class To1C : diagnostics
+    {
         public string ibid { get; set; }
         public string itslogin { get; set; }
         public string message { get; set; }
@@ -46,7 +46,7 @@ namespace _1cbacupcloud3._5.CloudAgent
         public double ibsize { get; set; }
         public bool status { get; set; }
     }
-    class LogAgent
+    class LogAgent : diagnostics
     {
         public class Root
         {

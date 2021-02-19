@@ -1,12 +1,14 @@
-﻿using System;
-using System.IO;
-using _1cbacupcloud3._5.CloudAgent;
+﻿using _1cbacupcloud3._5.CloudAgent;
 using _1cbacupcloud3._5.Local;
+using System;
+using System.Globalization;
+using System.IO;
 
 namespace _1cbacupcloud3._5
 {
     class Program
     {
+
         static async System.Threading.Tasks.Task Main(string[] args)
         {
             //Console.OutputEncoding = Encoding.UTF8;
@@ -16,7 +18,18 @@ namespace _1cbacupcloud3._5
                 SendLogTo1C();
                 Agent.Start();
                 Log log = new Log();
-                await log.SendEmailAsync();
+                if (!string.IsNullOrEmpty(Data.Log))
+                {
+                    await log.SendEmailAsync(Data.Log);
+                }
+                else if (!string.IsNullOrEmpty(diagnostics.DigLog))
+                {
+                    await log.SendEmailAsync(diagnostics.DigLog);
+                }
+                else
+                {
+                    await log.SendEmailAsync($"Хьюстон у нас проблемы!\n{Data.Login}");
+                }
                 Log.Write();
             }
             else if (args[0] == "Clean")
@@ -40,36 +53,21 @@ namespace _1cbacupcloud3._5
         {
             DateTime dateTime = DateTime.Now.Date;
             string log = null;
+            GetParametrs.Get();
             try
             {
-                GetParametrs.Get();
+                IO.GetPath(Data.Path, Type.type[1], true, false, true);
             }
             catch (Exception ex)
             {
                 string t = Convert.ToString(ex);
                 if (!string.IsNullOrEmpty(t))
                 {
-                    Data.Log += $"\n{DateTime.Now} {t}\n";
+                    Data.Log += $"\n{GetDate()} {t}\n";
                 }
                 else
                 {
-                    Data.Log += $"\n{DateTime.Now} Не удалось получить параметры {ex}\n";
-                }
-            }
-            try
-            {
-                IO.GetPath(Data.Path, Type.type[1], true, false, true); 
-            }
-            catch (Exception ex)
-            {
-                string t = Convert.ToString(ex);
-                if (!string.IsNullOrEmpty(t))
-                {
-                    Data.Log += $"\n{DateTime.Now} {t}\n";
-                }
-                else
-                {
-                    Data.Log += $"\n{DateTime.Now} Не удалось получить путь к бекапу\n";
+                    Data.Log += $"\n{GetDate()} Не удалось получить путь к бекапу\n";
                 }
             }
             try
@@ -81,11 +79,11 @@ namespace _1cbacupcloud3._5
                 string t = Convert.ToString(ex);
                 if (!string.IsNullOrEmpty(t))
                 {
-                    Data.Log += $"\n{DateTime.Now} {t}\n";
+                    Data.Log += $"\n{GetDate()} {t}\n";
                 }
                 else
                 {
-                    Data.Log += $"\n{DateTime.Now} Не удалось получить путь к логу\n";
+                    Data.Log += $"\n{GetDate()} Не удалось получить путь к логу\n";
                 }
             }
             try
@@ -101,84 +99,72 @@ namespace _1cbacupcloud3._5
                 string t = Convert.ToString(ex);
                 if (!string.IsNullOrEmpty(t))
                 {
-                    Data.Log += $"\n{DateTime.Now} {t}\n";
+                    Data.Log += $"\n{GetDate()} {t}\n";
                 }
                 else
                 {
-                    Data.Log += $"\n{DateTime.Now} Ошибка при получении пути к архиву логов\n";
+                    Data.Log += $"\n{GetDate()} Ошибка при получении пути к архиву логов\n";
                 }
             }
-            try
+            if (!string.IsNullOrEmpty(Data.LogGzPath))
             {
-                if (!string.IsNullOrEmpty(Data.LogGzPath))
+                if (IO.CreateDir(Data.PathSTemp) == true)
                 {
-                    if (IO.CreateDir(Data.PathSTemp) == true)
-                    {
-                        IO.UnGzip(Data.LogGzPath, $@"{Data.PathSTemp}{Data.LogAgentOld}");
-                    }
-                    else
-                    {
-                        IO.UnGzip(Data.LogGzPath, $@"{Data.ImagePathAgent}\logs{Data.LogAgentOld}");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                string t = Convert.ToString(ex);
-                if (!string.IsNullOrEmpty(t))
-                {
-                    Data.Log += $"\n{DateTime.Now} {t}\n";
+                    IO.UnGzip(Data.LogGzPath, $@"{Data.PathSTemp}{Data.LogAgentOld}");
                 }
                 else
                 {
-                    Data.Log += $"\n{DateTime.Now} Ошибка при распаковке архива\n";
+                    IO.UnGzip(Data.LogGzPath, $@"{Data.ImagePathAgent}\logs{Data.LogAgentOld}");
                 }
             }
-            for (int i = 0; i != Data.BackupNameList.Count; i++)
+            if (Data.BackupNameList.Count != 0)
             {
-                try
+                for (int i = 0; i != Data.BackupNameList.Count; i++)
                 {
-                    if (File.Exists(Data.BackupNameList[i]))
+                    try
                     {
-                        if (!File.Exists(Data.LogAgentOld) && File.Exists($@"{Data.ImagePathAgent}\logs{Data.LogAgent}"))
+                        if (File.Exists(Data.BackupNameList[i]))
                         {
-                            log = $@"{Data.ImagePathAgent}\logs{Data.LogAgent}";
+                            if (!File.Exists(Data.LogAgentOld) && File.Exists($@"{Data.ImagePathAgent}\logs{Data.LogAgent}"))
+                            {
+                                log = $@"{Data.ImagePathAgent}\logs{Data.LogAgent}";
+                            }
+                            else if (File.Exists(Data.LogAgentOld) && !File.Exists($@"{Data.ImagePathAgent}\logs{Data.LogAgent}"))
+                            {
+                                log = Data.LogAgentOld;
+                            }
+                            else if (!File.Exists(Data.LogAgentOld) && !File.Exists($@"{Data.ImagePathAgent}\logs{Data.LogAgent}"))
+                            {
+                                break;
+                            }
+                            FileInfo fileInfo = new FileInfo(Data.BackupNameList[i]);
+                            Data.JsonTo1C = null;
+                            if (!string.IsNullOrEmpty(Data.IbDUID[i]) && !string.IsNullOrEmpty(Data.Login))
+                            {
+                                diagnostics.GetLog(null, log, Data.IbDUID[i], null, false, Math.Round((double)fileInfo.Length / 1024 / 1024 / 1024, 3), Data.Login, dateTime);
+                                Agent.Send1C();
+                            }
+                            else
+                            {
+                                Data.Log += $"\nНе удалось найти GUID или логин итс\n";
+                            }
+                            if (!string.IsNullOrEmpty(Data.JsonTo1C))
+                            {
+                                Data.Log += $"\n{Data.JsonTo1C}\n ";
+                            }
                         }
-                        else if (File.Exists(Data.LogAgentOld) && !File.Exists($@"{Data.ImagePathAgent}\logs{Data.LogAgent}"))
+                    }
+                    catch (Exception ex)
+                    {
+                        string t = Convert.ToString(ex);
+                        if (!string.IsNullOrEmpty(t))
                         {
-                            log = Data.LogAgentOld;
-                        }
-                        else if (!File.Exists(Data.LogAgentOld) && !File.Exists($@"{Data.ImagePathAgent}\logs{Data.LogAgent}"))
-                        {
-                            break;
-                        }
-                        FileInfo fileInfo = new FileInfo(Data.BackupNameList[i]);
-                        Data.JsonTo1C = null;
-                        if (!string.IsNullOrEmpty(Data.IbDUID[i]) && !string.IsNullOrEmpty(Data.Login))
-                        {
-                            diagnostics.GetLog(null, log, Data.IbDUID[i], null, false, Math.Round((double)fileInfo.Length / 1024 / 1024 / 1024, 3), Data.Login, dateTime);
-                            Agent.Send1C();
+                            Data.Log += $"\n{GetDate()} {t}\n";
                         }
                         else
                         {
-                            Data.Log += $"\nНе удалось найти GUID или логин итс\n";
+                            Data.Log += $"\n{GetDate()} Ошибка при обработке логов\n";
                         }
-                        if (!string.IsNullOrEmpty(Data.JsonTo1C))
-                        {
-                            Data.Log += $"\n{Data.JsonTo1C}\n ";
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {                   
-                    string t = Convert.ToString(ex);
-                    if (!string.IsNullOrEmpty(t))
-                    {
-                        Data.Log += $"\n{DateTime.Now} {t}\n";
-                    }
-                    else
-                    {
-                        Data.Log += $"\n{DateTime.Now} Ошибка при обработке логов\n";
                     }
                 }
             }
@@ -195,13 +181,19 @@ namespace _1cbacupcloud3._5
                 string t = Convert.ToString(ex);
                 if (!string.IsNullOrEmpty(t))
                 {
-                    Data.Log += $"\n{DateTime.Now} {t}\n";
+                    Data.Log += $"\n{GetDate()} {t}\n";
                 }
                 else
                 {
-                    Data.Log += $"\n{DateTime.Now} Ошибка при удалении директории temp\n";
+                    Data.Log += $"\n{GetDate()} Ошибка при удалении директории temp\n";
                 }
             }
+        }
+        internal static string GetDate()
+        {
+            CultureInfo culture = new CultureInfo("ru-RU");
+            DateTime dateTime = DateTime.Now;
+            return Convert.ToString(dateTime, culture);
         }
     }
 }

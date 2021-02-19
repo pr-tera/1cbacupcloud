@@ -16,15 +16,15 @@ namespace _1cbacupcloud3._5.Local
             }
             catch (ArgumentNullException)
             {
-                Data.Log += $"{DateTime.Now} RE0001\n";
+                Data.Log += $"{Program.GetDate()} RE0001\n";
             }
             catch (ObjectDisposedException)
             {
-                Data.Log += $"{DateTime.Now} RE0002\n";
+                Data.Log += $"{Program.GetDate()} RE0002\n";
             }
             catch (SecurityException)
             {
-                Data.Log += $"{DateTime.Now} RE0003\n";
+                Data.Log += $"{Program.GetDate()} RE0003\n";
             }
         }
         internal static string AgentServiceName()
@@ -38,15 +38,15 @@ namespace _1cbacupcloud3._5.Local
             }
             catch (ArgumentNullException)
             {
-                Data.Log += $"{DateTime.Now} RE0001\n";
+                Data.Log += $"{Program.GetDate()} RE0001\n";
             }
             catch (ObjectDisposedException)
             {
-                Data.Log += $"{DateTime.Now} RE0002\n";
+                Data.Log += $"{Program.GetDate()} RE0002\n";
             }
             catch (SecurityException)
             {
-                Data.Log += $"{DateTime.Now} RE0003\n";
+                Data.Log += $"{Program.GetDate()} RE0003\n";
             }
             return name;
         }

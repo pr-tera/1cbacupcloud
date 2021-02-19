@@ -21,11 +21,11 @@ namespace _1cbacupcloud3._5.Local
                     string tt = Convert.ToString(ex);
                     if (!string.IsNullOrEmpty(tt))
                     {
-                        Data.Log += $"\n{DateTime.Now} {tt}\n";
+                        Data.Log += $"\n{Program.GetDate()} {tt}\n";
                     }
                     else
                     {
-                        Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка\n";
+                        Data.Log += $"{Program.GetDate()} Не зарегистрированная ошибка\n";
                     }
                 }
             }
@@ -40,11 +40,11 @@ namespace _1cbacupcloud3._5.Local
                     string tt = Convert.ToString(ex);
                     if (!string.IsNullOrEmpty(tt))
                     {
-                        Data.Log += $"\n{DateTime.Now} {tt}\n";
+                        Data.Log += $"\n{Program.GetDate()} {tt}\n";
                     }
                     else
                     {
-                        Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка:\n";
+                        Data.Log += $"{Program.GetDate()} Не зарегистрированная ошибка:\n";
                     }
                 }
             }
@@ -58,11 +58,11 @@ namespace _1cbacupcloud3._5.Local
                 string tt = Convert.ToString(ex);
                 if (!string.IsNullOrEmpty(tt))
                 {
-                    Data.Log += $"\n{DateTime.Now} {tt}\n";
+                    Data.Log += $"\n{Program.GetDate()} {tt}\n";
                 }
                 else
                 {
-                    Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка\n";
+                    Data.Log += $"{Program.GetDate()} Не зарегистрированная ошибка\n";
                 }
             }
             if (!string.IsNullOrEmpty(t))
@@ -81,11 +81,11 @@ namespace _1cbacupcloud3._5.Local
                         string tt = Convert.ToString(ex);
                         if (!string.IsNullOrEmpty(tt))
                         {
-                            Data.Log += $"\n{DateTime.Now} {tt}\n";
+                            Data.Log += $"\n{Program.GetDate()} {tt}\n";
                         }
                         else
                         {
-                            Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка\n";
+                            Data.Log += $"{Program.GetDate()} Не зарегистрированная ошибка\n";
                         }
                     }
                 }
@@ -102,11 +102,11 @@ namespace _1cbacupcloud3._5.Local
                     string tt = Convert.ToString(ex);
                     if (!string.IsNullOrEmpty(tt))
                     {
-                        Data.Log += $"\n{DateTime.Now} {tt}\n";
+                        Data.Log += $"\n{Program.GetDate()} {tt}\n";
                     }
                     else
                     {
-                        Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка:\n";
+                        Data.Log += $"{Program.GetDate()} Не зарегистрированная ошибка:\n";
                     }
                 }
             }
@@ -149,43 +149,43 @@ namespace _1cbacupcloud3._5.Local
         }
         internal static void CleanOldBackup(string Folder, string Type)
         {
-                DirectoryInfo di = new DirectoryInfo(Folder);
-                DirectoryInfo[] diA = di.GetDirectories();
-                FileInfo[] fi = di.GetFiles(Type);
-                foreach (FileInfo f in fi)
+            DirectoryInfo di = new DirectoryInfo(Folder);
+            DirectoryInfo[] diA = di.GetDirectories();
+            FileInfo[] fi = di.GetFiles(Type);
+            foreach (FileInfo f in fi)
+            {
+                if (f.FullName != Data.Path + Data.ParametrsName)
                 {
-                    if (f.FullName != Data.Path + Data.ParametrsName)
+                    try
                     {
-                        try
-                        {
-                            File.Delete(f.FullName);
-                        }
-                        catch (ArgumentException)
-                        {
-                            Data.Log += $"{DateTime.Now} IO2001\n";
-                        }
-                        catch (DirectoryNotFoundException)
-                        {
-                            Data.Log += $"{DateTime.Now} IO2002\n";
-                        }
-                        catch (NotSupportedException)
-                        {
-                            Data.Log += $"{DateTime.Now} IO2003\n";
-                        }
-                        catch (PathTooLongException)
-                        {
-                            Data.Log += $"{DateTime.Now} IO2004\n";
-                        }
-                        catch (IOException)
-                        {
-                            Data.Log += $"{DateTime.Now} IO2005\n";
-                        }
+                        File.Delete(f.FullName);
+                    }
+                    catch (ArgumentException)
+                    {
+                        Data.Log += $"{Program.GetDate()} IO2001\n";
+                    }
+                    catch (DirectoryNotFoundException)
+                    {
+                        Data.Log += $"{Program.GetDate()} IO2002\n";
+                    }
+                    catch (NotSupportedException)
+                    {
+                        Data.Log += $"{Program.GetDate()} IO2003\n";
+                    }
+                    catch (PathTooLongException)
+                    {
+                        Data.Log += $"{Program.GetDate()} IO2004\n";
+                    }
+                    catch (IOException)
+                    {
+                        Data.Log += $"{Program.GetDate()} IO2005\n";
                     }
                 }
-                foreach (DirectoryInfo df in diA)
-                {
-                    CleanOldBackup(df.FullName, Type);
-                }
+            }
+            foreach (DirectoryInfo df in diA)
+            {
+                CleanOldBackup(df.FullName, Type);
+            }
             if (Directory.Exists(Data.ImagePathAgent + Data.AgentTempDB))
             {
                 try
@@ -194,15 +194,15 @@ namespace _1cbacupcloud3._5.Local
                 }
                 catch (ArgumentException)
                 {
-                    Data.Log += $"{DateTime.Now} DI1001\n";
+                    Data.Log += $"{Program.GetDate()} DI1001\n";
                 }
                 catch (PathTooLongException)
                 {
-                    Data.Log += $"{DateTime.Now} DI1002\n";
+                    Data.Log += $"{Program.GetDate()} DI1002\n";
                 }
                 catch (DirectoryNotFoundException)
                 {
-                    Data.Log += $"{DateTime.Now} DI1003\n";
+                    Data.Log += $"{Program.GetDate()} DI1003\n";
                 }
             }
             if (Directory.Exists(Data.ImagePathAgent + Data.AgentTempIN))
@@ -213,115 +213,115 @@ namespace _1cbacupcloud3._5.Local
                 }
                 catch (ArgumentException)
                 {
-                    Data.Log += $"{DateTime.Now} DI1001\n";
+                    Data.Log += $"{Program.GetDate()} DI1001\n";
                 }
                 catch (PathTooLongException)
                 {
-                    Data.Log += $"{DateTime.Now} DI1002\n";
+                    Data.Log += $"{Program.GetDate()} DI1002\n";
                 }
                 catch (DirectoryNotFoundException)
                 {
-                    Data.Log += $"{DateTime.Now} DI1003\n";
+                    Data.Log += $"{Program.GetDate()} DI1003\n";
                 }
             }
         }
         internal static void Rename(string Folder, string Type)
         {
-                DirectoryInfo di = new DirectoryInfo(Folder);
-                DirectoryInfo[] diA = di.GetDirectories();
-                FileInfo[] fi = di.GetFiles(Type);
-                foreach (FileInfo f in fi)
+            DirectoryInfo di = new DirectoryInfo(Folder);
+            DirectoryInfo[] diA = di.GetDirectories();
+            FileInfo[] fi = di.GetFiles(Type);
+            foreach (FileInfo f in fi)
+            {
+                if (f.Name != di.Name)
                 {
-                    if (f.Name != di.Name)
+                    if (!File.Exists($"{di.FullName}\\{di.Name + Type}"))
                     {
-                        if (!File.Exists($"{di.FullName}\\{di.Name + Type}"))
+                        try
                         {
-                            try
-                            {
-                                File.Move(f.FullName, $"{di.FullName}\\{di.Name}{Type.Replace("*", "")}");
-                            }
-                            catch (FileNotFoundException)
-                            {
-                                Data.Log += $"{DateTime.Now} IO1002\n";
-                            }
-                            catch (ArgumentNullException)
-                            {
-                                Data.Log += $"{DateTime.Now} IO1003\n";
-                            }
-                            catch (ArgumentException)
-                            {
-                                Data.Log += $"{DateTime.Now} IO1004\n";
-                            }
-                            catch (PathTooLongException)
-                            {
-                                Data.Log += $"{DateTime.Now} IO1005\n";
-                            }
-                            catch (DirectoryNotFoundException)
-                            {
-                                Data.Log += $"{DateTime.Now} IO1006\n";
-                            }
-                            catch (NotSupportedException)
-                            {
-                                Data.Log += $"{DateTime.Now} IO1007\n";
-                            }
-                            catch (IOException)
-                            {
-                                Data.Log += $"{DateTime.Now} IO1001\n";
-                            }
-                            try
-                            {
-                                File.Delete(f.FullName);
-                            }
-                            catch (ArgumentException)
-                            {
-                                Data.Log += $"{DateTime.Now} IO2001\n";
-                            }
-                            catch (DirectoryNotFoundException)
-                            {
-                                Data.Log += $"{DateTime.Now} IO2002\n";
-                            }
-                            catch (NotSupportedException)
-                            {
-                                Data.Log += $"{DateTime.Now} IO2003\n";
-                            }
-                            catch (PathTooLongException)
-                            {
-                                Data.Log += $"{DateTime.Now} IO2004\n";
-                            }
-                            catch (IOException)
-                            {
-                                Data.Log += $"{DateTime.Now} IO2005\n";
-                            }
+                            File.Move(f.FullName, $"{di.FullName}\\{di.Name}{Type.Replace("*", "")}");
                         }
-                        else
+                        catch (FileNotFoundException)
                         {
-                            try
-                            {
-                                File.Delete(f.FullName);
-                            }
-                            catch (ArgumentException)
-                            {
-                                Data.Log += $"{DateTime.Now} IO2001\n";
-                            }
-                            catch (DirectoryNotFoundException)
-                            {
-                                Data.Log += $"{DateTime.Now} IO2002\n";
-                            }
-                            catch (NotSupportedException)
-                            {
-                                Data.Log += $"{DateTime.Now} IO2003\n";
-                            }
-                            catch (PathTooLongException)
-                            {
-                                Data.Log += $"{DateTime.Now} IO2004\n";
-                            }
-                            catch (IOException)
-                            {
-                                Data.Log += $"{DateTime.Now} IO2005\n";
-                            }
+                            Data.Log += $"{Program.GetDate()} IO1002\n";
+                        }
+                        catch (ArgumentNullException)
+                        {
+                            Data.Log += $"{Program.GetDate()} IO1003\n";
+                        }
+                        catch (ArgumentException)
+                        {
+                            Data.Log += $"{Program.GetDate()} IO1004\n";
+                        }
+                        catch (PathTooLongException)
+                        {
+                            Data.Log += $"{Program.GetDate()} IO1005\n";
+                        }
+                        catch (DirectoryNotFoundException)
+                        {
+                            Data.Log += $"{Program.GetDate()} IO1006\n";
+                        }
+                        catch (NotSupportedException)
+                        {
+                            Data.Log += $"{Program.GetDate()} IO1007\n";
+                        }
+                        catch (IOException)
+                        {
+                            Data.Log += $"{Program.GetDate()} IO1001\n";
+                        }
+                        try
+                        {
+                            File.Delete(f.FullName);
+                        }
+                        catch (ArgumentException)
+                        {
+                            Data.Log += $"{Program.GetDate()} IO2001\n";
+                        }
+                        catch (DirectoryNotFoundException)
+                        {
+                            Data.Log += $"{Program.GetDate()} IO2002\n";
+                        }
+                        catch (NotSupportedException)
+                        {
+                            Data.Log += $"{Program.GetDate()} IO2003\n";
+                        }
+                        catch (PathTooLongException)
+                        {
+                            Data.Log += $"{Program.GetDate()} IO2004\n";
+                        }
+                        catch (IOException)
+                        {
+                            Data.Log += $"{Program.GetDate()} IO2005\n";
+                        }
+                    }
+                    else
+                    {
+                        try
+                        {
+                            File.Delete(f.FullName);
+                        }
+                        catch (ArgumentException)
+                        {
+                            Data.Log += $"{Program.GetDate()} IO2001\n";
+                        }
+                        catch (DirectoryNotFoundException)
+                        {
+                            Data.Log += $"{Program.GetDate()} IO2002\n";
+                        }
+                        catch (NotSupportedException)
+                        {
+                            Data.Log += $"{Program.GetDate()} IO2003\n";
+                        }
+                        catch (PathTooLongException)
+                        {
+                            Data.Log += $"{Program.GetDate()} IO2004\n";
+                        }
+                        catch (IOException)
+                        {
+                            Data.Log += $"{Program.GetDate()} IO2005\n";
                         }
                     }
                 }
+            }
             foreach (DirectoryInfo df in diA)
             {
                 Rename(df.FullName, Type);
@@ -342,12 +342,12 @@ namespace _1cbacupcloud3._5.Local
                     string t = Convert.ToString(ex);
                     if (!string.IsNullOrEmpty(t))
                     {
-                        Data.Log += $"\n{DateTime.Now} {t}\n";
+                        Data.Log += $"\n{Program.GetDate()} {t}\n";
                         return false;
                     }
                     else
                     {
-                        Data.Log += $"\n{DateTime.Now} Ошибка при создании директории temp\n";
+                        Data.Log += $"\n{Program.GetDate()} Ошибка при создании директории temp\n";
                         return false;
                     }
                 }

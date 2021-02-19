@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using _1cbacupcloud3._5.Local;
+using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Net;
 using System.Text;
-using _1cbacupcloud3._5.Local;
 
 namespace _1cbacupcloud3._5.CloudAgent
 {
@@ -23,7 +23,14 @@ namespace _1cbacupcloud3._5.CloudAgent
                 }
                 foreach (var i in Data.BackupNameList)
                 {
-                    Data.Log += $"{DateTime.Now} {Upload(i)} \n";
+                    if (!string.IsNullOrEmpty(i))
+                    {
+                        Data.Log += $"{Program.GetDate()} {Upload(i)} \n";
+                    }
+                    else
+                    {
+                        Data.Log += $"Список бекапов пуст!";
+                    }
                 }
                 return true;
             }
@@ -63,11 +70,11 @@ namespace _1cbacupcloud3._5.CloudAgent
                 string t = Convert.ToString(ex);
                 if (!string.IsNullOrEmpty(t))
                 {
-                    Data.Log += $"\n{DateTime.Now} {t}\n";
+                    Data.Log += $"\n{Program.GetDate()} {t}\n";
                 }
                 else
                 {
-                    Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка(WB0001):\n";
+                    Data.Log += $"{Program.GetDate()} Не зарегистрированная ошибка(WB0001):\n";
                 }
                 return null;
             }
@@ -110,11 +117,11 @@ namespace _1cbacupcloud3._5.CloudAgent
                     string t = Convert.ToString(ex);
                     if (!string.IsNullOrEmpty(t))
                     {
-                        Data.Log += $"\n{DateTime.Now} {t}\n";
+                        Data.Log += $"\n{Program.GetDate()} {t}\n";
                     }
                     else
                     {
-                        Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка(WB0001)\n";
+                        Data.Log += $"{Program.GetDate()} Не зарегистрированная ошибка(WB0001)\n";
                     }
                 }
             }
@@ -152,11 +159,11 @@ namespace _1cbacupcloud3._5.CloudAgent
                 string t = Convert.ToString(ex);
                 if (!string.IsNullOrEmpty(t))
                 {
-                    Data.Log += $"\n{DateTime.Now} {t}\n";
+                    Data.Log += $"\n{Program.GetDate()} {t}\n";
                 }
                 else
                 {
-                    Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка(WB0001)\n";
+                    Data.Log += $"{Program.GetDate()} Не зарегистрированная ошибка(WB0001)\n";
                 }
             }
         }
@@ -196,11 +203,11 @@ namespace _1cbacupcloud3._5.CloudAgent
                 string t = Convert.ToString(ex);
                 if (!string.IsNullOrEmpty(t))
                 {
-                    Data.Log += $"\n{DateTime.Now} {t}\n";
+                    Data.Log += $"\n{Program.GetDate()} {t}\n";
                 }
                 else
                 {
-                    Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка(WB0001)\n";
+                    Data.Log += $"{Program.GetDate()} Не зарегистрированная ошибка(WB0001)\n";
                 }
             }
         }
@@ -234,11 +241,11 @@ namespace _1cbacupcloud3._5.CloudAgent
                 string t = Convert.ToString(ex);
                 if (!string.IsNullOrEmpty(t))
                 {
-                    Data.Log += $"\n{DateTime.Now} {t}\n";
+                    Data.Log += $"\n{Program.GetDate()} {t}\n";
                 }
                 else
                 {
-                    Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка(WB0001)\n";
+                    Data.Log += $"{Program.GetDate()} Не зарегистрированная ошибка(WB0001)\n";
                 }
             }
             switch (responseString)
@@ -246,13 +253,13 @@ namespace _1cbacupcloud3._5.CloudAgent
                 case "200":
                     break;
                 case "500":
-                    Data.Log += $"{DateTime.Now} Ошибка обмена с 1с 500";
+                    Data.Log += $"{Program.GetDate()} Ошибка обмена с 1с 500";
                     break;
                 case "403":
-                    Data.Log += $"{DateTime.Now} Ошибка обмена с 1с 403";
+                    Data.Log += $"{Program.GetDate()} Ошибка обмена с 1с 403";
                     break;
                 case "401":
-                    Data.Log += $"{DateTime.Now} ОШибка обмена с 1с 401";
+                    Data.Log += $"{Program.GetDate()} ОШибка обмена с 1с 401";
                     break;
             }
         }

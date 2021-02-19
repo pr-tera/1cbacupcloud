@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access">
+  <Class Name="_1cbacupcloud3._5.CloudAgent.Agent" Collapsed="true">
+    <Position X="11.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACIAAAAAQAAAAAgAAAAAAAAAAAACAIAAAAA=</HashCode>
+      <FileName>CloudAgent\Agent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_1cbacupcloud3._5.CloudAgent.GetParametrs" Collapsed="true">
+    <Position X="20" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAhAAAAAAAAACAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>CloudAgent\GetParametrs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_1cbacupcloud3._5.CloudAgent.Json" Collapsed="true">
+    <Position X="13" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAEEA=</HashCode>
+      <FileName>CloudAgent\Json.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_1cbacupcloud3._5.CloudAgent.JsonUpload" Collapsed="true">
+    <Position X="15.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAIAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>CloudAgent\Json.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_1cbacupcloud3._5.CloudAgent.SetTimetableJ" Collapsed="true">
+    <Position X="17.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAQAAAAAAAAAIABAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CloudAgent\Json.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_1cbacupcloud3._5.CloudAgent.timeConfigDATA" Collapsed="true">
+    <Position X="6.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAgA=</HashCode>
+      <FileName>CloudAgent\Json.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_1cbacupcloud3._5.CloudAgent.dayConfigDetailDATA" Collapsed="true">
+    <Position X="8.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CloudAgent\Json.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_1cbacupcloud3._5.CloudAgent.Ticketcs" Collapsed="true">
+    <Position X="10.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CloudAgent\Json.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_1cbacupcloud3._5.CloudAgent.To1C" Collapsed="true">
+    <Position X="1.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAEAAAAAAAAAAAgAACAAAgAAAAAAAACA=</HashCode>
+      <FileName>CloudAgent\Json.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_1cbacupcloud3._5.CloudAgent.LogAgent" Collapsed="true">
+    <Position X="4" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CloudAgent\Json.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_1cbacupcloud3._5.Crypto.Crypto" Collapsed="true">
+    <Position X="1" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Crypto\Crypto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_1cbacupcloud3._5.Crypto.Encryptc" Collapsed="true">
+    <Position X="1" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Crypto\Crypto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_1cbacupcloud3._5.Crypto.Decrypt" Collapsed="true">
+    <Position X="1" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Crypto\Crypto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_1cbacupcloud3._5.Type" Collapsed="true">
+    <Position X="21.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAAAAAAAAAAACAAABAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_1cbacupcloud3._5.diagnostics" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQIAAAAAAAAIAAAAAAAAAAAAAAABAgAAA=</HashCode>
+      <FileName>diagnostics.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_1cbacupcloud3._5.Log" Collapsed="true">
+    <Position X="20" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIQEAAAA=</HashCode>
+      <FileName>Log.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_1cbacupcloud3._5.Program" Collapsed="true">
+    <Position X="11.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAEAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_1cbacupcloud3._5.Local.IO" Collapsed="true">
+    <Position X="23.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAABAAAAAAAAACAAAAAAACAAAAgAA=</HashCode>
+      <FileName>Local\IO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_1cbacupcloud3._5.Local.Reqistry" Collapsed="true">
+    <Position X="9.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Local\Reqistry.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_1cbacupcloud3._5.Settings.Firstsetting" Collapsed="true">
+    <Position X="4.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Settings\Firstsetting.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_1cbacupcloud3._5.Settings.XML" Collapsed="true">
+    <Position X="7" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>Settings\Firstsetting.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_1cbacupcloud3._5.Settings.Install" Collapsed="true">
+    <Position X="21.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAQAgAAEAAA=</HashCode>
+      <FileName>Settings\Install.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="_1cbacupcloud3._5.Data" Collapsed="true">
+    <Position X="20" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACgAAAAABAgAIMgAgAABQDgAgAAIACAAAQAQgADCA=</HashCode>
+      <FileName>Data.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="_1cbacupcloud3._5.URI" Collapsed="true">
+    <Position X="23.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAACAAAAAAAAAAAAFAgAAAAAAFAAAAAAAAAAA=</HashCode>
+      <FileName>Data.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="_1cbacupcloud3._5.Logs" Collapsed="true">
+    <Position X="21.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAYAAAAABAAAAAgAAAAAAAAAAACAAAAA=</HashCode>
+      <FileName>Log.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

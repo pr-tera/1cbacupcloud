@@ -1,9 +1,9 @@
-﻿using System;
+﻿using _1cbacupcloud3._5.CloudAgent;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.ServiceProcess;
-using Newtonsoft.Json;
-using _1cbacupcloud3._5.CloudAgent;
-using System.Collections.Generic;
 
 namespace _1cbacupcloud3._5
 {
@@ -39,11 +39,11 @@ namespace _1cbacupcloud3._5
                 string tt = Convert.ToString(ex);
                 if (!string.IsNullOrEmpty(tt))
                 {
-                    Data.Log += $"\n{DateTime.Now} {tt}\n";
+                    Data.Log += $"\n{Program.GetDate()} {tt}\n";
                 }
                 else
                 {
-                    Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка:\n";
+                    Data.Log += $"{Program.GetDate()} Не зарегистрированная ошибка:\n";
                 }
                 _check = false;
             }
@@ -119,7 +119,8 @@ namespace _1cbacupcloud3._5
                     !string.IsNullOrEmpty(logFile) &&
                     !string.IsNullOrEmpty(db_id) &&
                     string.IsNullOrEmpty(messageto1c) &&
-                    !string.IsNullOrEmpty(itslogin))
+                    !string.IsNullOrEmpty(itslogin) &&
+                    m_logFile.Count != 0)
                 {
                     bool tmp = false;
                     foreach (var str in m_logFile)
@@ -145,7 +146,7 @@ namespace _1cbacupcloud3._5
                         to1C = new To1C { ibid = db_id.Substring(db_id.Length - 36), ibsize = ibsize, itslogin = itslogin, message = DigLog, status = status, timestamp = timestamp };
                     }
                 }
-                else if(!string.IsNullOrEmpty(id) &&
+                else if (!string.IsNullOrEmpty(id) &&
                     !string.IsNullOrEmpty(logFile) &&
                     !string.IsNullOrEmpty(db_id) &&
                     string.IsNullOrEmpty(messageto1c) &&
@@ -190,7 +191,15 @@ namespace _1cbacupcloud3._5
             }
             catch (Exception ex)
             {
-                Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка:\n{ex}\n";
+                string t = Convert.ToString(ex);
+                if (!string.IsNullOrEmpty(t))
+                {
+                    Data.Log += $"\n{Program.GetDate()} {t}\n";
+                }
+                else
+                {
+                    Data.Log += $"{Program.GetDate()} Не зарегистрированная ошибка(WB0001)\n";
+                }
                 if (string.IsNullOrEmpty(Data.JsonTo1C))
                 {
                     to1C = new To1C { ibid = db_id.Substring(db_id.Length - 36), ibsize = ibsize, itslogin = itslogin, message = ex.ToString(), status = false, timestamp = timestamp };
