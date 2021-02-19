@@ -8,81 +8,147 @@ namespace _1cbacupcloud3._5.Local
     {
         internal static void UnGzip(string Folber, string outFolber)
         {
-            try
+            string t = string.Empty;
+            FileInfo fileInfo = new FileInfo(Folber);
+            if (File.Exists($"{fileInfo.FullName}.new"))
             {
-                FileInfo fileInfo = new FileInfo(Folber);
-                if (File.Exists($"{fileInfo.FullName}.new"))
+                try
                 {
                     File.Delete($"{fileInfo.FullName}.new");
                 }
-                if (File.Exists(outFolber))
+                catch (Exception ex)
+                {
+                    string tt = Convert.ToString(ex);
+                    if (!string.IsNullOrEmpty(tt))
+                    {
+                        Data.Log += $"\n{DateTime.Now} {tt}\n";
+                    }
+                    else
+                    {
+                        Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка\n";
+                    }
+                }
+            }
+            if (File.Exists(outFolber))
+            {
+                try
                 {
                     File.Delete(outFolber);
                 }
-                File.Copy(fileInfo.FullName, $"{fileInfo.FullName}.new");
-                using (var inputFileStream = new FileStream($"{Folber}.new", FileMode.Open))
-                using (var gzipStream = new GZipStream(inputFileStream, CompressionMode.Decompress))
-                using (var outputFileStream = new FileStream(outFolber, FileMode.Create))
+                catch (Exception ex)
                 {
-                    gzipStream.CopyTo(outputFileStream);
+                    string tt = Convert.ToString(ex);
+                    if (!string.IsNullOrEmpty(tt))
+                    {
+                        Data.Log += $"\n{DateTime.Now} {tt}\n";
+                    }
+                    else
+                    {
+                        Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка:\n";
+                    }
                 }
-                if (File.Exists($"{fileInfo.FullName}.new"))
-                {
-                    File.Delete($"{fileInfo.FullName}.new");
-                }
+            }
+            try
+            {
+                File.Copy(fileInfo.FullName, $"{Data.PathSTemp}{fileInfo.Name}");
+                t = $"{Data.PathSTemp}{fileInfo.Name}";
             }
             catch (Exception ex)
             {
-                Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка:\n{ex}\n";
+                string tt = Convert.ToString(ex);
+                if (!string.IsNullOrEmpty(tt))
+                {
+                    Data.Log += $"\n{DateTime.Now} {tt}\n";
+                }
+                else
+                {
+                    Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка\n";
+                }
+            }
+            if (!string.IsNullOrEmpty(t))
+            {
+                using (var inputFileStream = new FileStream(t, FileMode.Open))
+                using (var gzipStream = new GZipStream(inputFileStream, CompressionMode.Decompress))
+                using (var outputFileStream = new FileStream(outFolber, FileMode.Create))
+                {
+                    try
+                    {
+                        gzipStream.CopyTo(outputFileStream);
+                        Data.LogAgentOld = outFolber;
+                    }
+                    catch (Exception ex)
+                    {
+                        string tt = Convert.ToString(ex);
+                        if (!string.IsNullOrEmpty(tt))
+                        {
+                            Data.Log += $"\n{DateTime.Now} {tt}\n";
+                        }
+                        else
+                        {
+                            Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка\n";
+                        }
+                    }
+                }
+            }
+            FileInfo fileInfoNew = new FileInfo(t);
+            if (fileInfoNew.Exists)
+            {
+                try
+                {
+                    File.Delete(fileInfoNew.FullName);
+                }
+                catch (Exception ex)
+                {
+                    string tt = Convert.ToString(ex);
+                    if (!string.IsNullOrEmpty(tt))
+                    {
+                        Data.Log += $"\n{DateTime.Now} {tt}\n";
+                    }
+                    else
+                    {
+                        Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка:\n";
+                    }
+                }
             }
         }
         internal static void GetPath(string Folder, string Type, bool back = true, bool loggz = false, bool dipath = false, DateTime? dt = null)
         {
-            try
+            DirectoryInfo di = new DirectoryInfo(Folder);
+            DirectoryInfo[] diA = di.GetDirectories();
+            FileInfo[] fi = di.GetFiles(Type);
+            if (dipath == true)
             {
-                DirectoryInfo di = new DirectoryInfo(Folder);
-                DirectoryInfo[] diA = di.GetDirectories();
-                FileInfo[] fi = di.GetFiles(Type);
-                if (dipath == true)
+                DirectoryInfo[] d = di.GetDirectories("*-*-*-*-*");
+                foreach (var dtemp in d)
                 {
-                    DirectoryInfo[] d = di.GetDirectories("*-*-*-*-*");
-                    foreach (var dtemp in d)
-                    {
-                        Data.IbDUID.Add(dtemp.Name);
-                    }
-                }
-                else
-                {
-                    foreach (FileInfo f in fi)
-                    {
-                        if (back == true)
-                        {
-                            Data.BackupNameList.Add(f.FullName);
-                        }
-                        if (back == false && f.CreationTime.Date == dt)
-                        {
-                            Data.LogGzPath = f.FullName;
-                        }
-                        if (loggz == true && f.LastWriteTime.Date == dt)
-                        {
-                            Data.LogAgent = f.FullName;
-                        }
-                    }
-                    foreach (DirectoryInfo df in diA)
-                    {
-                        GetPath(df.FullName, Type, back, loggz, dipath, dt);
-                    }
+                    Data.IbDUID.Add(dtemp.Name);
                 }
             }
-            catch (Exception ex)
+            else
             {
-                Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка(IO0001):\n{ex}\n";
+                foreach (FileInfo f in fi)
+                {
+                    if (back == true)
+                    {
+                        Data.BackupNameList.Add(f.FullName);
+                    }
+                    if (back == false && f.CreationTime.Date == dt)
+                    {
+                        Data.LogGzPath = f.FullName;
+                    }
+                    if (loggz == true && f.LastWriteTime.Date == dt)
+                    {
+                        Data.LogAgent = f.FullName;
+                    }
+                }
+                foreach (DirectoryInfo df in diA)
+                {
+                    GetPath(df.FullName, Type, back, loggz, dipath, dt);
+                }
             }
         }
         internal static void CleanOldBackup(string Folder, string Type)
         {
-            try
-            {
                 DirectoryInfo di = new DirectoryInfo(Folder);
                 DirectoryInfo[] diA = di.GetDirectories();
                 FileInfo[] fi = di.GetFiles(Type);
@@ -120,54 +186,47 @@ namespace _1cbacupcloud3._5.Local
                 {
                     CleanOldBackup(df.FullName, Type);
                 }
-                if (Directory.Exists(Data.ImagePathAgent + Data.AgentTempDB))
+            if (Directory.Exists(Data.ImagePathAgent + Data.AgentTempDB))
+            {
+                try
                 {
-                    try
-                    {
-                        Directory.Delete(Data.ImagePathAgent + Data.AgentTempDB, true);
-                    }
-                    catch (ArgumentException)
-                    {
-                        Data.Log += $"{DateTime.Now} DI1001\n";
-                    }
-                    catch (PathTooLongException)
-                    {
-                        Data.Log += $"{DateTime.Now} DI1002\n";
-                    }
-                    catch (DirectoryNotFoundException)
-                    {
-                        Data.Log += $"{DateTime.Now} DI1003\n";
-                    }
+                    Directory.Delete(Data.ImagePathAgent + Data.AgentTempDB, true);
                 }
-                if (Directory.Exists(Data.ImagePathAgent + Data.AgentTempIN))
+                catch (ArgumentException)
                 {
-                    try
-                    {
-                        Directory.Delete(Data.ImagePathAgent + Data.AgentTempIN, true);
-                    }
-                    catch (ArgumentException)
-                    {
-                        Data.Log += $"{DateTime.Now} DI1001\n";
-                    }
-                    catch (PathTooLongException)
-                    {
-                        Data.Log += $"{DateTime.Now} DI1002\n";
-                    }
-                    catch (DirectoryNotFoundException)
-                    {
-                        Data.Log += $"{DateTime.Now} DI1003\n";
-                    }
+                    Data.Log += $"{DateTime.Now} DI1001\n";
+                }
+                catch (PathTooLongException)
+                {
+                    Data.Log += $"{DateTime.Now} DI1002\n";
+                }
+                catch (DirectoryNotFoundException)
+                {
+                    Data.Log += $"{DateTime.Now} DI1003\n";
                 }
             }
-            catch (Exception ex)
+            if (Directory.Exists(Data.ImagePathAgent + Data.AgentTempIN))
             {
-                Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка(IO0001):\n{ex}\n";
+                try
+                {
+                    Directory.Delete(Data.ImagePathAgent + Data.AgentTempIN, true);
+                }
+                catch (ArgumentException)
+                {
+                    Data.Log += $"{DateTime.Now} DI1001\n";
+                }
+                catch (PathTooLongException)
+                {
+                    Data.Log += $"{DateTime.Now} DI1002\n";
+                }
+                catch (DirectoryNotFoundException)
+                {
+                    Data.Log += $"{DateTime.Now} DI1003\n";
+                }
             }
         }
         internal static void Rename(string Folder, string Type)
         {
-            try
-            {
                 DirectoryInfo di = new DirectoryInfo(Folder);
                 DirectoryInfo[] diA = di.GetDirectories();
                 FileInfo[] fi = di.GetFiles(Type);
@@ -263,14 +322,39 @@ namespace _1cbacupcloud3._5.Local
                         }
                     }
                 }
-                foreach (DirectoryInfo df in diA)
+            foreach (DirectoryInfo df in diA)
+            {
+                Rename(df.FullName, Type);
+            }
+        }
+        internal static bool CreateDir(string path)
+        {
+            DirectoryInfo directoryInfo = new DirectoryInfo(path);
+            if (!directoryInfo.Exists)
+            {
+                try
                 {
-                    Rename(df.FullName, Type);
+                    Directory.CreateDirectory(directoryInfo.FullName);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    string t = Convert.ToString(ex);
+                    if (!string.IsNullOrEmpty(t))
+                    {
+                        Data.Log += $"\n{DateTime.Now} {t}\n";
+                        return false;
+                    }
+                    else
+                    {
+                        Data.Log += $"\n{DateTime.Now} Ошибка при создании директории temp\n";
+                        return false;
+                    }
                 }
             }
-            catch (Exception ex)
+            else
             {
-                Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка(IO0001):\n{ex}\n";
+                return true;
             }
         }
     }

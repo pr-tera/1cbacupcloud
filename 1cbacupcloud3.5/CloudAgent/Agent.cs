@@ -60,7 +60,15 @@ namespace _1cbacupcloud3._5.CloudAgent
             }
             catch (Exception ex)
             {
-                Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка(WB0001):\n{ex}\n";
+                string t = Convert.ToString(ex);
+                if (!string.IsNullOrEmpty(t))
+                {
+                    Data.Log += $"\n{DateTime.Now} {t}\n";
+                }
+                else
+                {
+                    Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка(WB0001):\n";
+                }
                 return null;
             }
         }
@@ -99,7 +107,15 @@ namespace _1cbacupcloud3._5.CloudAgent
                 }
                 catch (Exception ex)
                 {
-                    Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка(WB0001):\n{ex}\n";
+                    string t = Convert.ToString(ex);
+                    if (!string.IsNullOrEmpty(t))
+                    {
+                        Data.Log += $"\n{DateTime.Now} {t}\n";
+                    }
+                    else
+                    {
+                        Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка(WB0001)\n";
+                    }
                 }
             }
             return responseString;
@@ -133,7 +149,15 @@ namespace _1cbacupcloud3._5.CloudAgent
             }
             catch (Exception ex)
             {
-                Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка(WB0001):\n{ex}\n";
+                string t = Convert.ToString(ex);
+                if (!string.IsNullOrEmpty(t))
+                {
+                    Data.Log += $"\n{DateTime.Now} {t}\n";
+                }
+                else
+                {
+                    Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка(WB0001)\n";
+                }
             }
         }
         private static void SetTimetable(string IBpath)
@@ -169,7 +193,15 @@ namespace _1cbacupcloud3._5.CloudAgent
             }
             catch (Exception ex)
             {
-                Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка(WB0001):\n{ex}\n";
+                string t = Convert.ToString(ex);
+                if (!string.IsNullOrEmpty(t))
+                {
+                    Data.Log += $"\n{DateTime.Now} {t}\n";
+                }
+                else
+                {
+                    Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка(WB0001)\n";
+                }
             }
         }
         internal static void Send1C()
@@ -199,7 +231,15 @@ namespace _1cbacupcloud3._5.CloudAgent
             }
             catch (Exception ex)
             {
-                Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка(WB0001):\n{ex}\n";
+                string t = Convert.ToString(ex);
+                if (!string.IsNullOrEmpty(t))
+                {
+                    Data.Log += $"\n{DateTime.Now} {t}\n";
+                }
+                else
+                {
+                    Data.Log += $"{DateTime.Now} Не зарегистрированная ошибка(WB0001)\n";
+                }
             }
             switch (responseString)
             {

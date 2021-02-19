@@ -7,23 +7,17 @@ namespace _1cbacupcloud3._5
 {
     class Program
     {
-        static void Main(string[] args)
+        static async System.Threading.Tasks.Task Main(string[] args)
         {
             //Console.OutputEncoding = Encoding.UTF8;
             if (args[0] == "Upload")
             {
-                try
-                {
-                    Reqistry.GetKey();
-                    SendLogTo1C();
-                    Agent.Start();
-                    Log.Write();
-                }
-                catch (Exception ex)
-                {
-                    Data.Log += ex;
-                    Log.Write();
-                }
+                Reqistry.GetKey();
+                SendLogTo1C();
+                Agent.Start();
+                Log log = new Log();
+                await log.SendEmailAsync();
+                Log.Write();
             }
             else if (args[0] == "Clean")
             {
@@ -52,7 +46,15 @@ namespace _1cbacupcloud3._5
             }
             catch (Exception ex)
             {
-                Data.Log += $"\n{DateTime.Now} Не удалось получить параметры {ex}\n";
+                string t = Convert.ToString(ex);
+                if (!string.IsNullOrEmpty(t))
+                {
+                    Data.Log += $"\n{DateTime.Now} {t}\n";
+                }
+                else
+                {
+                    Data.Log += $"\n{DateTime.Now} Не удалось получить параметры {ex}\n";
+                }
             }
             try
             {
@@ -60,7 +62,15 @@ namespace _1cbacupcloud3._5
             }
             catch (Exception ex)
             {
-                Data.Log += $"\n{DateTime.Now} Не удалось получить путь к бекапу {ex}\n";
+                string t = Convert.ToString(ex);
+                if (!string.IsNullOrEmpty(t))
+                {
+                    Data.Log += $"\n{DateTime.Now} {t}\n";
+                }
+                else
+                {
+                    Data.Log += $"\n{DateTime.Now} Не удалось получить путь к бекапу\n";
+                }
             }
             try
             {
@@ -68,7 +78,15 @@ namespace _1cbacupcloud3._5
             }
             catch (Exception ex)
             {
-                Data.Log += $"\n{DateTime.Now} Не удалось получить путь к логу {ex}\n";
+                string t = Convert.ToString(ex);
+                if (!string.IsNullOrEmpty(t))
+                {
+                    Data.Log += $"\n{DateTime.Now} {t}\n";
+                }
+                else
+                {
+                    Data.Log += $"\n{DateTime.Now} Не удалось получить путь к логу\n";
+                }
             }
             try
             {
@@ -80,48 +98,109 @@ namespace _1cbacupcloud3._5
             }
             catch (Exception ex)
             {
-                Data.Log += $"\n{DateTime.Now} Ошибка при получении пути к архиву логов {ex}\n";
+                string t = Convert.ToString(ex);
+                if (!string.IsNullOrEmpty(t))
+                {
+                    Data.Log += $"\n{DateTime.Now} {t}\n";
+                }
+                else
+                {
+                    Data.Log += $"\n{DateTime.Now} Ошибка при получении пути к архиву логов\n";
+                }
             }
             try
             {
                 if (!string.IsNullOrEmpty(Data.LogGzPath))
                 {
-                    IO.UnGzip(Data.LogGzPath, $@"{Data.ImagePathAgent}\logs{Data.LogAgentOld}");
-                }
-            }
-            catch (Exception ex)
-            {
-                Data.Log += $"\n{DateTime.Now} Ошибка при распаковке архива {ex}\n";
-            }
-            try
-            {
-                for (int i = 0; i != Data.BackupNameList.Count; i++)
-                {
-                    if (File.Exists(Data.BackupNameList[i]))
+                    if (IO.CreateDir(Data.PathSTemp) == true)
                     {
-                        if (!File.Exists($@"{Data.ImagePathAgent}\logs{Data.LogAgentOld}") && File.Exists($@"{Data.ImagePathAgent}\logs{Data.LogAgent}"))
-                        {
-                            log = $@"{Data.ImagePathAgent}\logs{Data.LogAgent}";
-                        }
-                        else if (File.Exists($@"{Data.ImagePathAgent}\logs{Data.LogAgentOld}") && !File.Exists($@"{Data.ImagePathAgent}\logs{Data.LogAgent}"))
-                        {
-                            log = $@"{Data.ImagePathAgent}\logs{Data.LogAgentOld}";
-                        }
-                        else if (!File.Exists($@"{Data.ImagePathAgent}\logs{Data.LogAgentOld}") && !File.Exists($@"{Data.ImagePathAgent}\logs{Data.LogAgent}"))
-                        {
-                            break;
-                        }
-                        FileInfo fileInfo = new FileInfo(Data.BackupNameList[i]);
-                        Data.JsonTo1C = null;
-                        diagnostics.GetLog(null, log, Data.IbDUID[i], null, false, Math.Round((double)fileInfo.Length / 1024 / 1024 / 1024, 3), Data.Login, dateTime);
-                        Agent.Send1C();
-                        //Data.Log += $"\n{Data.JsonTo1C}\n ";
+                        IO.UnGzip(Data.LogGzPath, $@"{Data.PathSTemp}{Data.LogAgentOld}");
+                    }
+                    else
+                    {
+                        IO.UnGzip(Data.LogGzPath, $@"{Data.ImagePathAgent}\logs{Data.LogAgentOld}");
                     }
                 }
             }
             catch (Exception ex)
             {
-                Data.Log += $"\n{DateTime.Now} Ошибка при обработке логов {ex}\n";
+                string t = Convert.ToString(ex);
+                if (!string.IsNullOrEmpty(t))
+                {
+                    Data.Log += $"\n{DateTime.Now} {t}\n";
+                }
+                else
+                {
+                    Data.Log += $"\n{DateTime.Now} Ошибка при распаковке архива\n";
+                }
+            }
+            for (int i = 0; i != Data.BackupNameList.Count; i++)
+            {
+                try
+                {
+                    if (File.Exists(Data.BackupNameList[i]))
+                    {
+                        if (!File.Exists(Data.LogAgentOld) && File.Exists($@"{Data.ImagePathAgent}\logs{Data.LogAgent}"))
+                        {
+                            log = $@"{Data.ImagePathAgent}\logs{Data.LogAgent}";
+                        }
+                        else if (File.Exists(Data.LogAgentOld) && !File.Exists($@"{Data.ImagePathAgent}\logs{Data.LogAgent}"))
+                        {
+                            log = Data.LogAgentOld;
+                        }
+                        else if (!File.Exists(Data.LogAgentOld) && !File.Exists($@"{Data.ImagePathAgent}\logs{Data.LogAgent}"))
+                        {
+                            break;
+                        }
+                        FileInfo fileInfo = new FileInfo(Data.BackupNameList[i]);
+                        Data.JsonTo1C = null;
+                        if (!string.IsNullOrEmpty(Data.IbDUID[i]) && !string.IsNullOrEmpty(Data.Login))
+                        {
+                            diagnostics.GetLog(null, log, Data.IbDUID[i], null, false, Math.Round((double)fileInfo.Length / 1024 / 1024 / 1024, 3), Data.Login, dateTime);
+                            Agent.Send1C();
+                        }
+                        else
+                        {
+                            Data.Log += $"\nНе удалось найти GUID или логин итс\n";
+                        }
+                        if (!string.IsNullOrEmpty(Data.JsonTo1C))
+                        {
+                            Data.Log += $"\n{Data.JsonTo1C}\n ";
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {                   
+                    string t = Convert.ToString(ex);
+                    if (!string.IsNullOrEmpty(t))
+                    {
+                        Data.Log += $"\n{DateTime.Now} {t}\n";
+                    }
+                    else
+                    {
+                        Data.Log += $"\n{DateTime.Now} Ошибка при обработке логов\n";
+                    }
+                }
+            }
+            try
+            {
+                DirectoryInfo directoryInfo = new DirectoryInfo(Data.PathSTemp);
+                if (directoryInfo.Exists)
+                {
+                    directoryInfo.Delete(true);
+                }
+            }
+            catch (Exception ex)
+            {
+                string t = Convert.ToString(ex);
+                if (!string.IsNullOrEmpty(t))
+                {
+                    Data.Log += $"\n{DateTime.Now} {t}\n";
+                }
+                else
+                {
+                    Data.Log += $"\n{DateTime.Now} Ошибка при удалении директории temp\n";
+                }
             }
         }
     }
