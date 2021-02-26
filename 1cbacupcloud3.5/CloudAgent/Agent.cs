@@ -85,6 +85,11 @@ namespace _1cbacupcloud3._5.CloudAgent
             SetTimetable(path);
             string Port = GetParametrs.Port();
             string responseString = string.Empty;
+            var settings = new JsonSerializerSettings
+            {
+                DateFormatString = "yyyy-MM-ddTHH:mm:ss",
+                DateTimeZoneHandling = DateTimeZoneHandling.Utc
+            };
             if (!string.IsNullOrEmpty(Port))
             {
                 try
@@ -98,10 +103,10 @@ namespace _1cbacupcloud3._5.CloudAgent
                         request.ContentType = Type.ContenCa;
                         request.Method = Type.RequestType[1]; //POST
                         //JsonUpload _json = new JsonUpload { targetPath = path, targetName = "", dateLabel = "2022-07-20T10:06:23" }; // произвольный файл
-                        JsonUpload _json = new JsonUpload { ibPath = path, backupType = "manual", dateLabel = "2022-07-20T10:06:23" };
+                        JsonUpload _json = new JsonUpload { ibPath = path, backupType = "manual", dateLabel = DateTime.Now };
                         using (var streamWriter = new StreamWriter(request.GetRequestStream()))
                         {
-                            string json = JsonConvert.SerializeObject(_json, Formatting.Indented);
+                            string json = JsonConvert.SerializeObject(_json, Formatting.Indented, settings);
                             streamWriter.Write(json);
                         }
                         HttpWebResponse response = request.GetResponse() as HttpWebResponse;

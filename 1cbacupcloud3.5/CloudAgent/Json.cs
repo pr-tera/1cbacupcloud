@@ -11,7 +11,7 @@ namespace _1cbacupcloud3._5.CloudAgent
     }
     class JsonUpload : Agent
     {
-        public string dateLabel { get; set; }
+        public DateTime dateLabel { get; set; }
         public string ibPath { get; set; }
         public string backupType { get; set; }
     }
