@@ -141,7 +141,16 @@ namespace _1cbacupcloud3._5
                             Data.JsonTo1C = null;
                             if (!string.IsNullOrEmpty(Data.IbDUID[i]) && !string.IsNullOrEmpty(Data.Login))
                             {
-                                diagnostics.GetLog(null, log, diagnostics.GetGUID(Data.IbDUID[i]), null, false, Math.Round((double)fileInfo.Length / 1024 / 1024 / 1024, 3), Data.Login, dateTime);
+                                bool srvr = false;
+                                if (fileInfo.Extension == Type.type[0])
+                                {
+                                    srvr = true;
+                                }
+                                else if (fileInfo.Extension == Type.type[1])
+                                {
+                                    srvr = false;
+                                }
+                                diagnostics.GetLog(null, log, diagnostics.GetGUID(Data.IbDUID[i]), null, false, Math.Round((double)fileInfo.Length / 1024 / 1024 / 1024, 3), Data.Login, dateTime, srvr);
                                 Agent.Send1C();
                             }
                             else

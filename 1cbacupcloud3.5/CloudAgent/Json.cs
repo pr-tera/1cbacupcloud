@@ -44,6 +44,7 @@ namespace _1cbacupcloud3._5.CloudAgent
         public string message { get; set; }
         public DateTime timestamp { get; set; }
         public double ibsize { get; set; }
+        public bool srvr { get; set; } //true - server false - file
         public bool status { get; set; }
     }
     class LogAgent : diagnostics
