@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace _1cbacupcloud3._5
 {
     struct Data
     {
+        private static string _log;
         internal static string Path { get; set; } = Directory.GetCurrentDirectory();
         internal static string PathSTemp { get; } = $@"{Path}\temp";
         internal static string PathPort { get; } = @"\metadata\port.properties";
@@ -14,7 +16,22 @@ namespace _1cbacupcloud3._5
         internal static string ImagePathAgent { get; set; }
         internal static string StrageDay { get; set; }
         internal static string JsonTo1C { get; set; }
-        internal static string Log { get; set; }
+        //internal static string Log { get; set; }
+        internal static string Log
+        {
+            get => _log;
+            set
+            {
+                if (value.Length <= Program.GetDate().Length + 4)
+                {
+                    _log = $"StackTrace: {Environment.StackTrace}";
+                }
+                else
+                {
+                    _log = value;
+                }
+            }
+        }
         internal static string LogGzPath { get; set; }
         internal static string LogAgent { get; set; }
         internal static string LogAgentOld { get; set; } = @"\LogFileOld.log";

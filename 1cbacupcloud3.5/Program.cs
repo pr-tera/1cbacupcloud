@@ -151,7 +151,7 @@ namespace _1cbacupcloud3._5
                                     srvr = false;
                                 }
                                 diagnostics.GetLog(null, log, diagnostics.GetGUID(Data.IbDUID[i]), null, false, Math.Round((double)fileInfo.Length / 1024 / 1024 / 1024, 3), Data.Login, dateTime, srvr);
-                                Agent.Send1C();
+                                //Agent.Send1C();
                             }
                             else
                             {

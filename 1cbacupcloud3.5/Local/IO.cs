@@ -44,7 +44,7 @@ namespace _1cbacupcloud3._5.Local
                     }
                     else
                     {
-                        Data.Log += $"{Program.GetDate()} Не зарегистрированная ошибка:\n";
+                        Data.Log += $"\n{Program.GetDate()} Не зарегистрированная ошибка:\n";
                     }
                 }
             }
@@ -62,7 +62,7 @@ namespace _1cbacupcloud3._5.Local
                 }
                 else
                 {
-                    Data.Log += $"{Program.GetDate()} Не зарегистрированная ошибка\n";
+                    Data.Log += $"\n{Program.GetDate()} Не зарегистрированная ошибка\n";
                 }
             }
             if (!string.IsNullOrEmpty(t))
@@ -106,7 +106,7 @@ namespace _1cbacupcloud3._5.Local
                     }
                     else
                     {
-                        Data.Log += $"{Program.GetDate()} Не зарегистрированная ошибка:\n";
+                        Data.Log += $"\n{Program.GetDate()} Не зарегистрированная ошибка:\n";
                     }
                 }
             }
@@ -162,23 +162,27 @@ namespace _1cbacupcloud3._5.Local
                     }
                     catch (ArgumentException)
                     {
-                        Data.Log += $"{Program.GetDate()} IO2001\n";
+                        Data.Log += $"\n{Program.GetDate()} IO2001\n";
                     }
                     catch (DirectoryNotFoundException)
                     {
-                        Data.Log += $"{Program.GetDate()} IO2002\n";
+                        Data.Log += $"\n{Program.GetDate()} IO2002\n";
                     }
                     catch (NotSupportedException)
                     {
-                        Data.Log += $"{Program.GetDate()} IO2003\n";
+                        Data.Log += $"\n{Program.GetDate()} IO2003\n";
                     }
                     catch (PathTooLongException)
                     {
-                        Data.Log += $"{Program.GetDate()} IO2004\n";
+                        Data.Log += $"\n{Program.GetDate()} IO2004\n";
                     }
                     catch (IOException)
                     {
-                        Data.Log += $"{Program.GetDate()} IO2005\n";
+                        Data.Log += $"\n{Program.GetDate()} IO2005\n";
+                    }
+                    catch (Exception ex)
+                    {
+                        Data.Log += $"\n{Program.GetDate()} {ex}\n";
                     }
                 }
             }
@@ -194,15 +198,19 @@ namespace _1cbacupcloud3._5.Local
                 }
                 catch (ArgumentException)
                 {
-                    Data.Log += $"{Program.GetDate()} DI1001\n";
+                    Data.Log += $"\n{Program.GetDate()} DI1001\n";
                 }
                 catch (PathTooLongException)
                 {
-                    Data.Log += $"{Program.GetDate()} DI1002\n";
+                    Data.Log += $"\n{Program.GetDate()} DI1002\n";
                 }
                 catch (DirectoryNotFoundException)
                 {
-                    Data.Log += $"{Program.GetDate()} DI1003\n";
+                    Data.Log += $"\n{Program.GetDate()} DI1003\n";
+                }
+                catch (Exception ex)
+                {
+                    Data.Log += $"\n{Program.GetDate()} {ex}\n";
                 }
             }
             if (Directory.Exists(Data.ImagePathAgent + Data.AgentTempIN))
@@ -213,15 +221,19 @@ namespace _1cbacupcloud3._5.Local
                 }
                 catch (ArgumentException)
                 {
-                    Data.Log += $"{Program.GetDate()} DI1001\n";
+                    Data.Log += $"\n{Program.GetDate()} DI1001\n";
                 }
                 catch (PathTooLongException)
                 {
-                    Data.Log += $"{Program.GetDate()} DI1002\n";
+                    Data.Log += $"\n{Program.GetDate()} DI1002\n";
                 }
                 catch (DirectoryNotFoundException)
                 {
-                    Data.Log += $"{Program.GetDate()} DI1003\n";
+                    Data.Log += $"\n{Program.GetDate()} DI1003\n";
+                }
+                catch (Exception ex)
+                {
+                    Data.Log += $"\n{Program.GetDate()} {ex}\n";
                 }
             }
         }
@@ -242,31 +254,35 @@ namespace _1cbacupcloud3._5.Local
                         }
                         catch (FileNotFoundException)
                         {
-                            Data.Log += $"{Program.GetDate()} IO1002\n";
+                            Data.Log += $"\n{Program.GetDate()} IO1002\n";
                         }
                         catch (ArgumentNullException)
                         {
-                            Data.Log += $"{Program.GetDate()} IO1003\n";
+                            Data.Log += $"\n{Program.GetDate()} IO1003\n";
                         }
                         catch (ArgumentException)
                         {
-                            Data.Log += $"{Program.GetDate()} IO1004\n";
+                            Data.Log += $"\n{Program.GetDate()} IO1004\n";
                         }
                         catch (PathTooLongException)
                         {
-                            Data.Log += $"{Program.GetDate()} IO1005\n";
+                            Data.Log += $"\n{Program.GetDate()} IO1005\n";
                         }
                         catch (DirectoryNotFoundException)
                         {
-                            Data.Log += $"{Program.GetDate()} IO1006\n";
+                            Data.Log += $"\n{Program.GetDate()} IO1006\n";
                         }
                         catch (NotSupportedException)
                         {
-                            Data.Log += $"{Program.GetDate()} IO1007\n";
+                            Data.Log += $"\n{Program.GetDate()} IO1007\n";
                         }
                         catch (IOException)
                         {
-                            Data.Log += $"{Program.GetDate()} IO1001\n";
+                            Data.Log += $"\n{Program.GetDate()} IO1001 ({f.FullName})\n";
+                        }
+                        catch (Exception ex)
+                        {
+                            Data.Log += $"\n{Program.GetDate()} {ex} ({f.FullName})\n";
                         }
                         try
                         {
@@ -274,23 +290,27 @@ namespace _1cbacupcloud3._5.Local
                         }
                         catch (ArgumentException)
                         {
-                            Data.Log += $"{Program.GetDate()} IO2001\n";
+                            Data.Log += $"\n{Program.GetDate()} IO2001\n";
                         }
                         catch (DirectoryNotFoundException)
                         {
-                            Data.Log += $"{Program.GetDate()} IO2002\n";
+                            Data.Log += $"\n{Program.GetDate()} IO2002\n";
                         }
                         catch (NotSupportedException)
                         {
-                            Data.Log += $"{Program.GetDate()} IO2003\n";
+                            Data.Log += $"\n{Program.GetDate()} IO2003\n";
                         }
                         catch (PathTooLongException)
                         {
-                            Data.Log += $"{Program.GetDate()} IO2004\n";
+                            Data.Log += $"\n{Program.GetDate()} IO2004\n";
                         }
                         catch (IOException)
                         {
-                            Data.Log += $"{Program.GetDate()} IO2005\n";
+                            Data.Log += $"\n{Program.GetDate()} IO2005\n";
+                        }
+                        catch (Exception ex)
+                        {
+                            Data.Log += $"\n{Program.GetDate()} {ex}\n";
                         }
                     }
                     else
@@ -301,23 +321,27 @@ namespace _1cbacupcloud3._5.Local
                         }
                         catch (ArgumentException)
                         {
-                            Data.Log += $"{Program.GetDate()} IO2001\n";
+                            Data.Log += $"\n{Program.GetDate()} IO2001\n";
                         }
                         catch (DirectoryNotFoundException)
                         {
-                            Data.Log += $"{Program.GetDate()} IO2002\n";
+                            Data.Log += $"\n{Program.GetDate()} IO2002\n";
                         }
                         catch (NotSupportedException)
                         {
-                            Data.Log += $"{Program.GetDate()} IO2003\n";
+                            Data.Log += $"\n{Program.GetDate()} IO2003\n";
                         }
                         catch (PathTooLongException)
                         {
-                            Data.Log += $"{Program.GetDate()} IO2004\n";
+                            Data.Log += $"\n{Program.GetDate()} IO2004\n";
                         }
                         catch (IOException)
                         {
-                            Data.Log += $"{Program.GetDate()} IO2005\n";
+                            Data.Log += $"\n{Program.GetDate()} IO2005\n";
+                        }
+                        catch (Exception ex)
+                        {
+                            Data.Log += $"\n{Program.GetDate()} {ex}\n";
                         }
                     }
                 }
