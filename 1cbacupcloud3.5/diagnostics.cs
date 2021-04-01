@@ -39,11 +39,11 @@ namespace _1cbacupcloud3._5
                 string tt = Convert.ToString(ex);
                 if (!string.IsNullOrEmpty(tt))
                 {
-                    Data.Log += $"\n{Program.GetDate()} {tt}\n";
+                    Data.Log += $"\n{Program.GetDate()} {tt}{Environment.NewLine}";
                 }
                 else
                 {
-                    Data.Log += $"{Program.GetDate()} Не зарегистрированная ошибка:\n";
+                    Data.Log += $"{Program.GetDate()} Не зарегистрированная ошибка:{Environment.NewLine}";
                 }
                 _check = false;
             }
@@ -150,7 +150,8 @@ namespace _1cbacupcloud3._5
                     !string.IsNullOrEmpty(logFile) &&
                     !string.IsNullOrEmpty(db_id) &&
                     string.IsNullOrEmpty(messageto1c) &&
-                    !string.IsNullOrEmpty(itslogin))
+                    !string.IsNullOrEmpty(itslogin) &&
+                    m_logFile.Count != 0)
                 {
                     foreach (var str in m_logFile)
                     {
@@ -186,8 +187,8 @@ namespace _1cbacupcloud3._5
                         db_id = "null_error";
                     }
                     if (db_id.Contains("_"))
-                    { 
-                        
+                    {
+
                     }
                     to1C = new To1C { ibid = GetGUID(db_id), ibsize = ibsize, itslogin = itslogin, message = null, status = false, timestamp = timestamp, srvr = srvr };
                     Data.JsonTo1C = JsonConvert.SerializeObject(to1C, settings);
@@ -198,11 +199,11 @@ namespace _1cbacupcloud3._5
                 string t = Convert.ToString(ex);
                 if (!string.IsNullOrEmpty(t))
                 {
-                    Data.Log += $"\n{Program.GetDate()} {t}\n";
+                    Data.Log += $"\n{Program.GetDate()} {t}{Environment.NewLine}";
                 }
                 else
                 {
-                    Data.Log += $"{Program.GetDate()} Не зарегистрированная ошибка(WB0001)\n";
+                    Data.Log += $"{Program.GetDate()} Не зарегистрированная ошибка(WB0001){Environment.NewLine}";
                 }
                 if (string.IsNullOrEmpty(Data.JsonTo1C))
                 {

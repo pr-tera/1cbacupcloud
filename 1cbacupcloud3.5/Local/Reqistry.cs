@@ -16,19 +16,19 @@ namespace _1cbacupcloud3._5.Local
             }
             catch (ArgumentNullException)
             {
-                Data.Log += $"\n{Program.GetDate()} RE0001\n";
+                Data.Log += $"\n{Program.GetDate()} RE0001{Environment.NewLine})";
             }
             catch (ObjectDisposedException)
             {
-                Data.Log += $"\n{Program.GetDate()} RE0002\n";
+                Data.Log += $"\n{Program.GetDate()} RE0002{Environment.NewLine}";
             }
             catch (SecurityException)
             {
-                Data.Log += $"\n{Program.GetDate()} RE0003\n";
+                Data.Log += $"\n{Program.GetDate()} RE0003{Environment.NewLine}";
             }
             catch (Exception ex)
             {
-                Data.Log += $"\n{Program.GetDate()} {ex}\n";
+                Data.Log += $"\n{Program.GetDate()} {ex}{Environment.NewLine}";
             }
         }
         internal static string AgentServiceName()
@@ -42,19 +42,19 @@ namespace _1cbacupcloud3._5.Local
             }
             catch (ArgumentNullException)
             {
-                Data.Log += $"\n{Program.GetDate()} RE0001\n";
+                Data.Log += $"\n{Program.GetDate()} RE0001{Environment.NewLine}";
             }
             catch (ObjectDisposedException)
             {
-                Data.Log += $"\n{Program.GetDate()} RE0002\n";
+                Data.Log += $"\n{Program.GetDate()} RE0002{Environment.NewLine}";
             }
             catch (SecurityException)
             {
-                Data.Log += $"\n{Program.GetDate()} RE0003\n";
+                Data.Log += $"\n{Program.GetDate()} RE0003{Environment.NewLine}";
             }
             catch (Exception ex)
             {
-                Data.Log += $"\n{Program.GetDate()} {ex}\n";
+                Data.Log += $"\n{Program.GetDate()} {ex}{Environment.NewLine}";
             }
             return name;
         }

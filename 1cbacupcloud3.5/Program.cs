@@ -9,7 +9,7 @@ namespace _1cbacupcloud3._5
     class Program
     {
 
-        static async System.Threading.Tasks.Task Main(string[] args)
+        static void Main(string[] args)
         {
             //Console.OutputEncoding = Encoding.UTF8;
             if (args[0] == "Upload")
@@ -20,15 +20,7 @@ namespace _1cbacupcloud3._5
                 Log log = new Log();
                 if (!string.IsNullOrEmpty(Data.Log))
                 {
-                    await log.SendEmailAsync(Data.Log);
-                }
-                else if (!string.IsNullOrEmpty(diagnostics.DigLog))
-                {
-                    await log.SendEmailAsync(diagnostics.DigLog);
-                }
-                else
-                {
-                    await log.SendEmailAsync($"Хьюстон у нас проблемы!\n{Data.Login}");
+                    log.SendEmailAsync(Data.Log);
                 }
                 Log.Write();
             }
@@ -36,7 +28,7 @@ namespace _1cbacupcloud3._5
             {
                 if (GetParametrs.Get() == true)
                 {
-                    for (int i = 0; i < 3; i++)
+                    for (int i = 0; i != 2; i++)
                     {
                         Reqistry.GetKey();
                         IO.CleanOldBackup(Data.Path, Type.type[i]);
@@ -63,11 +55,11 @@ namespace _1cbacupcloud3._5
                 string t = Convert.ToString(ex);
                 if (!string.IsNullOrEmpty(t))
                 {
-                    Data.Log += $"\n{GetDate()} {t}\n";
+                    Data.Log += $"\n{GetDate()} {t}{Environment.NewLine}";
                 }
                 else
                 {
-                    Data.Log += $"\n{GetDate()} Не удалось получить путь к бекапу\n";
+                    Data.Log += $"\n{GetDate()} Не удалось получить путь к бекапу{Environment.NewLine}";
                 }
             }
             try
@@ -79,11 +71,11 @@ namespace _1cbacupcloud3._5
                 string t = Convert.ToString(ex);
                 if (!string.IsNullOrEmpty(t))
                 {
-                    Data.Log += $"\n{GetDate()} {t}\n";
+                    Data.Log += $"\n{GetDate()} {t}{Environment.NewLine}";
                 }
                 else
                 {
-                    Data.Log += $"\n{GetDate()} Не удалось получить путь к логу\n";
+                    Data.Log += $"\n{GetDate()} Не удалось получить путь к логу{Environment.NewLine}";
                 }
             }
             try
@@ -99,11 +91,11 @@ namespace _1cbacupcloud3._5
                 string t = Convert.ToString(ex);
                 if (!string.IsNullOrEmpty(t))
                 {
-                    Data.Log += $"\n{GetDate()} {t}\n";
+                    Data.Log += $"\n{GetDate()} {t}{Environment.NewLine}";
                 }
                 else
                 {
-                    Data.Log += $"\n{GetDate()} Ошибка при получении пути к архиву логов\n";
+                    Data.Log += $"\n{GetDate()} Ошибка при получении пути к архиву логов{Environment.NewLine}";
                 }
             }
             if (!string.IsNullOrEmpty(Data.LogGzPath))
@@ -151,15 +143,15 @@ namespace _1cbacupcloud3._5
                                     srvr = false;
                                 }
                                 diagnostics.GetLog(null, log, diagnostics.GetGUID(Data.IbDUID[i]), null, false, Math.Round((double)fileInfo.Length / 1024 / 1024 / 1024, 3), Data.Login, dateTime, srvr);
-                                //Agent.Send1C();
+                                Agent.Send1C();
                             }
                             else
                             {
-                                Data.Log += $"\nНе удалось найти GUID или логин итс\n";
+                                Data.Log += $"\nНе удалось найти GUID или логин итс{Environment.NewLine}";
                             }
                             if (!string.IsNullOrEmpty(Data.JsonTo1C))
                             {
-                                Data.Log += $"\n{Data.JsonTo1C}\n ";
+                                Data.Log += $"\n{Data.JsonTo1C}{Environment.NewLine}";
                             }
                         }
                     }
@@ -168,11 +160,11 @@ namespace _1cbacupcloud3._5
                         string t = Convert.ToString(ex);
                         if (!string.IsNullOrEmpty(t))
                         {
-                            Data.Log += $"\n{GetDate()} {t}\n";
+                            Data.Log += $"\n{GetDate()} {t}{Environment.NewLine}";
                         }
                         else
                         {
-                            Data.Log += $"\n{GetDate()} Ошибка при обработке логов\n";
+                            Data.Log += $"\n{GetDate()} Ошибка при обработке логов{Environment.NewLine}";
                         }
                     }
                 }
@@ -190,11 +182,11 @@ namespace _1cbacupcloud3._5
                 string t = Convert.ToString(ex);
                 if (!string.IsNullOrEmpty(t))
                 {
-                    Data.Log += $"\n{GetDate()} {t}\n";
+                    Data.Log += $"\n{GetDate()} {t}{Environment.NewLine}";
                 }
                 else
                 {
-                    Data.Log += $"\n{GetDate()} Ошибка при удалении директории temp\n";
+                    Data.Log += $"\n{GetDate()} Ошибка при удалении директории temp{Environment.NewLine}";
                 }
             }
         }

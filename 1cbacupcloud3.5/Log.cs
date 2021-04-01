@@ -12,7 +12,7 @@ namespace _1cbacupcloud3._5
         {
             if (!string.IsNullOrEmpty(Data.Log))
             {
-                string path = $"{Data.Path}\\LogBackupAgent.txt";
+                string path = $"{Data.Path}\\LogBackupAgent.log";
                 FileInfo Filelog = new FileInfo(path);
                 if (!File.Exists(path))
                 {

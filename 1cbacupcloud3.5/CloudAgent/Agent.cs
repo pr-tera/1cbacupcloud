@@ -21,16 +21,24 @@ namespace _1cbacupcloud3._5.CloudAgent
                 {
                     IO.GetPath(Data.Path, Type.type[i]);
                 }
-                foreach (var i in Data.BackupNameList)
+                if (Data.BackupNameList.Count != 0)
                 {
-                    if (!string.IsNullOrEmpty(i))
+                    foreach (var i in Data.BackupNameList)
                     {
-                        Data.Log += $"{Program.GetDate()} {Upload(i)} \n";
+                        if (!string.IsNullOrEmpty(i))
+                        {
+                            Data.Log += $"{Program.GetDate()} {Upload(i)} \n";
+                        }
+                        else
+                        {
+                            Data.Log += $"Список бекапов пуст!";
+                        }
                     }
-                    else
-                    {
-                        Data.Log += $"Список бекапов пуст!";
-                    }
+                }
+                else
+                {
+                    Data.Log += $"{Program.GetDate()} Список бекапов пуст!{Environment.NewLine}";
+                    return false;
                 }
                 return true;
             }
@@ -246,25 +254,26 @@ namespace _1cbacupcloud3._5.CloudAgent
                 string t = Convert.ToString(ex);
                 if (!string.IsNullOrEmpty(t))
                 {
-                    Data.Log += $"\n{Program.GetDate()} {t}\n";
+                    Data.Log += $"\n{Program.GetDate()} {t} {Environment.NewLine}";
                 }
                 else
                 {
-                    Data.Log += $"{Program.GetDate()} Не зарегистрированная ошибка(WB0001)\n";
+                    Data.Log += $"{Program.GetDate()} Не зарегистрированная ошибка(WB0001){Environment.NewLine}";
                 }
             }
             switch (responseString)
             {
                 case "200":
+                    Data.Log += $"{Program.GetDate()} Успешный обмен с 1с{Environment.NewLine}";
                     break;
                 case "500":
-                    Data.Log += $"{Program.GetDate()} Ошибка обмена с 1с 500";
+                    Data.Log += $"{Program.GetDate()} Ошибка обмена с 1с 500{Environment.NewLine}";
                     break;
                 case "403":
-                    Data.Log += $"{Program.GetDate()} Ошибка обмена с 1с 403";
+                    Data.Log += $"{Program.GetDate()} Ошибка обмена с 1с 403{Environment.NewLine}";
                     break;
                 case "401":
-                    Data.Log += $"{Program.GetDate()} ОШибка обмена с 1с 401";
+                    Data.Log += $"{Program.GetDate()} ОШибка обмена с 1с 401{Environment.NewLine}";
                     break;
             }
         }
