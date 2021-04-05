@@ -35,10 +35,10 @@ namespace _1cbacupcloud3._5.Settings
                 {
                     Directory.CreateDirectory(backupagentTemp);
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    Console.WriteLine(e);
-                    Data.Log += $"{DateTime.Now} {e} \n";
+                    Console.WriteLine(ex);
+                    Program.WritheLog(Convert.ToString(ex));
                 }
             }
             //else
@@ -59,10 +59,10 @@ namespace _1cbacupcloud3._5.Settings
                 }
                 return true;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine($"При загрузке произошла ошибка:\n{e}");
-                Data.Log += $"{DateTime.Now} {e} \n";
+                Console.WriteLine($"При загрузке произошла ошибка:\n{ex}");
+                Program.WritheLog(Convert.ToString(ex));
 
                 return false;
             }
@@ -77,10 +77,10 @@ namespace _1cbacupcloud3._5.Settings
                 process.WaitForExit();
                 return true;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e);
-                Data.Log += $"{DateTime.Now} {e} \n";
+                Console.WriteLine(ex);
+                Program.WritheLog(Convert.ToString(ex));
                 return false;
             }
         }

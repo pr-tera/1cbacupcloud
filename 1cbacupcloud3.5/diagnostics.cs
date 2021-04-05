@@ -39,11 +39,11 @@ namespace _1cbacupcloud3._5
                 string tt = Convert.ToString(ex);
                 if (!string.IsNullOrEmpty(tt))
                 {
-                    Data.Log += $"\n{Program.GetDate()} {tt}{Environment.NewLine}";
+                    Program.WritheLog(tt);
                 }
                 else
                 {
-                    Data.Log += $"{Program.GetDate()} Не зарегистрированная ошибка:{Environment.NewLine}";
+                    Program.WritheLog("Ошибка чтения файла Parametrs.xml");
                 }
                 _check = false;
             }
@@ -51,7 +51,6 @@ namespace _1cbacupcloud3._5
         }
         private static bool CheckService()
         {
-            bool _check = false;
             try
             {
                 if (!string.IsNullOrEmpty(Local.Reqistry.AgentServiceName()))
@@ -60,40 +59,40 @@ namespace _1cbacupcloud3._5
                     switch (service.Status)
                     {
                         case ServiceControllerStatus.Stopped:
-                            _check = false;
+                            Data.ServiceStatus = false;
                             break;
                         case ServiceControllerStatus.Running:
-                            _check = true;
+                            Data.ServiceStatus = true;
                             break;
                         case ServiceControllerStatus.StopPending:
-                            _check = false;
+                            Data.ServiceStatus = false;
                             break;
                         case ServiceControllerStatus.ContinuePending:
-                            _check = false;
+                            Data.ServiceStatus = false;
                             break;
                         case ServiceControllerStatus.Paused:
-                            _check = false;
+                            Data.ServiceStatus = false;
                             break;
                         case ServiceControllerStatus.PausePending:
-                            _check = false;
+                            Data.ServiceStatus = false;
                             break;
                         case ServiceControllerStatus.StartPending:
-                            _check = true;
+                            Data.ServiceStatus = true;
                             break;
                     }
                     service.Dispose();
                 }
                 else
                 {
-                    _check = false;
+                    Data.ServiceStatus = false;
                 }
             }
             catch
             {
-                _check = false;
+                Data.ServiceStatus = false;
                 DigLog += "SR1001";
             }
-            return _check;
+            return Data.ServiceStatus;
         }
         internal static void GetLog(string id, string logFile, string db_id, string messageto1c, bool status, double ibsize, string itslogin, DateTime timestamp, bool srvr, bool oldlog = false)
         {
@@ -158,6 +157,7 @@ namespace _1cbacupcloud3._5
                         LogAgent.Root root = JsonConvert.DeserializeObject<LogAgent.Root>(str);
                         if (root.Timestamp.Day == dateTime.Day - DateCon && root.Timestamp.Month == dateTime.Month && root.BackupID == id && root.message.Contains("OK"))
                         {
+                            Data.BackupStatus = true;
                             GetLog(id, logFile, db_id, root.message, true, ibsize, itslogin, root.Timestamp, srvr);
                         }
                     }
@@ -199,11 +199,11 @@ namespace _1cbacupcloud3._5
                 string t = Convert.ToString(ex);
                 if (!string.IsNullOrEmpty(t))
                 {
-                    Data.Log += $"\n{Program.GetDate()} {t}{Environment.NewLine}";
+                    Program.WritheLog(t);
                 }
                 else
                 {
-                    Data.Log += $"{Program.GetDate()} Не зарегистрированная ошибка(WB0001){Environment.NewLine}";
+                    Program.WritheLog("Не зарегистрированная ошибка при обработке логов");
                 }
                 if (string.IsNullOrEmpty(Data.JsonTo1C))
                 {

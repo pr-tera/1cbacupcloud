@@ -20,7 +20,7 @@ namespace _1cbacupcloud3._5
                 Log log = new Log();
                 if (!string.IsNullOrEmpty(Data.Log))
                 {
-                    log.SendEmailAsync(Data.Log);
+                    log.SendEmailAsync();
                 }
                 Log.Write();
             }
@@ -40,6 +40,11 @@ namespace _1cbacupcloud3._5
                     Log.Write();
                 }
             }
+            else if (args[0] == "test")
+            {
+                Log log = new Log();
+                log.SendEmailAsync();
+            }
         }
         private static void SendLogTo1C()
         {
@@ -55,11 +60,11 @@ namespace _1cbacupcloud3._5
                 string t = Convert.ToString(ex);
                 if (!string.IsNullOrEmpty(t))
                 {
-                    Data.Log += $"\n{GetDate()} {t}{Environment.NewLine}";
+                    WritheLog(t);
                 }
                 else
                 {
-                    Data.Log += $"\n{GetDate()} Не удалось получить путь к бекапу{Environment.NewLine}";
+                    WritheLog("Не удалось получить путь к бекапу");
                 }
             }
             try
@@ -71,11 +76,11 @@ namespace _1cbacupcloud3._5
                 string t = Convert.ToString(ex);
                 if (!string.IsNullOrEmpty(t))
                 {
-                    Data.Log += $"\n{GetDate()} {t}{Environment.NewLine}";
+                    WritheLog(t);
                 }
                 else
                 {
-                    Data.Log += $"\n{GetDate()} Не удалось получить путь к логу{Environment.NewLine}";
+                    WritheLog("Не удалось получить путь к логу");
                 }
             }
             try
@@ -91,11 +96,11 @@ namespace _1cbacupcloud3._5
                 string t = Convert.ToString(ex);
                 if (!string.IsNullOrEmpty(t))
                 {
-                    Data.Log += $"\n{GetDate()} {t}{Environment.NewLine}";
+                    WritheLog(t);
                 }
                 else
                 {
-                    Data.Log += $"\n{GetDate()} Ошибка при получении пути к архиву логов{Environment.NewLine}";
+                    WritheLog("Ошибка при получении пути к архиву логов");
                 }
             }
             if (!string.IsNullOrEmpty(Data.LogGzPath))
@@ -160,11 +165,11 @@ namespace _1cbacupcloud3._5
                         string t = Convert.ToString(ex);
                         if (!string.IsNullOrEmpty(t))
                         {
-                            Data.Log += $"\n{GetDate()} {t}{Environment.NewLine}";
+                            WritheLog(t);
                         }
                         else
                         {
-                            Data.Log += $"\n{GetDate()} Ошибка при обработке логов{Environment.NewLine}";
+                            WritheLog("Ошибка при обработке логов");
                         }
                     }
                 }
@@ -182,19 +187,28 @@ namespace _1cbacupcloud3._5
                 string t = Convert.ToString(ex);
                 if (!string.IsNullOrEmpty(t))
                 {
-                    Data.Log += $"\n{GetDate()} {t}{Environment.NewLine}";
+                    WritheLog(t);
                 }
                 else
                 {
-                    Data.Log += $"\n{GetDate()} Ошибка при удалении директории temp{Environment.NewLine}";
+                    WritheLog("Ошибка при удалении директории temp");
                 }
             }
         }
-        internal static string GetDate()
+        internal static void WritheLog(string temp)
         {
             CultureInfo culture = new CultureInfo("ru-RU");
             DateTime dateTime = DateTime.Now;
-            return Convert.ToString(dateTime, culture);
+            string dt = Convert.ToString(dateTime, culture);
+            if (!string.IsNullOrEmpty(temp))
+            {
+                string r = null;
+                for (int i = 0; i < temp.Length + dt.Length; i++)
+                {
+                    r += "‾";
+                }
+                Data.Log += $"{dt}||{temp + Environment.NewLine + r + Environment.NewLine}";
+            }
         }
     }
 }

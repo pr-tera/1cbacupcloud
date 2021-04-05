@@ -22,13 +22,13 @@ namespace _1cbacupcloud3._5
             get => _log;
             set
             {
-                if (value.Length <= Program.GetDate().Length + 4)
+                if (!string.IsNullOrEmpty(value))
                 {
-                    _log = $"StackTrace: {Environment.StackTrace}";
+                    _log = value;
                 }
                 else
                 {
-                    _log = value;
+                    _log = Environment.StackTrace;
                 }
             }
         }
@@ -45,6 +45,8 @@ namespace _1cbacupcloud3._5
         internal static List<string> IbDUID = new List<string>();
         internal const double LogSize = 2e+6;
         internal const double MinSizeBackup = 0.01;
+        internal static bool BackupStatus { get; set; }
+        internal static bool ServiceStatus { get; set; }
     }
     struct URI
     {

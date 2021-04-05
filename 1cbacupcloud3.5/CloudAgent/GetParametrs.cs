@@ -19,14 +19,14 @@ namespace _1cbacupcloud3._5.CloudAgent
                 else
                 {
                     Console.WriteLine("Не удалось прочитать параметры");
-                    Data.Log += $"\n{Program.GetDate()} XM0002{Environment.NewLine}";
+                    Program.WritheLog("XM0002");
                     return false;
                 }
             }
             else
             {
                 Console.WriteLine("Файл параметров не обнаружен");
-                Data.Log += $"\n{Program.GetDate()} XM0003{Environment.NewLine}";
+                Program.WritheLog("XM0003");
                 return false;
             }
         }
@@ -38,12 +38,12 @@ namespace _1cbacupcloud3._5.CloudAgent
                 AgentPort = _port();
                 if (string.IsNullOrEmpty(AgentPort))
                 {
-                    Data.Log += $"\n{Program.GetDate()} IO3008{Environment.NewLine}";
+                    Program.WritheLog("IO3008");
                 }
             }
             else
             {
-                Data.Log += $"\n{Program.GetDate()} IO3008{Environment.NewLine}";
+                Program.WritheLog("IO3008");
                 AgentPort = string.Empty;
             }
             return AgentPort;
@@ -62,42 +62,42 @@ namespace _1cbacupcloud3._5.CloudAgent
             }
             catch (ArgumentNullException)
             {
-                Data.Log += $"\n{Program.GetDate()} IO3001{Environment.NewLine}";
+                Program.WritheLog("IO3001");
                 return Port = null;
             }
             catch (PathTooLongException)
             {
-                Data.Log += $"\n{Program.GetDate()} IO3002{Environment.NewLine}";
+                Program.WritheLog("IO3002");
                 return Port = null;
             }
             catch (DirectoryNotFoundException)
             {
-                Data.Log += $"\n{Program.GetDate()} IO3003{Environment.NewLine}";
+                Program.WritheLog("IO3003");
                 return Port = null;
             }
             catch (UnauthorizedAccessException)
             {
-                Data.Log += $"\n{Program.GetDate()} IO3004{Environment.NewLine}";
+                Program.WritheLog("IO3004");
                 return Port = null;
             }
             catch (FileNotFoundException)
             {
-                Data.Log += $"\n{Program.GetDate()} IO3005{Environment.NewLine}";
+                Program.WritheLog("IO3005");
                 return Port = null;
             }
             catch (NotSupportedException)
             {
-                Data.Log += $"\n{Program.GetDate()} IO3006{Environment.NewLine}";
+                Program.WritheLog("IO3006");
                 return Port = null;
             }
             catch (IOException)
             {
-                Data.Log += $"\n{Program.GetDate()} IO3007{Environment.NewLine}";
+                Program.WritheLog("IO3007");
                 return Port = null;
             }
             catch (Exception ex)
             {
-                Data.Log += $"\n{Program.GetDate()} {ex}{Environment.NewLine}";
+                Program.WritheLog($"{ex}");
                 return Port = null;
             }
             return Port;
@@ -115,7 +115,7 @@ namespace _1cbacupcloud3._5.CloudAgent
             }
             catch (XmlException)
             {
-                Data.Log += $"\n{Program.GetDate()} XM0001{Environment.NewLine}";
+                Program.WritheLog("XM0001");
             }
         }
     }
