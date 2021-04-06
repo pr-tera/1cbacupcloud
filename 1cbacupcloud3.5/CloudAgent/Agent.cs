@@ -265,15 +265,19 @@ namespace _1cbacupcloud3._5.CloudAgent
             {
                 case "200":
                     Program.WritheLog("Успешный обмен с 1С");
+                    Data.StatusSendTo1C = "200";
                     break;
                 case "500":
                     Program.WritheLog("Ошибка обмена с 1С 500");
+                    Data.StatusSendTo1C = "500";
                     break;
                 case "403":
                     Program.WritheLog("Ошибка обмена с 1С 403");
+                    Data.StatusSendTo1C = "403";
                     break;
                 case "401":
                     Program.WritheLog("Ошибка обмена с 1С 401");
+                    Data.StatusSendTo1C = "401";
                     break;
             }
         }

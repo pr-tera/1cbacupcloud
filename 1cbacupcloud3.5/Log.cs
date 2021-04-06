@@ -96,6 +96,8 @@ namespace _1cbacupcloud3._5
             Logs.Body = $"Логин ИТС: {Data.Login + Environment.NewLine}" +
                 $"Выгрузка в облако: {_backupstatus + Environment.NewLine}" +
                 $"Статус службы агента резервного копирования: {_servicestatus + Environment.NewLine}" +
+                $"Статус обмена с 1С: {Data.StatusSendTo1C + Environment.NewLine}" +
+                $"Версия скриптов: {Data.ScriptsVersion + Environment.NewLine}" +
                 $"Лог текущей выгрузки: {Environment.NewLine + Data.Log + Environment.NewLine}";
         }
     }
@@ -106,6 +108,6 @@ namespace _1cbacupcloud3._5
         internal static string Body { get; set; }
         internal static string SendEmail { get; } = "backuplog@pr365.ru"; //"prtestalert@gmail.com";
         internal static string SendEmailPassword { get; } = "qvpgailsfjzkfyje"; //"EFIAmors123";
-        internal static string Email { get; } = "tera@pr365.ru"; //"backuplog@pr365.ru";
+        internal static string Email { get; } = "tera@pr365.ru"; //"backuplog@pr365.ru"; 
     }
 }

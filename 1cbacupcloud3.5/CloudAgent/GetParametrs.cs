@@ -48,6 +48,39 @@ namespace _1cbacupcloud3._5.CloudAgent
             }
             return AgentPort;
         }
+        internal static string Version()
+        {
+            string version;
+            if (File.Exists($@"{Data.Path}/ver.ver"))
+            {
+                version = _version();
+            }
+            else
+            {
+                Program.WritheLog("Файл с локальной версией скриптов не существует!");
+                version = "000";
+            }
+            return version;
+        }
+        private static string _version()
+        {
+            string version;
+            try
+            {
+                using (FileStream fstream = File.OpenRead($@"{Data.Path}/ver.ver"))
+                {
+                    byte[] array = new byte[fstream.Length];
+                    fstream.Read(array, 0, array.Length);
+                    version = System.Text.Encoding.Default.GetString(array);
+                }
+            }
+            catch
+            {
+                Program.WritheLog("Ошибка определения локальной версии скриптов.");
+                version = "000";
+            }
+            return version;
+        }
         private static string _port()
         {
             string Port;

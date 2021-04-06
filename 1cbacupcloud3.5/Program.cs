@@ -50,6 +50,7 @@ namespace _1cbacupcloud3._5
         {
             DateTime dateTime = DateTime.Now.Date;
             string log = null;
+            Data.ScriptsVersion = GetParametrs.Version();
             GetParametrs.Get();
             try
             {
@@ -200,14 +201,22 @@ namespace _1cbacupcloud3._5
             CultureInfo culture = new CultureInfo("ru-RU");
             DateTime dateTime = DateTime.Now;
             string dt = Convert.ToString(dateTime, culture);
+            string r = null;
             if (!string.IsNullOrEmpty(temp))
             {
-                string r = null;
                 for (int i = 0; i < temp.Length + dt.Length; i++)
                 {
                     r += "‾";
                 }
                 Data.Log += $"{dt}||{temp + Environment.NewLine + r + Environment.NewLine}";
+            }
+            else
+            {
+                for (int i = 0; i < 25; i++)
+                {
+                    r += "‾";
+                }
+                Data.Log += $"{dt}||{Environment.StackTrace + Environment.NewLine + r + Environment.NewLine}";
             }
         }
     }

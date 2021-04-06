@@ -41,11 +41,6 @@ namespace _1cbacupcloud3._5.Settings
                     Program.WritheLog(Convert.ToString(ex));
                 }
             }
-            //else
-            //{
-            //    Directory.Delete(backupagentTemp, true);
-            //    Temp();
-            //}
             return backupagentTemp;
         }
         private static bool DownloadAgetn()
