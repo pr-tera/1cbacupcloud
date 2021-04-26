@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 
 namespace _1cbacupcloud3._5.CloudAgent
 {
@@ -17,16 +18,23 @@ namespace _1cbacupcloud3._5.CloudAgent
     }
     class SetTimetableJ : Agent
     {
+        public string dbid { get; set; }
+        public string ibName { get; set; }
         public string ibPath { get; set; }
+        public string id { get; set; }
         public string lastItems { get; set; }
         public string status { get; set; }
-        public timeConfigDATA timeConfigDATA { get; set; }
+        //public timeConfigDATA timeConfigDATA { get; set; }
+        public List<timeConfigDATA> timeConfigDATA { get; set; }
+        public string ttlUrl { get; set; }
     }
     class timeConfigDATA : Agent
     {
         public string beginDate { get; set; }
-        public string repeatPeriodWeeks { get; set; }
-        public dayConfigDetailDATA dayConfigDetailDATA { get; set; }
+        //public dayConfigDetailDATA dayConfigDetailDATA { get; set; }
+        public List<dayConfigDetailDATA> dayConfigDetailDATA { get; set; }
+        public string repeatPeriodDays { get; set; }
+        public string repeatPeriodWeeks { get; set; }     
     }
     class dayConfigDetailDATA : Agent
     {

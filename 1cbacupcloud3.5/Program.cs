@@ -15,7 +15,7 @@ namespace _1cbacupcloud3._5
             if (args[0] == "Upload")
             {
                 Reqistry.GetKey();
-                SendLogTo1C();
+                //SendLogTo1C();
                 Agent.Start();
                 Log log = new Log();
                 if (!string.IsNullOrEmpty(Data.Log))
@@ -42,8 +42,7 @@ namespace _1cbacupcloud3._5
             }
             else if (args[0] == "test")
             {
-                Log log = new Log();
-                log.SendEmailAsync();
+                
             }
         }
         private static void SendLogTo1C()
@@ -153,11 +152,11 @@ namespace _1cbacupcloud3._5
                             }
                             else
                             {
-                                Data.Log += $"\nНе удалось найти GUID или логин итс{Environment.NewLine}";
+                                WritheLog("Не удалось найти GUID или логин итс");
                             }
                             if (!string.IsNullOrEmpty(Data.JsonTo1C))
                             {
-                                Data.Log += $"\n{Data.JsonTo1C}{Environment.NewLine}";
+                                WritheLog(Data.JsonTo1C);
                             }
                         }
                     }
@@ -208,7 +207,7 @@ namespace _1cbacupcloud3._5
                 {
                     r += "‾";
                 }
-                Data.Log += $"{dt}||{temp + Environment.NewLine + r + Environment.NewLine}";
+                Data.Log += $"{dt} || {temp + Environment.NewLine + r + Environment.NewLine}";
             }
             else
             {
@@ -216,7 +215,7 @@ namespace _1cbacupcloud3._5
                 {
                     r += "‾";
                 }
-                Data.Log += $"{dt}||{Environment.StackTrace + Environment.NewLine + r + Environment.NewLine}";
+                Data.Log += $"{dt} || {Environment.StackTrace + Environment.NewLine + r + Environment.NewLine}";
             }
         }
     }

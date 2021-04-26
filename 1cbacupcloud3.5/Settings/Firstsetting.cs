@@ -62,10 +62,10 @@ namespace _1cbacupcloud3._5.Settings
                     XmlParam.Save(Data.Path + @"/Parametrs.xml");
                     return true;
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    Console.WriteLine(e);
-                    Data.Log += $"{DateTime.Now} {e} \n";
+                    Console.WriteLine(ex);
+                    Program.WritheLog(Convert.ToString(ex));
                     return false;
                 }
             }

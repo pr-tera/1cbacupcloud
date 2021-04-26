@@ -1,6 +1,7 @@
 ﻿using _1cbacupcloud3._5.Local;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -27,7 +28,7 @@ namespace _1cbacupcloud3._5.CloudAgent
                     {
                         if (!string.IsNullOrEmpty(i))
                         {
-                            Program.WritheLog(Upload(i));
+                            Program.WritheLog($"Ответ агента: {Upload(i)}");
                         }
                         else
                         {
@@ -79,6 +80,7 @@ namespace _1cbacupcloud3._5.CloudAgent
                 if (!string.IsNullOrEmpty(t))
                 {
                     Program.WritheLog(t);
+                    Program.WritheLog(url);
                 }
                 else
                 {
@@ -100,9 +102,9 @@ namespace _1cbacupcloud3._5.CloudAgent
             };
             if (!string.IsNullOrEmpty(Port))
             {
+                string url = URI.Protocol[0] + URI.LocalServer + Port + URI.APIbackup; //$"http://localhost:{Port}/api/v1/backups";
                 try
                 {
-                    string url = URI.Protocol[0] + URI.LocalServer + Port + URI.APIbackup; //$"http://localhost:{Port}/api/v1/backups";
                     using (var webClient = new WebClient())
                     {
                         var result = JsonConvert.DeserializeObject<Ticketcs>(GetTicket());
@@ -131,6 +133,7 @@ namespace _1cbacupcloud3._5.CloudAgent
                     if (!string.IsNullOrEmpty(t))
                     {
                         Program.WritheLog(t);
+                        Program.WritheLog(url);
                     }
                     else
                     {
@@ -173,6 +176,7 @@ namespace _1cbacupcloud3._5.CloudAgent
                 if (!string.IsNullOrEmpty(t))
                 {
                     Program.WritheLog(t);
+                    Program.WritheLog(url);
                 }
                 else
                 {
@@ -185,7 +189,8 @@ namespace _1cbacupcloud3._5.CloudAgent
             string responseString;
             string Port = GetParametrs.Port();
             //string url = $"http://localhost:{Port}/api/v1/infobases?URI=F%3A%5Ctera%5C%D0%91%D0%B0%D1%80%D0%B6%D0%B5%D0%B5%D0%B2";
-            string url = URI.Protocol[0] + URI.LocalServer + Port + URI.APIib + IBpath; //$"http://localhost:{Port}/api/v1/infobases?URI={IBpath}";
+            //string url = URI.Protocol[0] + URI.LocalServer + Port + URI.APIib + IBpath; //$"http://localhost:{Port}/api/v1/infobases?URI={IBpath}";
+            string url = _getURL(URI.Protocol[0] + URI.LocalServer + Port + URI.APIib + IBpath);
             try
             {
                 using (var webClient = new WebClient())
@@ -195,9 +200,9 @@ namespace _1cbacupcloud3._5.CloudAgent
                     request.Headers.Add($"X-Token: {result.ticket}");
                     request.ContentType = Type.ContenCa;
                     request.Method = Type.RequestType[2]; // PUT
-                    dayConfigDetailDATA dayConfigDetailDATA = new dayConfigDetailDATA { beginTime = DateTime.Now.ToString("HH:mm") };
-                    timeConfigDATA timeConfigDATA = new timeConfigDATA { beginDate = DateTime.Now.ToString("yyyy'-'MM'-'dd"), repeatPeriodWeeks = "1", dayConfigDetailDATA = dayConfigDetailDATA };
-                    SetTimetableJ setTimetableJ = new SetTimetableJ { ibPath = IBpath, lastItems = Data.StrageDay, status = "inactive", timeConfigDATA = timeConfigDATA };
+                    List<dayConfigDetailDATA> dayConfigDetailDATA = new List<dayConfigDetailDATA> { new dayConfigDetailDATA { beginTime = DateTime.Now.ToString("HH:mm") } };
+                    List<timeConfigDATA> timeConfigDATA = new List<timeConfigDATA> { new timeConfigDATA { beginDate = DateTime.Now.ToString("yyyy'-'MM'-'dd"), dayConfigDetailDATA = dayConfigDetailDATA, repeatPeriodDays = "1", repeatPeriodWeeks = "1", } };
+                    SetTimetableJ setTimetableJ = new SetTimetableJ { dbid = null, ibName = null, ibPath = IBpath, id = null, lastItems = Data.StrageDay, status = "inactive", timeConfigDATA = timeConfigDATA, ttlUrl = null };
                     //string json = $"{{\"ibPath\": \"{IBpath.Replace("\\", "\\\\")}\",\"lastItems\": {Data.StrageDay},\"status\": \"inactive\",\"timeConfigDATA\": [{{\"beginDate\": \"2020-07-24\",\"repeatPeriodWeeks\": 1,\"dayConfigDetailDATA\": [{{\"beginTime\": \"21:00\"}}]}}]}}";
                     using (var streamWriter = new StreamWriter(request.GetRequestStream()))
                     {
@@ -217,12 +222,18 @@ namespace _1cbacupcloud3._5.CloudAgent
                 if (!string.IsNullOrEmpty(t))
                 {
                     Program.WritheLog(t);
+                    Program.WritheLog(url);
                 }
                 else
                 {
                     Program.WritheLog("Не зарегистрированная ошибка(WB0001)");
                 }
             }
+        }
+        public static string _getURL(string _url)
+        {
+
+            return Uri.EscapeUriString(_url);
         }
         internal static void Send1C()
         {
@@ -261,24 +272,34 @@ namespace _1cbacupcloud3._5.CloudAgent
                     Program.WritheLog("Не зарегистрированная ошибка(WB0001)");
                 }
             }
-            switch (responseString)
+            if (responseString.Contains("200"))
             {
-                case "200":
-                    Program.WritheLog("Успешный обмен с 1С");
-                    Data.StatusSendTo1C = "200";
-                    break;
-                case "500":
-                    Program.WritheLog("Ошибка обмена с 1С 500");
-                    Data.StatusSendTo1C = "500";
-                    break;
-                case "403":
-                    Program.WritheLog("Ошибка обмена с 1С 403");
-                    Data.StatusSendTo1C = "403";
-                    break;
-                case "401":
-                    Program.WritheLog("Ошибка обмена с 1С 401");
-                    Data.StatusSendTo1C = "401";
-                    break;
+                Program.WritheLog("Успешный обмен с 1С");
+                Data.StatusSendTo1C = "200";
+            }
+            else if (responseString.Contains("500"))
+            {
+                Program.WritheLog("Ошибка обмена с 1С 500");
+                Data.StatusSendTo1C = "500";
+            }
+            else if (responseString.Contains("403"))
+            {
+                Program.WritheLog("Ошибка обмена с 1С 403");
+                Data.StatusSendTo1C = "403";
+            }
+            else if (responseString.Contains("401"))
+            {
+                Program.WritheLog("Ошибка обмена с 1с 401");
+                Data.StatusSendTo1C = "401";
+            }
+            else if (string.IsNullOrEmpty(responseString))
+            { 
+                Program.WritheLog("Успешный обмен с 1С");
+                Data.StatusSendTo1C = "200";
+            }
+            else
+            {
+                Data.StatusSendTo1C = responseString;
             }
         }
     }
