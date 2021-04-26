@@ -14,11 +14,11 @@ namespace _1cbacupcloud3._5.CloudAgent
         {
             if (GetParametrs.Get() == true)
             {
-                for (int i = 0; i < 2; i++)
+                for (int i = 0; i <= 2; i++)
                 {
                     IO.Rename(Data.Path, Type.type[i]);
                 }
-                for (int i = 0; i < 2; i++)
+                for (int i = 0; i <= 2; i++)
                 {
                     IO.GetPath(Data.Path, Type.type[i]);
                 }

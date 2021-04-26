@@ -45,7 +45,7 @@ namespace _1cbacupcloud3._5
     }
     class Type
     {
-        internal static string[] type = { "*.zip", "*.backup", "*.xml", "*.gz", "*.log" };
+        internal static string[] type = { "*.zip", "*.7z", "*.backup", "*.xml", "*.gz", "*.log" };
         internal static string[] RequestType = { "GET", "POST", "PUT" };
         internal static string ContenCa { get; } = "application/json;charset=utf-8";
         internal static string ContenAp { get; } = "application/json";

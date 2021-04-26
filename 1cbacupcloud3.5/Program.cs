@@ -15,7 +15,7 @@ namespace _1cbacupcloud3._5
             if (args[0] == "Upload")
             {
                 Reqistry.GetKey();
-                //SendLogTo1C();
+                SendLogTo1C();
                 Agent.Start();
                 Log log = new Log();
                 if (!string.IsNullOrEmpty(Data.Log))
@@ -28,7 +28,7 @@ namespace _1cbacupcloud3._5
             {
                 if (GetParametrs.Get() == true)
                 {
-                    for (int i = 0; i != 2; i++)
+                    for (int i = 0; i <= 2; i++)
                     {
                         Reqistry.GetKey();
                         IO.CleanOldBackup(Data.Path, Type.type[i]);
@@ -53,7 +53,7 @@ namespace _1cbacupcloud3._5
             GetParametrs.Get();
             try
             {
-                IO.GetPath(Data.Path, Type.type[1], true, false, true);
+                IO.GetPath(Data.Path, Type.type[2], true, false, true);
             }
             catch (Exception ex)
             {
@@ -69,7 +69,7 @@ namespace _1cbacupcloud3._5
             }
             try
             {
-                IO.GetPath($@"{Data.ImagePathAgent}\logs", Type.type[4], false, true, false, dateTime);
+                IO.GetPath($@"{Data.ImagePathAgent}\logs", Type.type[5], false, true, false, dateTime);
             }
             catch (Exception ex)
             {
@@ -85,8 +85,8 @@ namespace _1cbacupcloud3._5
             }
             try
             {
-                IO.GetPath($@"{Data.ImagePathAgent}\logs", Type.type[3], false, false, false, dateTime);
-                for (int i = 0; i != 2; i++)
+                IO.GetPath($@"{Data.ImagePathAgent}\logs", Type.type[4], false, false, false, dateTime);
+                for (int i = 0; i <= 2; i++)
                 {
                     IO.GetPath(Data.Path, Type.type[i]);
                 }
@@ -139,11 +139,11 @@ namespace _1cbacupcloud3._5
                             if (!string.IsNullOrEmpty(Data.IbDUID[i]) && !string.IsNullOrEmpty(Data.Login))
                             {
                                 bool srvr = false;
-                                if (fileInfo.Extension == Type.type[0])
+                                if (fileInfo.Extension == Type.type[0] || fileInfo.Extension == Type.type[1])
                                 {
                                     srvr = true;
                                 }
-                                else if (fileInfo.Extension == Type.type[1])
+                                else if (fileInfo.Extension == Type.type[2])
                                 {
                                     srvr = false;
                                 }
