@@ -48,7 +48,7 @@ namespace _1cbacupcloud3._5.CloudAgent
                 return false;
             }
         }
-        private static string GetTicket()
+        public static string GetTicket()
         {
             string responseString;
             const string url = "https://login.1c.ru//rest/public/ticket/get";
@@ -70,6 +70,31 @@ namespace _1cbacupcloud3._5.CloudAgent
                     {
                         StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
                         responseString = reader.ReadToEnd();
+                    }
+                    switch (response.StatusCode)
+                    {
+                        //ok
+                        case (HttpStatusCode)200:
+                            Program.WritheLog("Тикет получен успешно(login.1c.ru)");
+                            break;
+                        case (HttpStatusCode)201:
+                            Program.WritheLog("Тикет получен успешно(login.1c.ru)");
+                            break;
+                        case (HttpStatusCode)202:
+                            Program.WritheLog("Тикет получен успешно(login.1c.ru)");
+                            break;
+                        case (HttpStatusCode)400:
+                            Program.WritheLog("Ошибка авторизации(login.1c.ru)");
+                            break;
+                        case (HttpStatusCode)401:
+                            Program.WritheLog("Ошибка авторизации(login.1c.ru)");
+                            break;
+                        case (HttpStatusCode)403:
+                            Program.WritheLog("ошибка получения тикета 403(login.1c.ru)");
+                            break;
+                        case (HttpStatusCode)404:
+                            Program.WritheLog("ошибка получения тикета 404(login.1c.ru)");
+                            break;
                     }
                 }
                 return responseString;
@@ -311,6 +336,25 @@ namespace _1cbacupcloud3._5.CloudAgent
                         StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
                         responseString = reader.ReadToEnd();
                     }
+                    switch (response.StatusCode)
+                    {
+                        case (HttpStatusCode)200:
+                            Program.WritheLog("Успешный обмен с 1С");
+                            Data.StatusSendTo1C = "200";
+                            break;
+                        case (HttpStatusCode)500:
+                            Program.WritheLog("Успешный обмен с 1С");
+                            Data.StatusSendTo1C = "500";
+                            break;
+                        case (HttpStatusCode)403:
+                            Program.WritheLog("Успешный обмен с 1С");
+                            Data.StatusSendTo1C = "403";
+                            break;
+                        case (HttpStatusCode)401:
+                            Program.WritheLog("Успешный обмен с 1С");
+                            Data.StatusSendTo1C = "401";
+                            break;
+                    }
                 }
             }
             catch (Exception ex)
@@ -324,35 +368,6 @@ namespace _1cbacupcloud3._5.CloudAgent
                 {
                     Program.WritheLog("Не зарегистрированная ошибка(WB0001)");
                 }
-            }
-            if (responseString.Contains("200"))
-            {
-                Program.WritheLog("Успешный обмен с 1С");
-                Data.StatusSendTo1C = "200";
-            }
-            else if (responseString.Contains("500"))
-            {
-                Program.WritheLog("Ошибка обмена с 1С 500");
-                Data.StatusSendTo1C = "500";
-            }
-            else if (responseString.Contains("403"))
-            {
-                Program.WritheLog("Ошибка обмена с 1С 403");
-                Data.StatusSendTo1C = "403";
-            }
-            else if (responseString.Contains("401"))
-            {
-                Program.WritheLog("Ошибка обмена с 1с 401");
-                Data.StatusSendTo1C = "401";
-            }
-            else if (string.IsNullOrEmpty(responseString))
-            { 
-                Program.WritheLog("Успешный обмен с 1С");
-                Data.StatusSendTo1C = "200";
-            }
-            else
-            {
-                Data.StatusSendTo1C = responseString;
             }
         }
     }

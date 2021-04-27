@@ -44,7 +44,7 @@ namespace _1cbacupcloud3._5
             {
                 GetParametrs.Get();
                 Reqistry.GetKey();
-                Agent.GetVersion();
+                Agent.GetTicket();
             }
         }
         private static void SendLogTo1C()
