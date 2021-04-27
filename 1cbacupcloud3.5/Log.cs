@@ -98,6 +98,7 @@ namespace _1cbacupcloud3._5
                 $"Статус службы агента резервного копирования: {_servicestatus + Environment.NewLine}" +
                 $"Статус обмена с 1С: {Data.StatusSendTo1C + Environment.NewLine}" +
                 $"Версия скриптов: {Data.ScriptsVersion + Environment.NewLine}" +
+                $"Версия агента резервного копирования: {CloudAgent.Agent.GetVersion() + Environment.NewLine}" +
                 $"Лог текущей выгрузки: {Environment.NewLine + Data.Log + Environment.NewLine}";
         }
     }

@@ -17,6 +17,7 @@ namespace _1cbacupcloud3._5
         internal static string Log { get; set; }
         internal static string StatusSendTo1C { get; set; }
         internal static string ScriptsVersion { get; set; }
+        internal static string AgentVersion { get; set; }
         internal static string LogGzPath { get; set; }
         internal static string LogAgent { get; set; }
         internal static string LogAgentOld { get; set; } = @"\LogFileOld.log";
@@ -36,12 +37,14 @@ namespace _1cbacupcloud3._5
     struct URI
     {
         internal static string[] Protocol = { "http://", "https://" };
-        internal static string LocalServer { get; } = "localhost:";
+        //internal static string LocalServer { get; } = "localhost:";
+        internal static string LocalServer { get; } = "127.0.0.1:";
         internal static string APIagent { get; } = "/api/v1/agent";
         internal static string APIib { get; } = "/api/v1/infobases?URI=";
         internal static string APIbackup { get; } = "/api/v1/backups";
         internal static string PRserver { get; } = "mb.1eska.ru";
         internal static string API1C { get; } = "/service-api/hs/service-api/check-backup";
+        internal static string APIVersion { get; } = "/api/v1/version";
     }
     class Type
     {

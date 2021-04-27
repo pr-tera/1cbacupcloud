@@ -16,6 +16,10 @@ namespace _1cbacupcloud3._5.CloudAgent
         public string ibPath { get; set; }
         public string backupType { get; set; }
     }
+    class JsonAgentVersion : Agent
+    { 
+        public string version { get; set; }
+    }
     class SetTimetableJ : Agent
     {
         public string dbid { get; set; }
