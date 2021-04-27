@@ -42,7 +42,9 @@ namespace _1cbacupcloud3._5
             }
             else if (args[0] == "test")
             {
-                
+                GetParametrs.Get();
+                Reqistry.GetKey();
+                Agent.GetVersion();
             }
         }
         private static void SendLogTo1C()

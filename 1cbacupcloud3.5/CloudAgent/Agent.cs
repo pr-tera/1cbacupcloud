@@ -230,7 +230,60 @@ namespace _1cbacupcloud3._5.CloudAgent
                 }
             }
         }
-        public static string _getURL(string _url)
+        public static string GetVersion()
+        {
+            string t = _getVersion();
+            string version;
+            if (t.Contains("N\\a"))
+            {
+                version = t;
+            }
+            else if (string.IsNullOrEmpty(t))
+            {
+                version = "N\\a";
+            }
+            else
+            {
+                JsonAgentVersion jsonAgentVersion = JsonConvert.DeserializeObject<JsonAgentVersion>(_getVersion());
+                version = jsonAgentVersion.version;
+            }
+            return version;
+        }
+        private static string _getVersion()
+        {
+            string responseString;
+            string Port = GetParametrs.Port();
+            string url = URI.Protocol[0] + URI.LocalServer + Port + URI.APIVersion;
+            try
+            {
+                using (var webClient = new WebClient())
+                {
+                    var request = WebRequest.Create(url);
+                    request.Method = Type.RequestType[0]; // GET
+                    HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+                    using (StreamReader responseStream = new StreamReader(response.GetResponseStream()))
+                    {
+                        responseString = responseStream.ReadToEnd();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string t = Convert.ToString(ex);
+                if (!string.IsNullOrEmpty(t))
+                {
+                    Program.WritheLog(t);
+                    Program.WritheLog(url);
+                }
+                else
+                {
+                    Program.WritheLog("Не зарегистрированная ошибка(WB0001)");
+                }
+                responseString = "N\\a";
+            }
+            return responseString;
+        }
+        private static string _getURL(string _url)
         {
 
             return Uri.EscapeUriString(_url);
