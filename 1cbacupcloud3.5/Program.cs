@@ -15,8 +15,8 @@ namespace _1cbacupcloud3._5
             if (args[0] == "Upload")
             {
                 Reqistry.GetKey();
-                SendLogTo1C();
                 Agent.Start();
+                SendLogTo1C();
                 Log log = new Log();
                 if (!string.IsNullOrEmpty(Data.Log))
                 {
@@ -149,7 +149,7 @@ namespace _1cbacupcloud3._5
                                 {
                                     srvr = false;
                                 }
-                                diagnostics.GetLog(null, log, diagnostics.GetGUID(Data.IbDUID[i]), null, false, Math.Round((double)fileInfo.Length / 1024 / 1024 / 1024, 3), Data.Login, dateTime, srvr);
+                                Diagnostics.GetLog(null, log, Diagnostics.GetGUID(Data.IbDUID[i]), null, false, Math.Round((double)fileInfo.Length / 1024 / 1024 / 1024, 3), Data.Login, dateTime, srvr);
                                 Agent.Send1C();
                             }
                             else
@@ -219,6 +219,13 @@ namespace _1cbacupcloud3._5
                 }
                 Data.Log += $"{dt} || {Environment.StackTrace + Environment.NewLine + r + Environment.NewLine}";
             }
+        }
+        internal static void WritheDigLog(string temp)
+        {
+            CultureInfo culture = new CultureInfo("ru-RU");
+            DateTime dateTime = DateTime.Now;
+            string dt = Convert.ToString(dateTime, culture);
+            Data.DigLog += $"{dt} || {temp + Environment.NewLine}";
         }
     }
 }

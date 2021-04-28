@@ -48,9 +48,10 @@ namespace _1cbacupcloud3._5.Settings
             string uri = "http://agentupdprod.hb.bizmrg.com/installAgent.exe";
             try
             {
-                using (var client = new WebClient())
+                using (var webClient = new WebClient())
                 {
-                    client.DownloadFile(uri, $"{Temp()}\\installagent.exe");
+                    webClient.DownloadFile(uri, $"{Temp()}\\installagent.exe");
+                    webClient.Dispose();
                 }
                 return true;
             }

@@ -72,6 +72,7 @@ namespace _1cbacupcloud3._5.CloudAgent
                     byte[] array = new byte[fstream.Length];
                     fstream.Read(array, 0, array.Length);
                     version = System.Text.Encoding.Default.GetString(array);
+                    fstream.Close();
                 }
             }
             catch
@@ -91,6 +92,7 @@ namespace _1cbacupcloud3._5.CloudAgent
                     byte[] array = new byte[fstream.Length];
                     fstream.Read(array, 0, array.Length);
                     Port = System.Text.Encoding.Default.GetString(array);
+                    fstream.Close();
                 }
             }
             catch (ArgumentNullException)

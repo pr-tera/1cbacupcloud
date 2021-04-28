@@ -12,7 +12,7 @@ namespace _1cbacupcloud3._5.Local
             {
                 RegistryKey key = Registry.LocalMachine;
                 key = key.OpenSubKey(Data.ReqistryKey);
-                Data.ImagePathAgent = key.GetValue("ImagePath").ToString().Replace("agentNET.exe", "").Replace('"', ' ');
+                Data.ImagePathAgent = Convert.ToString(key.GetValue("ImagePath")).Replace("agentNET.exe", "").Replace('"', ' ');
             }
             catch (ArgumentNullException)
             {
@@ -38,7 +38,7 @@ namespace _1cbacupcloud3._5.Local
             {
                 RegistryKey key = Registry.LocalMachine;
                 key = key.OpenSubKey(@"SYSTEM\CurrentControlSet\Services\1CBackupAgent");
-                name = key.GetValue("DisplayName").ToString();
+                name = Convert.ToString(key.GetValue("DisplayName"));
             }
             catch (ArgumentNullException)
             {

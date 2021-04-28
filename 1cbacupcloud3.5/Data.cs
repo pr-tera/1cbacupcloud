@@ -15,6 +15,7 @@ namespace _1cbacupcloud3._5
         internal static string StrageDay { get; set; }
         internal static string JsonTo1C { get; set; }
         internal static string Log { get; set; }
+        internal static string DigLog { get; set; }
         internal static string StatusSendTo1C { get; set; }
         internal static string ScriptsVersion { get; set; }
         internal static string AgentVersion { get; set; }

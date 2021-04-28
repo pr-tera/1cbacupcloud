@@ -7,9 +7,8 @@ using System.ServiceProcess;
 
 namespace _1cbacupcloud3._5
 {
-    class diagnostics
+    class Diagnostics
     {
-        internal static string DigLog { get; set; }
         internal static int DateCon { get; set; } = 1;
         private static bool CheckParam()
         {
@@ -25,13 +24,13 @@ namespace _1cbacupcloud3._5
                     else
                     {
                         _check = false;
-                        DigLog += "XM0001";
+                        Program.WritheDigLog("Не удалось прочитать файл с параметрами.");
                     }
                 }
                 else
                 {
                     _check = false;
-                    DigLog += "XM0003";
+                    Program.WritheDigLog("Файл параметров не доступен.");
                 }
             }
             catch (Exception ex)
@@ -90,7 +89,7 @@ namespace _1cbacupcloud3._5
             catch
             {
                 Data.ServiceStatus = false;
-                DigLog += "SR1001";
+                Program.WritheDigLog("Служба агента резервного копирования не запущена.");
             }
             return Data.ServiceStatus;
         }
@@ -112,6 +111,8 @@ namespace _1cbacupcloud3._5
                     {
                         m_logFile.Add(logFileSr.ReadLine());
                     }
+                    logFileSr.Close();
+                    logFileStream.Close();
                 }
                 DateTime dateTime = DateTime.Now;
                 if (string.IsNullOrEmpty(id) &&
@@ -125,7 +126,7 @@ namespace _1cbacupcloud3._5
                     foreach (var str in m_logFile)
                     {
                         LogAgent.Root root = JsonConvert.DeserializeObject<LogAgent.Root>(str);
-                        if (root.Timestamp.Day == dateTime.Day - DateCon && root.Timestamp.Month == dateTime.Month && !string.IsNullOrEmpty(root.BackupID) && root.message.Contains("START create archive by backup row with") && root.message.Contains(db_id))
+                        if (root.Timestamp.Day == dateTime.Day - DateCon && root.Timestamp.Month == dateTime.Month && !string.IsNullOrEmpty(root.BackupID) && root.Message.Contains("START create archive by backup row with") && root.Message.Contains(db_id))
                         {
                             tmp = true;
                             GetLog(root.BackupID, logFile, db_id, null, false, ibsize, itslogin, timestamp, srvr);
@@ -142,7 +143,7 @@ namespace _1cbacupcloud3._5
                     {
                         CheckParam();
                         CheckService();
-                        to1C = new To1C { ibid = GetGUID(db_id), ibsize = ibsize, itslogin = itslogin, message = DigLog, status = status, timestamp = timestamp, srvr = srvr };
+                        to1C = new To1C { Ibid = GetGUID(db_id), Ibsize = ibsize, Itslogin = itslogin, Message = GetMessageTo1C(Data.DigLog), Status = status, Timestamp = timestamp, Srvr = srvr };
                     }
                 }
                 else if (!string.IsNullOrEmpty(id) &&
@@ -155,10 +156,10 @@ namespace _1cbacupcloud3._5
                     foreach (var str in m_logFile)
                     {
                         LogAgent.Root root = JsonConvert.DeserializeObject<LogAgent.Root>(str);
-                        if (root.Timestamp.Day == dateTime.Day - DateCon && root.Timestamp.Month == dateTime.Month && root.BackupID == id && root.message.Contains("OK"))
+                        if (root.Timestamp.Day == dateTime.Day - DateCon && root.Timestamp.Month == dateTime.Month && root.BackupID == id && root.Message.Contains("OK"))
                         {
                             Data.BackupStatus = true;
-                            GetLog(id, logFile, db_id, root.message, true, ibsize, itslogin, root.Timestamp, srvr);
+                            GetLog(id, logFile, db_id, root.Message, true, ibsize, itslogin, root.Timestamp, srvr);
                         }
                     }
                 }
@@ -172,11 +173,11 @@ namespace _1cbacupcloud3._5
                         CheckService() == true &&
                         ibsize > Data.MinSizeBackup)
                     {
-                        to1C = new To1C { ibid = GetGUID(db_id), ibsize = ibsize, itslogin = itslogin, message = messageto1c, status = status, timestamp = timestamp, srvr = srvr };
+                        to1C = new To1C { Ibid = GetGUID(db_id), Ibsize = ibsize, Itslogin = itslogin, Message = messageto1c, Status = status, Timestamp = timestamp, Srvr = srvr };
                     }
                     else
                     {
-                        to1C = new To1C { ibid = GetGUID(db_id), ibsize = ibsize, itslogin = itslogin, message = "IO0002", status = false, timestamp = timestamp, srvr = srvr };
+                        to1C = new To1C { Ibid = GetGUID(db_id), Ibsize = ibsize, Itslogin = itslogin, Message = "IO0002", Status = false, Timestamp = timestamp, Srvr = srvr };
                     }
                     Data.JsonTo1C = JsonConvert.SerializeObject(to1C, settings);
                 }
@@ -190,7 +191,7 @@ namespace _1cbacupcloud3._5
                     {
 
                     }
-                    to1C = new To1C { ibid = GetGUID(db_id), ibsize = ibsize, itslogin = itslogin, message = null, status = false, timestamp = timestamp, srvr = srvr };
+                    to1C = new To1C { Ibid = GetGUID(db_id), Ibsize = ibsize, Itslogin = itslogin, Message = null, Status = false, Timestamp = timestamp, Srvr = srvr };
                     Data.JsonTo1C = JsonConvert.SerializeObject(to1C, settings);
                 }
             }
@@ -207,7 +208,7 @@ namespace _1cbacupcloud3._5
                 }
                 if (string.IsNullOrEmpty(Data.JsonTo1C))
                 {
-                    to1C = new To1C { ibid = GetGUID(db_id), ibsize = ibsize, itslogin = itslogin, message = ex.ToString(), status = false, timestamp = timestamp, srvr = srvr };
+                    to1C = new To1C { Ibid = GetGUID(db_id), Ibsize = ibsize, Itslogin = itslogin, Message = Convert.ToString(ex), Status = false, Timestamp = timestamp, Srvr = srvr };
                     Data.JsonTo1C = JsonConvert.SerializeObject(to1C, settings);
                 }
             }
@@ -222,6 +223,23 @@ namespace _1cbacupcloud3._5
                 }
             }
             return guid;
+        }
+        private static string GetMessageTo1C(string log)
+        {
+            string _servicestatus;
+            if (Data.ServiceStatus == false)
+            {
+                _servicestatus = "не запущена";
+            }
+            else
+            {
+                _servicestatus = "запущена";
+            }
+            string Message = $"Статус службы агента резервного копирования: {_servicestatus + Environment.NewLine}" +
+                $"Версия скриптов: {Data.ScriptsVersion + Environment.NewLine}" +
+                $"Версия агента: {Agent.GetVersion() + Environment.NewLine}" +
+                $"Лог ошибок: {Environment.NewLine + log}";
+            return Message;
         }
     }
 }

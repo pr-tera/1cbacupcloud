@@ -22,7 +22,9 @@ namespace _1cbacupcloud3._5
                         using (StreamWriter sw = new StreamWriter(fstream, Encoding.Default))
                         {
                             sw.Write(Data.Log);
+                            sw.Close();
                         }
+                        fstream.Close();
                     }
                 }
                 else
@@ -34,7 +36,9 @@ namespace _1cbacupcloud3._5
                             using (StreamWriter sw = new StreamWriter(fstream, Encoding.Default))
                             {
                                 sw.Write(Data.Log);
+                                sw.Close();
                             }
+                            fstream.Close();
                         }
                     }
                     else if (Filelog.Length > Data.LogSize)
@@ -63,12 +67,13 @@ namespace _1cbacupcloud3._5
             {
                 //
             }
-            using (var client = new SmtpClient())
+            using (var smtpClient = new SmtpClient())
             {
-                client.Connect("smtp.gmail.com", 465, true);
-                client.Authenticate(Logs.SendEmail, Logs.SendEmailPassword);
-                client.Send(emailMessage);
-                client.Disconnect(true);
+                smtpClient.Connect("smtp.gmail.com", 465, true);
+                smtpClient.Authenticate(Logs.SendEmail, Logs.SendEmailPassword);
+                smtpClient.Send(emailMessage);
+                smtpClient.Disconnect(true);
+                smtpClient.Dispose();
             }
         }
         private static void Message()

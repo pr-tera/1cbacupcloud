@@ -6,60 +6,86 @@ namespace _1cbacupcloud3._5.CloudAgent
 {
     class Json : Agent
     {
-        public string login { get; set; }
-        public string password { get; set; }
-        public string serviceNick { get; set; }
+        [JsonProperty("@login")]
+        public string Login { get; set; }
+        [JsonProperty("@password")]
+        public string Password { get; set; }
+        [JsonProperty("@serviceNick")]
+        public string ServiceNick { get; set; }
     }
     class JsonUpload : Agent
     {
-        public DateTime dateLabel { get; set; }
-        public string ibPath { get; set; }
-        public string backupType { get; set; }
+        [JsonProperty("@dateLabel")]
+        public DateTime DateLabel { get; set; }
+        [JsonProperty("@ibPath")]
+        public string IbPath { get; set; }
+        [JsonProperty("@backupType")]
+        public string BackupType { get; set; }
     }
     class JsonAgentVersion : Agent
-    { 
-        public string version { get; set; }
+    {
+        [JsonProperty("@version")]
+        public string Version { get; set; }
     }
     class SetTimetableJ : Agent
     {
-        public string dbid { get; set; }
-        public string ibName { get; set; }
-        public string ibPath { get; set; }
-        public string id { get; set; }
-        public string lastItems { get; set; }
-        public string status { get; set; }
-        //public timeConfigDATA timeConfigDATA { get; set; }
-        public List<timeConfigDATA> timeConfigDATA { get; set; }
-        public string ttlUrl { get; set; }
+        [JsonProperty("@dbid")]
+        public string Dbid { get; set; }
+        [JsonProperty("@ibName")]
+        public string IbName { get; set; }
+        [JsonProperty("@ibPath")]
+        public string IbPath { get; set; }
+        [JsonProperty("@id")]
+        public string Id { get; set; }
+        [JsonProperty("@lastItems")]
+        public string LastItems { get; set; }
+        [JsonProperty("@status")]
+        public string Status { get; set; }
+        [JsonProperty("@timeConfigDATA")]
+        public List<timeConfigDATA> TimeConfigDATA { get; set; }
+        [JsonProperty("@ttlUrl")]
+        public string TtlUrl { get; set; }
     }
     class timeConfigDATA : Agent
     {
-        public string beginDate { get; set; }
-        //public dayConfigDetailDATA dayConfigDetailDATA { get; set; }
-        public List<dayConfigDetailDATA> dayConfigDetailDATA { get; set; }
-        public string repeatPeriodDays { get; set; }
-        public string repeatPeriodWeeks { get; set; }     
+        [JsonProperty("@beginDate")]
+        public string BeginDate { get; set; }
+        [JsonProperty("@dayConfigDetailDATA")]
+        public List<dayConfigDetailDATA> DayConfigDetailDATA { get; set; }
+        [JsonProperty("@repeatPeriodDays")]
+        public string RepeatPeriodDays { get; set; }
+        [JsonProperty("@repeatPeriodWeeks")]
+        public string RepeatPeriodWeeks { get; set; }     
     }
     class dayConfigDetailDATA : Agent
     {
+        [JsonProperty("@repeatPeriodWeeks")]
         public string beginTime { get; set; }
     }
     class Ticketcs : Agent
     {
+        [JsonProperty("@repeatPeriodWeeks")]
         public string ticket { get; set; }
     }
     //
-    class To1C : diagnostics
+    class To1C : Diagnostics
     {
-        public string ibid { get; set; }
-        public string itslogin { get; set; }
-        public string message { get; set; }
-        public DateTime timestamp { get; set; }
-        public double ibsize { get; set; }
-        public bool srvr { get; set; } //true - server false - file
-        public bool status { get; set; }
+        [JsonProperty("@ibid")]
+        public string Ibid { get; set; }
+        [JsonProperty("@itslogin")]
+        public string Itslogin { get; set; }
+        [JsonProperty("@message")]
+        public string Message { get; set; }
+        [JsonProperty("@timestamp")]
+        public DateTime Timestamp { get; set; }
+        [JsonProperty("@ibsize")]
+        public double Ibsize { get; set; }
+        [JsonProperty("@srvr")]
+        public bool Srvr { get; set; } //true - server false - file
+        [JsonProperty("@status")]
+        public bool Status { get; set; }
     }
-    class LogAgent : diagnostics
+    class LogAgent : Diagnostics
     {
         public class Root
         {
@@ -67,20 +93,34 @@ namespace _1cbacupcloud3._5.CloudAgent
             public DateTime Timestamp { get; set; }
             [JsonProperty("@version")]
             public string Version { get; set; }
-            public string message { get; set; }
-            public string logger_name { get; set; }
-            public string thread_name { get; set; }
-            public string level { get; set; }
-            public int level_value { get; set; }
+            [JsonProperty("@message")]
+            public string Message { get; set; }
+            [JsonProperty("@logger_name")]
+            public string Logger_name { get; set; }
+            [JsonProperty("@thread_name")]
+            public string Thread_name { get; set; }
+            [JsonProperty("@level")]
+            public string Level { get; set; }
+            [JsonProperty("@level_value")]
+            public int Level_value { get; set; }
+            [JsonProperty("@BackupID")]
             public string BackupID { get; set; }
+            [JsonProperty("@BackupRemoteID")]
             public string BackupRemoteID { get; set; }
+            [JsonProperty("@Comments")]
             public string Comments { get; set; }
+            [JsonProperty("@PID")]
             public string PID { get; set; }
-            public string log_owner { get; set; }
-            public string agentId { get; set; }
+            [JsonProperty("@log_owner")]
+            public string Log_owner { get; set; }
+            [JsonProperty("@agentId")]
+            public string AgentId { get; set; }
+            [JsonProperty("@SecurityPCHash")]
             public string SecurityPCHash { get; set; }
+            [JsonProperty("@version")]
             public string version { get; set; }
-            public string localTimestamp { get; set; }
+            [JsonProperty("@localTimestamp")]
+            public string LocalTimestamp { get; set; }
         }
     }
 }

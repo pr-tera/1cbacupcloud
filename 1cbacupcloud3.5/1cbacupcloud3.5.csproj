@@ -92,7 +92,7 @@
     <Compile Include="CloudAgent\Json.cs" />
     <Compile Include="Crypto\Crypto.cs" />
     <Compile Include="Data.cs" />
-    <Compile Include="diagnostics.cs" />
+    <Compile Include="Diagnostics.cs" />
     <Compile Include="Local\IO.cs" />
     <Compile Include="Local\Reqistry.cs" />
     <Compile Include="Log.cs" />

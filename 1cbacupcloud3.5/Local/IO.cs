@@ -88,6 +88,9 @@ namespace _1cbacupcloud3._5.Local
                             Program.WritheLog($"Ошибка распаковки архива с логами");
                         }
                     }
+                    outputFileStream.Close();
+                    gzipStream.Close();
+                    inputFileStream.Close();
                 }
             }
             FileInfo fileInfoNew = new FileInfo(t);
@@ -299,7 +302,7 @@ namespace _1cbacupcloud3._5.Local
                             }
                             catch (IOException)
                             {
-                                Program.WritheLog("XIO1001M0001");
+                                Program.WritheLog("IO1001");
                             }
                             catch (Exception ex)
                             {
@@ -405,6 +408,25 @@ namespace _1cbacupcloud3._5.Local
             {
                 return true;
             }
+        }
+        internal static bool LooksFile(string FileName)
+        {
+            try
+            {
+                using (FileStream fs = File.Open(FileName, FileMode.Open, FileAccess.Read, FileShare.None))
+                {
+                    fs.Close();
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.HResult == -2147024894)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
     //framework 3.5

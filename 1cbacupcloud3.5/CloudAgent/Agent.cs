@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading;
 
 namespace _1cbacupcloud3._5.CloudAgent
 {
@@ -28,17 +29,25 @@ namespace _1cbacupcloud3._5.CloudAgent
                     {
                         if (!string.IsNullOrEmpty(i))
                         {
+                            int elapsed = 0;
+                            while (IO.LooksFile(i) && (elapsed < 60000))
+                            {
+                                Thread.Sleep(10000);
+                                elapsed += 10000;
+                            }
                             Program.WritheLog($"Ответ агента: {Upload(i)}");
                         }
                         else
                         {
                             Program.WritheLog("Список бекапов пуст!");
+                            Program.WritheDigLog("Не удалось получить список бекапов.");
                         }
                     }
                 }
                 else
                 {
                     Program.WritheLog("Список бекапов пуст!");
+                    Program.WritheDigLog("Не удалось получить список бекапов.");
                     return false;
                 }
                 return true;
@@ -59,43 +68,22 @@ namespace _1cbacupcloud3._5.CloudAgent
                     var request = WebRequest.Create(url);
                     request.ContentType = Type.ContenAp;
                     request.Method = Type.RequestType[1]; //POST
-                    Json _json = new Json { login = Data.Login, password = Data.Password, serviceNick = "1C-Cloud-backup" };
+                    Json _json = new Json { Login = Data.Login, Password = Data.Password, ServiceNick = "1C-Cloud-backup" };
                     using (var streamWriter = new StreamWriter(request.GetRequestStream()))
                     {
                         string json = JsonConvert.SerializeObject(_json, Formatting.Indented);
                         streamWriter.Write(json);
+                        streamWriter.Close();
                     }
                     HttpWebResponse response = request.GetResponse() as HttpWebResponse;
                     using (Stream responseStream = response.GetResponseStream())
                     {
                         StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
                         responseString = reader.ReadToEnd();
+                        responseStream.Close();
                     }
-                    switch (response.StatusCode)
-                    {
-                        //ok
-                        case (HttpStatusCode)200:
-                            Program.WritheLog("Тикет получен успешно(login.1c.ru)");
-                            break;
-                        case (HttpStatusCode)201:
-                            Program.WritheLog("Тикет получен успешно(login.1c.ru)");
-                            break;
-                        case (HttpStatusCode)202:
-                            Program.WritheLog("Тикет получен успешно(login.1c.ru)");
-                            break;
-                        case (HttpStatusCode)400:
-                            Program.WritheLog("Ошибка авторизации(login.1c.ru)");
-                            break;
-                        case (HttpStatusCode)401:
-                            Program.WritheLog("Ошибка авторизации(login.1c.ru)");
-                            break;
-                        case (HttpStatusCode)403:
-                            Program.WritheLog("ошибка получения тикета 403(login.1c.ru)");
-                            break;
-                        case (HttpStatusCode)404:
-                            Program.WritheLog("ошибка получения тикета 404(login.1c.ru)");
-                            break;
-                    }
+                    CheckResponseStatusPortal(response.StatusCode);
+                    webClient.Dispose();
                 }
                 return responseString;
             }
@@ -138,18 +126,22 @@ namespace _1cbacupcloud3._5.CloudAgent
                         request.ContentType = Type.ContenCa;
                         request.Method = Type.RequestType[1]; //POST
                         //JsonUpload _json = new JsonUpload { targetPath = path, targetName = "", dateLabel = "2022-07-20T10:06:23" }; // произвольный файл
-                        JsonUpload _json = new JsonUpload { ibPath = path, backupType = "manual", dateLabel = DateTime.Now };
+                        JsonUpload _json = new JsonUpload { IbPath = path, BackupType = "manual", DateLabel = DateTime.Now };
                         using (var streamWriter = new StreamWriter(request.GetRequestStream()))
                         {
                             string json = JsonConvert.SerializeObject(_json, Formatting.Indented, settings);
                             streamWriter.Write(json);
+                            streamWriter.Close();
                         }
                         HttpWebResponse response = request.GetResponse() as HttpWebResponse;
                         using (Stream responseStream = response.GetResponseStream())
                         {
                             StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
                             responseString = reader.ReadToEnd();
+                            responseStream.Close();
                         }
+                        CheckResponseStatus(response.StatusCode);
+                        webClient.Dispose();
                     }
                 }
                 catch (Exception ex)
@@ -186,13 +178,17 @@ namespace _1cbacupcloud3._5.CloudAgent
                     {
                         string json = "null";
                         streamWriter.Write(json);
+                        streamWriter.Close();
                     }
                     HttpWebResponse response = request.GetResponse() as HttpWebResponse;
                     using (Stream responseStream = response.GetResponseStream())
                     {
                         StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
                         responseString = reader.ReadToEnd();
+                        responseStream.Close();
                     }
+                    CheckResponseStatus(response.StatusCode);
+                    webClient.Dispose();
                 }
             }
             catch (Exception ex)
@@ -226,19 +222,23 @@ namespace _1cbacupcloud3._5.CloudAgent
                     request.ContentType = Type.ContenCa;
                     request.Method = Type.RequestType[2]; // PUT
                     List<dayConfigDetailDATA> dayConfigDetailDATA = new List<dayConfigDetailDATA> { new dayConfigDetailDATA { beginTime = DateTime.Now.ToString("HH:mm") } };
-                    List<timeConfigDATA> timeConfigDATA = new List<timeConfigDATA> { new timeConfigDATA { beginDate = DateTime.Now.ToString("yyyy'-'MM'-'dd"), dayConfigDetailDATA = dayConfigDetailDATA, repeatPeriodDays = "1", repeatPeriodWeeks = "1", } };
-                    SetTimetableJ setTimetableJ = new SetTimetableJ { dbid = null, ibName = null, ibPath = IBpath, id = null, lastItems = Data.StrageDay, status = "inactive", timeConfigDATA = timeConfigDATA, ttlUrl = null };
+                    List<timeConfigDATA> timeConfigDATA = new List<timeConfigDATA> { new timeConfigDATA { BeginDate = DateTime.Now.ToString("yyyy'-'MM'-'dd"), DayConfigDetailDATA = dayConfigDetailDATA, RepeatPeriodDays = "1", RepeatPeriodWeeks = "1", } };
+                    SetTimetableJ setTimetableJ = new SetTimetableJ { Dbid = null, IbName = null, IbPath = IBpath, Id = null, LastItems = Data.StrageDay, Status = "inactive", TimeConfigDATA = timeConfigDATA, TtlUrl = null };
                     //string json = $"{{\"ibPath\": \"{IBpath.Replace("\\", "\\\\")}\",\"lastItems\": {Data.StrageDay},\"status\": \"inactive\",\"timeConfigDATA\": [{{\"beginDate\": \"2020-07-24\",\"repeatPeriodWeeks\": 1,\"dayConfigDetailDATA\": [{{\"beginTime\": \"21:00\"}}]}}]}}";
                     using (var streamWriter = new StreamWriter(request.GetRequestStream()))
                     {
                         streamWriter.Write(JsonConvert.SerializeObject(setTimetableJ, Formatting.Indented));
+                        streamWriter.Close();
                     }
                     HttpWebResponse response = request.GetResponse() as HttpWebResponse;
                     using (Stream responseStream = response.GetResponseStream())
                     {
                         StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
                         responseString = reader.ReadToEnd();
+                        responseStream.Close();
                     }
+                    CheckResponseStatus(response.StatusCode);
+                    webClient.Dispose();
                 }
             }
             catch (Exception ex)
@@ -270,7 +270,7 @@ namespace _1cbacupcloud3._5.CloudAgent
             else
             {
                 JsonAgentVersion jsonAgentVersion = JsonConvert.DeserializeObject<JsonAgentVersion>(_getVersion());
-                version = jsonAgentVersion.version;
+                version = jsonAgentVersion.Version;
             }
             return version;
         }
@@ -289,7 +289,10 @@ namespace _1cbacupcloud3._5.CloudAgent
                     using (StreamReader responseStream = new StreamReader(response.GetResponseStream()))
                     {
                         responseString = responseStream.ReadToEnd();
+                        responseStream.Close();
                     }
+                    CheckResponseStatus(response.StatusCode);
+                    webClient.Dispose();
                 }
             }
             catch (Exception ex)
@@ -315,7 +318,7 @@ namespace _1cbacupcloud3._5.CloudAgent
         }
         internal static void Send1C()
         {
-            string responseString = string.Empty;
+            string responseString;
             try
             {
                 string url = URI.Protocol[1] + URI.PRserver + URI.API1C;
@@ -329,32 +332,17 @@ namespace _1cbacupcloud3._5.CloudAgent
                     using (var streamWriter = new StreamWriter(request.GetRequestStream()))
                     {
                         streamWriter.Write(Data.JsonTo1C);
+                        streamWriter.Close();
                     }
                     HttpWebResponse response = request.GetResponse() as HttpWebResponse;
                     using (Stream responseStream = response.GetResponseStream())
                     {
                         StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
                         responseString = reader.ReadToEnd();
+                        reader.Close();
                     }
-                    switch (response.StatusCode)
-                    {
-                        case (HttpStatusCode)200:
-                            Program.WritheLog("Успешный обмен с 1С");
-                            Data.StatusSendTo1C = "200";
-                            break;
-                        case (HttpStatusCode)500:
-                            Program.WritheLog("Успешный обмен с 1С");
-                            Data.StatusSendTo1C = "500";
-                            break;
-                        case (HttpStatusCode)403:
-                            Program.WritheLog("Успешный обмен с 1С");
-                            Data.StatusSendTo1C = "403";
-                            break;
-                        case (HttpStatusCode)401:
-                            Program.WritheLog("Успешный обмен с 1С");
-                            Data.StatusSendTo1C = "401";
-                            break;
-                    }
+                    CheckResponseStatus1C(response.StatusCode);
+                    webClient.Dispose();
                 }
             }
             catch (Exception ex)
@@ -368,6 +356,118 @@ namespace _1cbacupcloud3._5.CloudAgent
                 {
                     Program.WritheLog("Не зарегистрированная ошибка(WB0001)");
                 }
+            }
+        }
+        private static void CheckResponseStatusPortal(HttpStatusCode statusCode)
+        {
+            switch (statusCode)
+            {
+                case (HttpStatusCode)200:
+                    Program.WritheLog("Тикет получен успешно(login.1c.ru)");
+                    break;
+                case (HttpStatusCode)201:
+                    Program.WritheLog("Тикет получен успешно(login.1c.ru)");
+                    break;
+                case (HttpStatusCode)202:
+                    Program.WritheLog("Тикет получен успешно(login.1c.ru)");
+                    break;
+                case (HttpStatusCode)400:
+                    Program.WritheLog("Ошибка авторизации(login.1c.ru)");
+                    Program.WritheDigLog("Не удалось получить тикет с портала login.1c.ru. Ошибка авторизации.");
+                    break;
+                case (HttpStatusCode)401:
+                    Program.WritheLog("Ошибка авторизации(login.1c.ru)");
+                    Program.WritheDigLog("Не удалось получить тикет с портала login.1c.ru. Ошибка авторизации.");
+                    break;
+                case (HttpStatusCode)403:
+                    Program.WritheLog("ошибка получения тикета 403(login.1c.ru)");
+                    Program.WritheDigLog("Не удалось получить тикет с портала login.1c.ru. Ошибка доступа к порталу.");
+                    break;
+                case (HttpStatusCode)404:
+                    Program.WritheLog("ошибка получения тикета 404(login.1c.ru)");
+                    Program.WritheDigLog("Не удалось получить тикет с портала login.1c.ru. Ошибка доступа к порталу.");
+                    break;
+            }
+        }
+        private static void CheckResponseStatus1C(HttpStatusCode statusCode)
+        {
+            switch (statusCode)
+            {
+                case (HttpStatusCode)200:
+                    Program.WritheLog("Обмен с 1С: ОК");
+                    Data.StatusSendTo1C = "200";
+                    break;
+                case (HttpStatusCode)500:
+                    Program.WritheLog("Обмен с 1С: Внутренняя ошибка сервера.");
+                    Data.StatusSendTo1C = "500";
+                    break;
+                case (HttpStatusCode)403:
+                    Program.WritheLog("Обмен с 1С: Ошибка обработки запроса.");
+                    Data.StatusSendTo1C = "403";
+                    break;
+                case (HttpStatusCode)401:
+                    Program.WritheLog("Обмен с 1С: Ошибка авторизации.");
+                    Data.StatusSendTo1C = "401";
+                    break;
+                case (HttpStatusCode)404:
+                    Program.WritheLog("Обмен с 1С: API не доступен.");
+                    Data.StatusSendTo1C = "404";
+                    break;
+            }
+        }
+        private static void CheckResponseStatus(HttpStatusCode statusCode)
+        {
+            switch (statusCode)
+            {
+                case (HttpStatusCode)200:
+                    Program.WritheLog("Ответ агента: ОК");
+                    break;
+                case (HttpStatusCode)201:
+                    Program.WritheLog("Ответ агента: Created");
+                    break;
+                case (HttpStatusCode)202:
+                    Program.WritheLog("Ответ агента: Accepted");
+                    break;
+                case (HttpStatusCode)400:
+                    Program.WritheLog("Ответ агента: Bad Request - Ошибка авторизации");
+                    Program.WritheDigLog("Агент: Ошибка авторизации.");
+                    break;
+                case (HttpStatusCode)401:
+                    Program.WritheLog("Ответ агента: Agent not initialized. Token is rotten - Ошибка авторизации на агенте");
+                    Program.WritheDigLog("Агент: Ошибка авторизации на агенте.");
+                    break;
+                case (HttpStatusCode)402:
+                    Program.WritheLog("Ответ агента: Payment Required. Not enough options - Недостаточно дискового пространства. Проверьте доступный размер дисковой квоты в Личном Кабинете");
+                    Program.WritheDigLog("Агент: Закончилась квота в облаке.");
+                    break;
+                case (HttpStatusCode)403:
+                    Program.WritheLog("Ответ агента: Forbidden");
+                    Program.WritheDigLog("Агент: Ошибка обработки запроса.");
+                    break;
+                case (HttpStatusCode)404:
+                    Program.WritheLog("Ответ агента: Target not found exception - Объект копирования не доступен для агента");
+                    Program.WritheDigLog("Агент: Бекап не доступен агенту.");
+                    break;
+                case (HttpStatusCode)406:
+                    Program.WritheLog("Ответ агента: Backup not triggering by path");
+                    break;
+                case (HttpStatusCode)409:
+                    Program.WritheLog("Ответ агента: Infobase load exception or not found - Расписание копирования не найдено");
+                    break;
+                case (HttpStatusCode)410:
+                    Program.WritheLog("Ответ агента: Can`t upload manual backup to the server - Не удалось создать ручной бекап");
+                    break;
+                case (HttpStatusCode)422:
+                    Program.WritheLog("Ответ агента: Infobase not save: internet problem or save exception - Расписание копирования не удалось сохранить из-за сетевых ошибок");
+                    break;
+                case (HttpStatusCode)424:
+                    Program.WritheLog("Ответ агента: File version not found (may be: version crashed in install time) - Не удалось определить версию агента");
+                    Program.WritheDigLog("Агент: Не удалось определить версию агента.");
+                    break;
+                case (HttpStatusCode)500:
+                    Program.WritheLog("Ответ агента: Server error - Внутренняя ошибка сервера");
+                    Program.WritheDigLog("Агент: Внутренняя ошибка сервера.");
+                    break;
             }
         }
     }
