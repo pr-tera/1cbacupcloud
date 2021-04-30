@@ -122,7 +122,7 @@ namespace _1cbacupcloud3._5.CloudAgent
                     {
                         var result = JsonConvert.DeserializeObject<Ticketcs>(GetTicket());
                         var request = WebRequest.Create(url);
-                        request.Headers.Add($"X-Token: {result.ticket}");
+                        request.Headers.Add($"X-Token: {result.Ticket}");
                         request.ContentType = Type.ContenCa;
                         request.Method = Type.RequestType[1]; //POST
                         //JsonUpload _json = new JsonUpload { targetPath = path, targetName = "", dateLabel = "2022-07-20T10:06:23" }; // произвольный файл
@@ -171,7 +171,7 @@ namespace _1cbacupcloud3._5.CloudAgent
                 {
                     var result = JsonConvert.DeserializeObject<Ticketcs>(GetTicket());
                     var request = WebRequest.Create(url);
-                    request.Headers.Add($"X-Token: {result.ticket}");
+                    request.Headers.Add($"X-Token: {result.Ticket}");
                     request.ContentType = Type.ContenCa;
                     request.Method = Type.RequestType[2]; //PUT
                     using (var streamWriter = new StreamWriter(request.GetRequestStream()))
@@ -218,7 +218,7 @@ namespace _1cbacupcloud3._5.CloudAgent
                 {
                     var result = JsonConvert.DeserializeObject<Ticketcs>(GetTicket());
                     var request = WebRequest.Create(url);
-                    request.Headers.Add($"X-Token: {result.ticket}");
+                    request.Headers.Add($"X-Token: {result.Ticket}");
                     request.ContentType = Type.ContenCa;
                     request.Method = Type.RequestType[2]; // PUT
                     List<dayConfigDetailDATA> dayConfigDetailDATA = new List<dayConfigDetailDATA> { new dayConfigDetailDATA { beginTime = DateTime.Now.ToString("HH:mm") } };

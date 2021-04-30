@@ -191,7 +191,7 @@ namespace _1cbacupcloud3._5
                     {
 
                     }
-                    to1C = new To1C { Ibid = GetGUID(db_id), Ibsize = ibsize, Itslogin = itslogin, Message = null, Status = false, Timestamp = timestamp, Srvr = srvr };
+                    to1C = new To1C { Ibid = GetGUID(db_id), Ibsize = ibsize, Itslogin = itslogin, Message = GetMessageTo1C(Data.DigLog), Status = false, Timestamp = timestamp, Srvr = srvr };
                     Data.JsonTo1C = JsonConvert.SerializeObject(to1C, settings);
                 }
             }
@@ -208,7 +208,7 @@ namespace _1cbacupcloud3._5
                 }
                 if (string.IsNullOrEmpty(Data.JsonTo1C))
                 {
-                    to1C = new To1C { Ibid = GetGUID(db_id), Ibsize = ibsize, Itslogin = itslogin, Message = Convert.ToString(ex), Status = false, Timestamp = timestamp, Srvr = srvr };
+                    to1C = new To1C { Ibid = GetGUID(db_id), Ibsize = ibsize, Itslogin = itslogin, Message = GetMessageTo1C(Data.DigLog), Status = false, Timestamp = timestamp, Srvr = srvr };
                     Data.JsonTo1C = JsonConvert.SerializeObject(to1C, settings);
                 }
             }
